@@ -15,14 +15,11 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('firstname');
+            $table->string('lastname');
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('city');
-            $table->string('postcode');
-            $table->string('country');
-            $table->integer('street_number');
-            $table->string('street_name');
+
             $table->timestamps();
         });
     }

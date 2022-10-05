@@ -17,7 +17,8 @@ class Order extends Model
     /**
      *  Relationship with User model
      */
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
@@ -25,7 +26,8 @@ class Order extends Model
      *  Relationship with Item model
      */
 
-    public function items(){
+    public function items()
+    {
         return $this->belongsToMany(Item::class)->withPivot('quantity');
     }
 }

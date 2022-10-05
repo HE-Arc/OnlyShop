@@ -18,14 +18,16 @@ class Item extends Model
     /**
      *  Relationship with Order model
      */
-    public function orders(){
+    public function orders()
+    {
         return $this->belongsToMany(Order::class)->withPivot('quantity');
     }
 
     /**
      *  Relationship with Image model
      */
-    public function images(){
+    public function images()
+    {
         return $this->hasMany(Image::class);
     }
 }

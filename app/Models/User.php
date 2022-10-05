@@ -15,14 +15,10 @@ class User extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'firstname',
+        'lastname',
         'email',
         'password',
-        'city',
-        'postcode',
-        'country',
-        'street_number',
-        'street_name',
     ];
 
     /**
@@ -41,6 +37,4 @@ class User extends Model
     {
         return $this->hasMany(Order::class);
     }
-
-
 }

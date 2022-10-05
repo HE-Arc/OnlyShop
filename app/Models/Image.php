@@ -10,15 +10,15 @@ class Image extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
+        'imagepath',
         'item_id',
     ];
 
     /**
      *  Relationship with Item model
      */
-    public function item(){
+    public function item()
+    {
         return $this->belongsTo(Item::class);
     }
-
 }
