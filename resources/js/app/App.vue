@@ -1,14 +1,17 @@
 <template>
     <v-app>
-        <Menu/>
-
-        <Footer/>
+        <Menu />
+        <v-main>
+            <Items />
+        </v-main>
+        <Footer />
     </v-app>
 </template>
 
 <script>
 import Menu from "./Menu.vue";
 import Footer from "./Footer.vue";
+import Items from "./Items.vue";
 
 export default {
     name: "App",
@@ -19,12 +22,10 @@ export default {
     },
     components: {
         Menu,
-        Footer
-    }
+        Footer,
+        Items,
+    },
 };
 </script>
 
-<style>
-
-
-</style>
+<style></style>
