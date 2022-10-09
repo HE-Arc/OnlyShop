@@ -1,6 +1,7 @@
-import "./bootstrap";
-
-import { createApp } from "vue";
+// import "./bootstrap";
 import App from "./app/App.vue";
 
-createApp(App).mount("#app");
+import { createApp } from "vue";
+import pinia from "./app/store";
+
+createApp(App).use(pinia).mount("#app");
