@@ -49,6 +49,16 @@ export const useStore = defineStore(storeName, {
                             name: "Item 6",
                             price: 600,
                         },
+                        {
+                            id: 7,
+                            name: "Item 7",
+                            price: 700,
+                        },
+                        {
+                            id: 8,
+                            name: "Item 8",
+                            price: 800,
+                        },
                     ],
                 };
 
