@@ -3,8 +3,6 @@
     <v-container class="bg-surface-variant">
         <v-row no-gutters>
             <v-col v-for="n in 6" :key="n" cols="12" sm="4">
-
-
                 <v-sheet class="ma-2 pa-2">
                     <v-card class="mx-auto" max-width="344">
                         <v-img
@@ -18,8 +16,21 @@
                         <v-card-subtitle> Article Subtitle </v-card-subtitle>
 
                         <v-card-action>
-                            <v-btn @click="show = !show"
-                                ><i class="material-icons"> add </i></v-btn
+                            <v-btn
+                                ><i class="material-icons"> payment </i></v-btn
+                            >
+                            <v-btn @click="show = !show">
+                                <i v-if="show" class="material-icons">
+                                    close
+                                </i>
+                                <i v-else class="material-icons"> add </i>
+                            </v-btn>
+
+                            <v-btn href="/item/1"
+                                ><i class="material-icons"> edit </i></v-btn
+                            >
+                            <v-btn
+                                ><i class="material-icons"> delete </i></v-btn
                             >
                         </v-card-action>
                         <v-expand-transition>

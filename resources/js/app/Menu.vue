@@ -6,7 +6,7 @@
         >
             <i class="material-icons"> menu </i>
         </v-app-bar-nav-icon>
-        <v-toolbar-title>OnlyShop</v-toolbar-title>
+        <v-toolbar-title class="m_title">OnlyShop</v-toolbar-title>
 
         <v-spacer></v-spacer>
 
@@ -39,6 +39,7 @@
 </template>
 
 <script>
+
 export default {
     name: "Menu",
     data() {
@@ -54,3 +55,17 @@ export default {
     },
 };
 </script>
+
+<style scoped>
+
+.m_title {
+    font-family: 'Pacifico', cursive;
+    font-size: 2rem;
+}
+
+.v-toolbar-title__placeholder{
+    overflow: visible;
+    background-color: red !important;
+}
+
+</style>
