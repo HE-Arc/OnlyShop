@@ -1,0 +1,16 @@
+name: CI
+
+jobs:
+  doc-job:
+    runs-on: gitlab-etu.ing.he-arc.ch:5050/lucas.perrin1/docker-image-apidoc:v1.0
+    steps:
+      - uses: actions/checkout@v3
+      - run: echo "Generate doc..."
+      - run: mkdir api-docs
+      - run: apidoc -i . -o ./api-docs
+
+      - name: artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: api-docs
+          path: $(pwd)/api-docs
