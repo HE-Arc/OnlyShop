@@ -1,0 +1,18 @@
+stages:
+  - doc
+
+doc-job:
+  image:
+    name: gitlab-etu.ing.he-arc.ch:5050/lucas.perrin1/docker-image-apidoc:v1.0
+    entrypoint:
+      ["/bin/bash", "-c", "ln  -snf  /bin/bash  /bin/sh  &&  /bin/bash  -c  $0"]
+  tags:
+    - alpine-docker # Here we specify the runner to use
+  stage: doc
+  script:
+    - echo "Generate doc..."
+    - mkdir api-docs
+    - apidoc -i . -o ./api-docs
+  artifacts:
+    paths:
+      - $(pwd)/api-docs
