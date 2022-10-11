@@ -17,7 +17,6 @@ jobs:
     container:
       image: ghcr.io/perrin-lucas/docker-image-apidoc:v1.0
     steps:
-      - uses: actions/checkout@v3
       - run: echo "Generate doc..."
       - run: mkdir api-docs
       - run: apidoc -i . -o ./api-docs
