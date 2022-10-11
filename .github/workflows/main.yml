@@ -17,10 +17,14 @@ jobs:
     container:
       image: ghcr.io/perrin-lucas/docker-image-apidoc:v1.0
     steps:
-      - run: echo "Generate doc..."
-      - run: ls
-      - run: pwd
-      - run: apidoc -i ./app/Http/Controllers -o .
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Generate documentation
+        run: |
+          ls ${GITHUB_WORKSPACE}
+          pwd
+          apidoc -i ${GITHUB_WORKSPACE}/app/Http/Controllers -o .
 
       - name: artifact
         uses: actions/upload-artifact@v3
