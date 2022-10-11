@@ -1,0 +1,44 @@
+name: CI
+
+# Controls when the workflow will run
+on:
+  push:
+    branches:
+      - "*"
+  pull_request:
+    branches:
+      - "*"
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  configure:
+    runs-on: ubuntu-latest #specify runner
+    outputs:
+      uid_gid: ${{ steps.get-user.outputs.uid_gid }}
+    steps:
+      - id: get-user
+        run: echo "::set-output name=uid_gid::$(id -u):$(id -g)"
+
+  doc-job:
+    needs: configure # specify dependency
+    runs-on: ubuntu-latest # specify runner
+    container:
+      image: ghcr.io/perrin-lucas/docker-image-apidoc:v1.0
+      #  ⚠️⚠️⚠️ running the container with the same user and group as the Github Actions runner --> !!! https://github.com/actions/runner/issues/691 🐐 !!!
+      options: --user ${{ needs.configure.outputs.uid_gid }}
+    steps:
+      - name: Checkout v3
+        uses: actions/checkout@v3 # This action checks-out your repository under $GITHUB_WORKSPACE, so your workflow can access it. --> see https://github.com/actions/checkout
+
+      - name: Generate documentation with apidoc
+        run: |
+          apidoc -i ./app/Http/Controllers -o .
+
+      - name: artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: api-docs
+          path: |
+            index.html
+            assets
