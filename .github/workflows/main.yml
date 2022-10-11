@@ -62,9 +62,7 @@ jobs:
       - name: Upload pages artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          path: |
-            api-docs-generated/index.html
-            api-docs-generated/assets
+          path: ./api-docs-generated
 
   deploy-pages-job:
     needs: upload-pages-artifact-job # specify dependency
