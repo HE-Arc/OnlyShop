@@ -67,10 +67,10 @@ itemsStore.fetchItems();
                                     >
                                     <v-btn @click="show = !show">
                                         <i v-if="show" class="material-icons">
-                                            close
+                                            arrow_drop_down
                                         </i>
                                         <i v-else class="material-icons">
-                                            add
+                                            arrow_drop_up
                                         </i>
                                     </v-btn>
 
