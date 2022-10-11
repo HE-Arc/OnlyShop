@@ -11,12 +11,6 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# Allow this job to clone the repo and create a page deployment
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
 jobs:
   configure-job:
     runs-on: ubuntu-latest #specify runner
@@ -26,13 +20,15 @@ jobs:
       - id: get-user
         run: echo "::set-output name=uid_gid::$(id -u):$(id -g)"
 
-  generate-doc-job:
+  build-doc-job:
     needs: configure-job # specify dependency
     runs-on: ubuntu-latest # specify runner
+
     container:
       image: ghcr.io/perrin-lucas/docker-image-apidoc:v1.0
       #  ⚠️⚠️⚠️ running the container with the same user and group as the Github Actions runner --> !!! https://github.com/actions/runner/issues/691 🐐 !!!
       options: --user ${{ needs.configure.outputs.uid_gid }}
+
     steps:
       - name: Checkout v3
         uses: actions/checkout@v3 # This action checks-out your repository under $GITHUB_WORKSPACE, so your workflow can access it. --> see https://github.com/actions/checkout
@@ -49,10 +45,6 @@ jobs:
             index.html
             assets
 
-  upload-pages-job:
-    needs: generate-doc-job # specify dependency
-    runs-on: ubuntu-latest # specify runner
-    steps:
       - name: Upload pages artifact
         uses: actions/upload-pages-artifact@v1
         with:
@@ -61,11 +53,19 @@ jobs:
             assets
 
   deploy-pages-job:
+    needs: build-doc-job # specify dependency
+    runs-on: ubuntu-latest
+
+    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+    permissions:
+      pages: write # to deploy to Pages
+      id-token: write # to verify the deployment originates from an appropriate source
+
+    # Deploy to the github-pages environment
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: upload-pages-job # specify dependency
+
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
