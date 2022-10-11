@@ -45,6 +45,11 @@ jobs:
             index.html
             assets
 
+  upload-pages-artifact-job:
+    needs: build-doc-job # specify dependency
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Upload pages artifact
         uses: actions/upload-pages-artifact@v1
         with:
@@ -53,7 +58,7 @@ jobs:
             assets
 
   deploy-pages-job:
-    needs: build-doc-job # specify dependency
+    needs: upload-pages-artifact-job # specify dependency
     runs-on: ubuntu-latest
 
     # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
