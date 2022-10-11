@@ -18,13 +18,12 @@ jobs:
       image: ghcr.io/perrin-lucas/docker-image-apidoc:v1.0
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2 # This action checks-out your repository under $GITHUB_WORKSPACE, so your workflow can access it. --> see https://github.com/actions/checkout
 
       - name: Generate documentation
         run: |
-          ls ${GITHUB_WORKSPACE}
-          pwd
-          apidoc -i ${GITHUB_WORKSPACE}/app/Http/Controllers -o .
+          ls -al
+          apidoc -i ./app/Http/Controllers -o .
 
       - name: artifact
         uses: actions/upload-artifact@v3
