@@ -27,7 +27,7 @@ jobs:
     container:
       image: ghcr.io/perrin-lucas/docker-image-apidoc:v1.0
       #  ⚠️⚠️⚠️ running the container with the same user and group as the Github Actions runner --> !!! https://github.com/actions/runner/issues/691 🐐 !!!
-      options: --user ${{ needs.configure.outputs.uid_gid }}
+      options: --user ${{ needs.configure-job.outputs.uid_gid }}
 
     steps:
       - name: Checkout v3
