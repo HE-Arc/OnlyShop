@@ -20,7 +20,7 @@ itemsStore.fetchItems();
         <div v-if="error">Error: {{ error }}</div>
 
         <div v-if="items">
-            <v-container class="bg-surface-variant">
+            <v-container>
                 <v-row no-gutters>
                     <v-col
                         v-for="item in items"
@@ -53,38 +53,51 @@ itemsStore.fetchItems();
                                     </v-carousel-item>
                                 </v-carousel>
 
-                                <v-card-title> {{ item.name }} </v-card-title>
+                                <v-card-title class="justify-center">
+                                    <div class="text-center">
+                                        {{ item.name }}
+                                    </div>
+                                </v-card-title>
 
-                                <v-card-subtitle>
-                                    {{ item.price }}
+                                <v-card-subtitle class="justify-center">
+                                    <div class="text-center">
+                                        {{ item.price }} CHF
+                                    </div>
                                 </v-card-subtitle>
 
-                                <v-card-action>
-                                    <v-btn
-                                        ><i class="material-icons">
-                                            payment
-                                        </i></v-btn
-                                    >
-                                    <v-btn @click="show = !show">
-                                        <i v-if="show" class="material-icons">
-                                            arrow_drop_down
-                                        </i>
-                                        <i v-else class="material-icons">
-                                            arrow_drop_up
-                                        </i>
-                                    </v-btn>
+                                <v-card-action class="justify-center">
+                                    <div class="text-center">
+                                        <v-btn
+                                            ><i class="material-icons">
+                                                payment
+                                            </i></v-btn
+                                        >
+                                        <v-btn @click="show = !show">
+                                            <i
+                                                v-if="show"
+                                                class="material-icons"
+                                            >
+                                                arrow_drop_up
+                                            </i>
+                                            <i v-else class="material-icons">
+                                                arrow_drop_down
+                                            </i>
+                                        </v-btn>
 
-                                    <v-btn href="/item/1"
-                                        ><i class="material-icons">
-                                            edit
-                                        </i></v-btn
-                                    >
-                                    <v-btn
-                                        @click="itemsStore.deleteItem(item.id)"
-                                        ><i class="material-icons">
-                                            delete
-                                        </i></v-btn
-                                    >
+                                        <v-btn href="/item/1"
+                                            ><i class="material-icons">
+                                                edit
+                                            </i></v-btn
+                                        >
+                                        <v-btn
+                                            @click="
+                                                itemsStore.deleteItem(item.id)
+                                            "
+                                            ><i class="material-icons">
+                                                delete
+                                            </i></v-btn
+                                        >
+                                    </div>
                                 </v-card-action>
                                 <v-expand-transition>
                                     <div v-show="show">
