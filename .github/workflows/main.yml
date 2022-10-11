@@ -50,12 +50,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Download artifacts from build-doc-job
+      - name: Checkout v3
+        uses: actions/checkout@v3 # This action checks-out your repository under $GITHUB_WORKSPACE, so your workflow can access it. --> see https://github.com/actions/checkout
+
+      - name: Download all artifacts from build-doc-job
         uses: actions/download-artifact@v3
-        with:
-          name: |
-            index.html
-            assets
+
+      - name: Display structure of downloaded files
+        run: ls -R
 
       - name: Upload pages artifact
         uses: actions/upload-pages-artifact@v1
