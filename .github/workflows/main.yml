@@ -18,7 +18,7 @@ jobs:
       image: ghcr.io/perrin-lucas/docker-image-apidoc:v1.0
     steps:
       - run: echo "Generate doc..."
-      - run: apidoc -i .\app\Http\Controllers\ -o .
+      - run: apidoc -i ./app/Http/Controllers -o .
 
       - name: artifact
         uses: actions/upload-artifact@v3
