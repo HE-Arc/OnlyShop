@@ -40,7 +40,7 @@ jobs:
       - name: Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: api-docs
+          name: api-docs-generated
           path: |
             index.html
             assets
@@ -53,10 +53,8 @@ jobs:
       - name: Checkout v3
         uses: actions/checkout@v3 # This action checks-out your repository under $GITHUB_WORKSPACE, so your workflow can access it. --> see https://github.com/actions/checkout
 
-      - name: Download artifacts from build-doc-job
+      - name: Download all artifacts from build-doc-job
         uses: actions/download-artifact@v3
-        with:
-          name: api-docs
 
       - name: Display structure of downloaded files
         run: ls -R
@@ -65,8 +63,8 @@ jobs:
         uses: actions/upload-pages-artifact@v1
         with:
           path: |
-            api-docs/index.html
-            api-docs/assets
+            api-docs-generated/index.html
+            api-docs-generated/assets
 
   deploy-pages-job:
     needs: upload-pages-artifact-job # specify dependency
