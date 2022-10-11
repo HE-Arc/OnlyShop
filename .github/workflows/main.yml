@@ -13,7 +13,7 @@ on:
 
 jobs:
   doc-job:
-    runs-on: gitlab-etu.ing.he-arc.ch:5050/lucas.perrin1/docker-image-apidoc:v1.0
+    runs-on: ghcr.io/perrin-lucas/docker-image-apidoc:v1.0
     steps:
       - uses: actions/checkout@v3
       - run: echo "Generate doc..."
