@@ -4,6 +4,14 @@
     "description": "Documentation for the REST api of OnlyShop",
     "apidoc": {
         "title": "OnlyShop - Api documentation",
-        "url": "https://github.com/HE-Arc/OnlyShop"
+        "url": "https://github.com/HE-Arc/OnlyShop",
+        "header": {
+            "title": "OnlyShop - Api documentation",
+            "filename": "apidoc_header.md"
+        },
+        "footer": {
+            "title": "OnlyShop - Api documentation",
+            "filename": "apidoc_footer.md"
+        }
     }
 }
