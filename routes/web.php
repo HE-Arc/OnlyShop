@@ -13,14 +13,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/', function ()
+{
     return view('app');
 });
 
-Route::get('/login', function () {
-    return view('login');
-});
-
-Route::get('/item/{id}', function () {
-    return view('edit');
-});
+Route::resources(
+    [
+        'users' => 'App\Http\Controllers\UserController',
+        'shopcarts' => 'App\Http\Controllers\ShopCartController',
+        'images' => 'App\Http\Controllers\ImageController',
+        'items' => 'App\Http\Controllers\ItemController',
+    ]);

@@ -1,8 +1,18 @@
 <?php
 
+/*
+OnlyShop made by Lucas Perrin, Rui Marco Loureiro and Miguel Moreira
+File's version : 1.0.0
+this file is used for : linking the image model with the item's informations vue.
+
+Wrote by : xxx
+updated by : xxx
+*/
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Image;
 
 class ImageController extends Controller
 {
@@ -34,7 +44,10 @@ class ImageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $image = new Image();
+        $image->item_id = $request->item_id;
+        $image->imagepath = $request->imagepath;
+        $image->save();
     }
 
     /**
@@ -79,6 +92,18 @@ class ImageController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $image = Image::findOrFail($id);
+        $image->delete();
+    }
+
+    /**
+     * Return all images for a specific
+     *
+     * @param int $id
+     */
+    public function getImagesForItem($id)
+    {
+        $images = Image::where('item_id', $id)->get();
+        return $images;
     }
 }
