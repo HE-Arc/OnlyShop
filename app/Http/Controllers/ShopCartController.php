@@ -1,29 +1,23 @@
 <?php
-/*OnlyShop made by Lucas Perrin, Rui Marco Loureiro and Miguel Moreira
-File's version : 1.1.0
-this file is used for : linking the shopcart model with the shopcart vue. It alo links the shopcart model with the main page vue.
 
-Wrote by : Miguel Moreira
-updated by : Miguel Moreira
-*/
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ShopCart;
 
+/*
+OnlyShop made by Lucas Perrin, Rui Marco Loureiro and Miguel Moreira
+File's version : 1.2.0
+this file is used for : linking the shopcart model with the shopcart vue. It alo links the shopcart model with the main page vue.
+
+Wrote by : Miguel Moreira
+updated by : Miguel Moreira
+*/
+
 class ShopCartController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @api {get} /user/:id Request User information
-     * @apiName GetUser
-     * @apiGroup User
-     *
-     * @apiParam {Number} id User's unique ID.
-     *
-     * @apiSuccess {String} firstname Firstname of the User.
-     * @apiSuccess {String} lastname  Lastname of the User.
      *
      * @return \Illuminate\Http\Response
      */

@@ -1,18 +1,18 @@
 <?php
 
-/*
-OnlyShop made by Lucas Perrin, Rui Marco Loureiro and Miguel Moreira
-File's version : 1.0.0
-this file is used for : linking the image model with the item's informations vue.
-
-Wrote by : xxx
-updated by : xxx
-*/
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Image;
+
+/*
+OnlyShop made by Lucas Perrin, Rui Marco Loureiro and Miguel Moreira
+File's version : 1.1.0
+this file is used for : linking the image model with the item's informations vue.
+
+Wrote by : Miguel Moreira
+updated by : Miguel Moreira
+*/
 
 class ImageController extends Controller
 {

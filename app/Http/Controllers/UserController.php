@@ -1,19 +1,19 @@
 <?php
 
-/*
-OnlyShop made by Lucas Perrin, Rui Marco Loureiro and Miguel Moreira
-File's version : 1.0.0
-this file is used for : linking the user model with the login and new account vues.
-
-Wrote by : Miguel Moreira
-updated by : -
-*/
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Shopcart;
+
+/*
+OnlyShop made by Lucas Perrin, Rui Marco Loureiro and Miguel Moreira
+File's version : 1.1.0
+this file is used for : linking the user model with the login and new account vues.
+
+Wrote by : Miguel Moreira
+updated by : Miguel Moreira
+*/
 
 class UserController extends Controller
 {

@@ -1,18 +1,18 @@
 <?php
 
-/*
-OnlyShop made by Lucas Perrin, Rui Marco Loureiro and Miguel Moreira
-File's version : 1.0.0
-this file is used for : linking the item model with the main page vue. It also links the item model with the shopcart, the "my articles" and the item's informations vues.
-
-Wrote by : xxx
-updated by : xxx
-*/
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Item;
+
+/*
+OnlyShop made by Lucas Perrin, Rui Marco Loureiro and Miguel Moreira
+File's version : 1.1.0
+this file is used for : linking the item model with the main page vue. It also links the item model with the shopcart, the "my articles" and the item's informations vues.
+
+Wrote by : Miguel Moreira
+updated by : Miguel Moreira
+*/
 
 class ItemController extends Controller
 {
