@@ -13,6 +13,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/', function ()
+{
     return view('app');
 });
+
+Route::resources(
+    [
+        'users' => 'App\Http\Controllers\UserController',
+        'shopcarts' => 'App\Http\Controllers\ShopCartController',
+        'images' => 'App\Http\Controllers\ImageController',
+        'items' => 'App\Http\Controllers\ItemController',
+    ]);

@@ -33,8 +33,8 @@ class User extends Model
     /**
      *  Relationship with Order model
      */
-    public function orders()
+    public function shopcarts()
     {
-        return $this->hasMany(Order::class);
+        return $this->belongsTo(ShopCart::class);
     }
 }

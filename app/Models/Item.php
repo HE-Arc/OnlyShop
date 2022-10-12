@@ -11,6 +11,7 @@ class Item extends Model
 
     protected $fillable = [
         'name',
+        'user_id',
         'description',
         'price',
     ];
@@ -18,9 +19,9 @@ class Item extends Model
     /**
      *  Relationship with Order model
      */
-    public function orders()
+    public function shopcarts()
     {
-        return $this->belongsToMany(Order::class)->withPivot('quantity');
+        return $this->belongsToMany(ShopCart::class);
     }
 
     /**
