@@ -12,6 +12,9 @@
 | Date de début | 21 Septembre 2022 |
 | Date de fin | 25 Janvier 2023 |
 
+## Accès au site
+[OnlyShop](https://onlyshop.k8s.ing.he-arc.ch/)
+
 ## Wiki
 
 [Accéder au wiki](https://github.com/HE-Arc/onlyshop/wiki)
