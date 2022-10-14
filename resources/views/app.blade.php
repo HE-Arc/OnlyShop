@@ -10,15 +10,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 
+
     @vite('resources/css/app.css')
 </head>
 
 <body>
     <div id="app">
-        <!--
-            This is where the content will be rendered
-            -> by createApp(App).mount("#app"); in App.vue
-        -->
+
     </div>
 
     @vite('resources/js/app.js')

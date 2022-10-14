@@ -1,7 +1,7 @@
 <script setup>
 import { storeToRefs } from "pinia";
-import { Form, Field, ErrorMessage } from 'vee-validate';
-import * as Yup from 'yup';
+import { Form, Field, ErrorMessage } from "vee-validate";
+import * as Yup from "yup";
 import { useStore as useItemsStore } from "./store/item.store";
 
 const itemsStore = useItemsStore();
@@ -23,7 +23,6 @@ const onSubmitAdd = async (values) => {
 };
 
 itemsStore.fetchItems();
-
 </script>
 
 <template>
@@ -35,8 +34,12 @@ itemsStore.fetchItems();
 
         <div v-if="items">
             <div v-for="item in items" :key="item.id">
-                <Form @submit="onSubmitEdit" :validation-schema="schema" :initial-values="item"
-                    v-slot="{ errors, isSubmitting }">
+                <Form
+                    @submit="onSubmitEdit"
+                    :validation-schema="schema"
+                    :initial-values="item"
+                    v-slot="{ errors, isSubmitting }"
+                >
                     <Field name="name" type="text" />
                     <ErrorMessage name="name" />
 
@@ -49,7 +52,11 @@ itemsStore.fetchItems();
             </div>
         </div>
 
-        <Form @submit="onSubmitAdd" :validation-schema="schema" v-slot="{ errors, isSubmitting }">
+        <Form
+            @submit="onSubmitAdd"
+            :validation-schema="schema"
+            v-slot="{ errors, isSubmitting }"
+        >
             <Field name="name" type="text" placeholder="name" />
             <ErrorMessage name="name" />
 
@@ -59,5 +66,4 @@ itemsStore.fetchItems();
             <button type="submit" :disabled="isSubmitting">Add</button>
         </Form>
     </div>
-
 </template>

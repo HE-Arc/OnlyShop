@@ -83,20 +83,6 @@ itemsStore.fetchItems();
                                                 arrow_drop_down
                                             </i>
                                         </v-btn>
-
-                                        <v-btn href="/item/1"
-                                            ><i class="material-icons">
-                                                edit
-                                            </i></v-btn
-                                        >
-                                        <v-btn
-                                            @click="
-                                                itemsStore.deleteItem(item.id)
-                                            "
-                                            ><i class="material-icons">
-                                                delete
-                                            </i></v-btn
-                                        >
                                     </div>
                                 </v-card-action>
                                 <v-expand-transition>

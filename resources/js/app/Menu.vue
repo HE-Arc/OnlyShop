@@ -8,7 +8,9 @@
         </v-app-bar-nav-icon>
         <div>
             <v-toolbar-title>
-                <div class="m_title">OnlyShop</div></v-toolbar-title
+                <div class="m_title">
+                    <router-link :to="{ name: 'items' }">OnlyShop</router-link>
+                </div></v-toolbar-title
             >
         </div>
 
@@ -21,7 +23,11 @@
         <v-list class="d-none d-lg-flex">
             <v-list-item v-for="item in items">
                 <v-list-item-title>
-                    <v-btn href="#"> {{ item.title }} </v-btn>
+                    <v-btn>
+                        <router-link :to="{ path: item.router }">
+                            {{ item.title }}
+                        </router-link>
+                    </v-btn>
                 </v-list-item-title>
             </v-list-item>
         </v-list>
@@ -35,7 +41,9 @@
         <v-list>
             <v-list-item v-for="item in items">
                 <v-list-item-title>
-                    <v-btn href="#" flat> {{ item.title }} </v-btn>
+                    <router-link :to="{ path: item.router }">
+                        {{ item.title }}
+                    </router-link>
                 </v-list-item-title>
             </v-list-item>
         </v-list>
@@ -49,12 +57,12 @@ export default {
         return {
             drawer: false,
             items: [
-                { title: "Tous les articles" },
-                { title: "Mes articles" },
-                { title: "Panier" },
-                { title: "Contact" },
-                { title: "A propos" },
-                { title: "Se déconnecter" },
+                { title: "Tous les articles", router: "/items" },
+                { title: "Mes articles", router: "/myitems" },
+                { title: "Panier", router: "/mybacket" },
+                { title: "Contact", router: "/contact" },
+                { title: "A propos", router: "/about" },
+                { title: "Se déconnecter", router: "/login" },
             ],
         };
     },
@@ -67,5 +75,10 @@ export default {
     font-size: 2rem;
     height: 50px;
     padding: 2px;
+}
+
+a {
+    text-decoration: none;
+    color: black;
 }
 </style>
