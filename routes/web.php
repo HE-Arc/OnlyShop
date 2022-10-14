@@ -13,22 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-/*Route::get('/', function () {
-    return view('app');
-});
-
-Route::get('/login', function () {
-    return view('login');
-});
-
-
-Route::get('/item/{id}', function () {
-    return view('edit');
-});
-
-Route::get('/myitems', function () {
-    return view('myitems');
-});*/
 
 Route::get('/{any}', function () {
     return view('app');

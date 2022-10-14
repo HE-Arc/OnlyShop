@@ -1,3 +1,11 @@
+<!--
+OnlyShop made by Lucas Perrin, Rui Marco Loureiro and Miguel Moreira
+File's version : 1.1.0
+this file is used for : show all the items
+
+Wrote by : Rui Marco Loureiro
+updated by : Rui Marco Loureiro
+-->
 <script setup>
 import { ref } from "vue";
 import { storeToRefs } from "pinia";

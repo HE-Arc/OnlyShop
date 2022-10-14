@@ -1,3 +1,11 @@
+<!--
+OnlyShop made by Lucas Perrin, Rui Marco Loureiro and Miguel Moreira
+File's version : 1.1.0
+this file is used for : show the menu page
+
+Wrote by : Rui Marco Loureiro
+updated by : Rui Marco Loureiro
+-->
 <template>
     <v-app-bar>
         <v-app-bar-nav-icon
