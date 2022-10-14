@@ -9,7 +9,7 @@ updated by : Rui Marco Loureiro
 <template>
     <v-app>
         <v-row justify="center">
-            <img id="logo" src="/images/logo.png" alt="Logo" />
+            <!-- <img id="logo" src="/images/logo.png" alt="Logo" /> CHECK LATER WIP-->
         </v-row>
 
         <v-row justify="center">
