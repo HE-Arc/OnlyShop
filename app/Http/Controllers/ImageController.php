@@ -17,30 +17,15 @@ updated by : Miguel Moreira
 class ImageController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @api {post} /api/images Add new image to the database
+     * @apiName store
+     * @apiGroup Image
      *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
+     * @apiParam {Number} item_id The id of the item that the image is linked to.
+     * @apiParam {String} imagepath The image's path.
      *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @apiSuccess {String} message The message of the request.
+     * @apiSuccess {String} status The status of the request.
      */
     public function store(Request $request)
     {
@@ -48,62 +33,58 @@ class ImageController extends Controller
         $image->item_id = $request->item_id;
         $image->imagepath = $request->imagepath;
         $image->save();
+
+        return response()->json(
+            [
+                'message' => 'Image added successfully',
+                'status' => "success"
+            ]
+        );
     }
 
     /**
-     * Display the specified resource.
+     * @api {delete} /api/images/:id delete an image from the database
+     * @apiName destroy
+     * @apiGroup Image
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
+     * @apiParam {Number} id The id of the image to delete.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @apiSuccess {String} message The message of the request.
+     * @apiSuccess {String} status The status of the request.
      */
     public function destroy($id)
     {
         $image = Image::findOrFail($id);
         $image->delete();
+
+        return response()->json(
+            [
+                'message' => 'Image deleted successfully',
+                'status' => "success"
+            ]
+        );
     }
 
     /**
-     * Return all images for a specific
+     * @api {get} /api/images/getItemImages/:id Get all the images of an item
+     * @apiName getItemImages
+     * @apiGroup Image
      *
-     * @param int $id
+     * @apiParam {Number} id The id of the item to get the images from.
+     *
+     * @apiSuccess {String} message The message of the request.
+     * @apiSuccess {String} status The status of the request.
+     * @apiSuccess {Array} images The images of the item.
      */
-    public function getImagesForItem($id)
+    public function getItemImages($id)
     {
         $images = Image::where('item_id', $id)->get();
-        return $images;
+        return response()->json(
+            [
+                'message' => 'Images found successfully',
+                'status' => "success",
+                'images' => $images
+            ]
+        );
     }
 }

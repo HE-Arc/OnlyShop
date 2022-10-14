@@ -16,86 +16,16 @@ updated by : Miguel Moreira
 
 class ShopCartController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        return view("shopcarts.index");
-    }
 
     /**
-     * Show the form for creating a new resource.
+     * @api {post} /api/shopcarts Add new user's shopcart to the database. This function is called when a new user is created.
+     * @apiName storeShopCart
+     * @apiGroup ShopCart
      *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * @apiParam {number} id The id of the user.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
-    /**
-     * Store a shopcart when a user is created
-     *
-     * @param int $id
+     * @apiSuccess {String} message The message of the request.
+     * @apiSuccess {String} status The status of the request.
      */
     public function storeShopCart($id)
     {
@@ -103,30 +33,59 @@ class ShopCartController extends Controller
         $shopcart->user_id = $id;
         $shopcart->save();
 
-        return "ShopCart created";
+        return response()->json(
+            [
+                'message' => 'ShopCart created successfully',
+                'status' => "success"
+            ]
+        );
     }
 
     /**
-     * Get the shopcart of a user
+     * @api {get} /api/shopcarts/:id Get the shopcart of a user
+     * @apiName getShopCart
+     * @apiGroup ShopCart
      *
-     * @param int $id
+     * @apiParam {number} id The id of the user.
+     *
+     * @apiSuccess {String} message The message of the request.
+     * @apiSuccess {String} status The status of the request.
+     * @apiSuccess {Object[]} data The data of the request.
      */
     public function getShopCart($id)
     {
         $shopcart = ShopCart::where("user_id", $id)->first();
-        return $shopcart;
+
+        return response()->json(
+            [
+                'message' => 'ShopCart found successfully',
+                'status' => "success",
+                'data' => $shopcart
+            ]
+        );
     }
 
     /**
-     * Add an item to the shopcart
+     * @api {post} /api/shopcarts/addItem Add an item to the shopcart of a user
+     * @apiName addItem
+     * @apiGroup ShopCart
      *
-     * @param int $id
-     * @param int $item_id
+     * @apiParam {number} id The id of the user.
+     * @apiParam {number} item_id The id of the item.
+     *
+     * @apiSuccess {String} message The message of the request.
+     * @apiSuccess {String} status The status of the request.
      */
-    public function addItem($id, $item_id)
+    public function addItem(Request $request)
     {
-        $shopcart = ShopCart::where("user_id", $id)->first();
-        $shopcart->items()->attach($item_id);
-        return "Item added to shopcart";
+        $shopcart = ShopCart::where("user_id", $request->id)->first();
+        $shopcart->items()->attach($request->item_id);
+
+        return response()->json(
+            [
+                'message' => 'Item added successfully',
+                'status' => "success"
+            ]
+        );
     }
 }
