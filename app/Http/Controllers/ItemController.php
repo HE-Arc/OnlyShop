@@ -3,6 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Item;
+
+/*
+OnlyShop made by Lucas Perrin, Rui Marco Loureiro and Miguel Moreira
+File's version : 1.1.0
+this file is used for : linking the item model with the main page vue. It also links the item model with the shopcart, the "my articles" and the item's informations vues.
+
+Wrote by : Miguel Moreira
+updated by : Miguel Moreira
+*/
 
 class ItemController extends Controller
 {
@@ -13,7 +23,9 @@ class ItemController extends Controller
      */
     public function index()
     {
-        //
+        return view("items.index", [
+            "items" => Item::all()
+        ]);
     }
 
     /**
@@ -23,7 +35,7 @@ class ItemController extends Controller
      */
     public function create()
     {
-        //
+        return view("items.create");
     }
 
     /**
@@ -34,7 +46,12 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $item = new Item();
+        $item->name = $request->name;
+        $item->price = $request->price;
+        $item->description = $request->description;
+        $item->save();
+        return redirect()->route("items.index");
     }
 
     /**
@@ -45,7 +62,9 @@ class ItemController extends Controller
      */
     public function show($id)
     {
-        //
+        return view("items.show", [
+            "item" => Item::find($id)
+        ]);
     }
 
     /**
@@ -56,7 +75,9 @@ class ItemController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view("items.edit", [
+            "item" => Item::find($id)
+        ]);
     }
 
     /**
@@ -68,7 +89,12 @@ class ItemController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $item = Item::find($id);
+        $item->name = $request->name;
+        $item->price = $request->price;
+        $item->description = $request->description;
+        $item->save();
+        return redirect()->route("items.index");
     }
 
     /**
@@ -79,6 +105,20 @@ class ItemController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Item::destroy($id);
+        return redirect()->route("items.index");
+    }
+
+    /**
+     * Return items of an user
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function userItems($id)
+    {
+        return view("items.userItems", [
+            "items" => Item::where("user_id", $id)->get()
+        ]);
     }
 }

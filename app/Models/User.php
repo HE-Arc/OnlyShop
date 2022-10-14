@@ -5,6 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/*
+OnlyShop made by Lucas Perrin, Rui Marco Loureiro and Miguel Moreira
+File's version : 1.0.0
+this file is used for : accessing db's table "users".
+
+Wrote by : Miguel Moreira
+updated by : -
+*/
+
 class User extends Model
 {
     use HasFactory;
@@ -33,8 +42,8 @@ class User extends Model
     /**
      *  Relationship with Order model
      */
-    public function orders()
+    public function shopcarts()
     {
-        return $this->hasMany(Order::class);
+        return $this->belongsTo(ShopCart::class);
     }
 }
