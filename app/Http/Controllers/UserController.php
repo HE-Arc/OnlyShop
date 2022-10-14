@@ -17,31 +17,20 @@ updated by : Miguel Moreira
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
 
     /**
-     * Show the form for creating a new resource.
+     * @api {post} /api/users Create a new user and his shopcart
+     * @apiName store
+     * @apiGroup Usere
      *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view("users.create");
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * @apiParam {String} lastname The lastname of the user.
+     * @apiParam {String} firstname The firstname of the user.
+     * @apiParam {String} email The email of the user.
+     * @apiParam {String} password The password of the user.
+     * @apiParam {String} confirmPassword The password confirmation of the user.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @apiSuccess {String} message The message of the request.
+     * @apiSuccess {String} status The status of the request.
      */
     public function store(Request $request)
     {
@@ -55,73 +44,29 @@ class UserController extends Controller
         {
             $user->save();
             ShopCart::storeShopCart($user->id);
-            return redirect()->route("users.index")->with("success", "User and his ShopCart created successfully");
+
+            return response()->json(
+                [
+                    'message' => 'User and his shopcart created successfully',
+                    'status' => "success"
+                ]
+            );
         }
-        else
-        {
-            return redirect()->route("users.create")->with("error", "Password and confirm password do not match");
-        }
     }
 
     /**
-     * Display the specified resource.
+     * @api {post} /api/users/login Login a user
+     * @apiName login
+     * @apiGroup User
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
+     * @apiParam {String} email The email of the user.
+     * @apiParam {String} password The password of the user.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @apiSuccess {String} message The message of the request.
+     * @apiSuccess {String} status The status of the request.
+     * @apiSuccess {Object[]} data The data of the request.
      */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
-    /**
-     * Display the login form.
-     *
-     */
-    public function login()
-    {
-        return view("users.login");
-    }
-
-    /**
-     * Login the user.
-     *
-     */
-    public function loginSubmit(Request $request)
+    public function login(Request $request)
     {
         $email = $request->email;
         $password = $request->password;
@@ -131,17 +76,14 @@ class UserController extends Controller
         {
             if ($user->password == $password)
             {
-                $request->session()->put("user", $user);
-                return redirect()->route("products.index")->with("success", "Login successful");
+                return response()->json(
+                    [
+                        'message' => 'User logged in successfully',
+                        'status' => "success",
+                        'data' => $user
+                    ]
+                );
             }
-            else
-            {
-                return redirect()->route("users.login")->with("error", "Password is incorrect");
-            }
-        }
-        else
-        {
-            return redirect()->route("users.login")->with("error", "User not found");
         }
 
     }

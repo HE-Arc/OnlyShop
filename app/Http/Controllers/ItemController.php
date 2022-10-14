@@ -17,32 +17,38 @@ updated by : Miguel Moreira
 class ItemController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @api {get} /api/items Get all items
+     * @apiName index
+     * @apiGroup Item
      *
-     * @return \Illuminate\Http\Response
+     * @apiSuccess {String} message The message of the request.
+     * @apiSuccess {String} status The status of the request.
+     * @apiSuccess {Object[]} data The data of the request.
      */
     public function index()
     {
-        return view("app", [
-            "items" => Item::all()
-        ]);
+        $items = Item::all();
+
+        return response()->json(
+            [
+                'message' => 'Items found successfully',
+                'status' => "success",
+                'data' => $items
+            ]
+        );
     }
 
     /**
-     * Show the form for creating a new resource.
+     * @api {post} /api/items Add new item to the database
+     * @apiName store
+     * @apiGroup Item
      *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view("items.create");
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * @apiParam {String} name The name of the item.
+     * @apiParam {number} price The price of the item.
+     * @apiParam {String} description The description of the item.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @apiSuccess {String} message The message of the request.
+     * @apiSuccess {String} status The status of the request.
      */
     public function store(Request $request)
     {
@@ -51,74 +57,111 @@ class ItemController extends Controller
         $item->price = $request->price;
         $item->description = $request->description;
         $item->save();
-        return redirect()->route("items.index");
+
+        return response()->json(
+            [
+                'message' => 'Item added successfully',
+                'status' => "success"
+            ]
+        );
     }
 
     /**
-     * Display the specified resource.
+     * @api {get} /api/items/:id Get an item
+     * @apiName show
+     * @apiGroup Item
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @apiParam {number} id The id of the item to get.
+     *
+     * @apiSuccess {String} message The message of the request.
+     * @apiSuccess {String} status The status of the request.
+     * @apiSuccess {Object} data The data of the request.
      */
     public function show($id)
     {
-        return view("items.show", [
-            "item" => Item::find($id)
-        ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        return view("items.edit", [
-            "item" => Item::find($id)
-        ]);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
         $item = Item::find($id);
+
+        return response()->json(
+            [
+                'message' => 'Item found successfully',
+                'status' => "success",
+                'data' => $item
+            ]
+        );
+    }
+
+    /**
+     * @api {update} /api/items/:id Update an item
+     * @apiName update
+     * @apiGroup Item
+     *
+     * @apiParam {number} id The id of the item to update.
+     * @apiParam {String} name The name of the item.
+     * @apiParam {number} price The price of the item.
+     * @apiParam {String} description The description of the item.
+     *
+     * @apiSuccess {String} message The message of the request.
+     * @apiSuccess {String} status The status of the request.
+     */
+    public function update(Request $request)
+    {
+        $item = Item::find($request->id);
         $item->name = $request->name;
         $item->price = $request->price;
         $item->description = $request->description;
         $item->save();
-        return redirect()->route("items.index");
+
+        return response()->json(
+            [
+                'message' => 'Item updated successfully',
+                'status' => "success"
+            ]
+        );
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @api {delete} /api/items/:id delete an item from the database
+     * @apiName destroy
+     * @apiGroup Item
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @apiParam {number} id The id of the item to delete.
+     *
+     * @apiSuccess {String} message The message of the request.
+     * @apiSuccess {String} status The status of the request.
      */
     public function destroy($id)
     {
         Item::destroy($id);
-        return redirect()->route("items.index");
+
+        return response()->json(
+            [
+                'message' => 'Item deleted successfully',
+                'status' => "success"
+            ]
+        );
     }
 
     /**
-     * Return items of an user
+     * @api {get} /api/items/getUserItems/:id Get all items of a user
+     * @apiName getUserItems
+     * @apiGroup Item
      *
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * @apiParam {number} id The id of the user to get the items from.
+     *
+     * @apiSuccess {String} message The message of the request.
+     * @apiSuccess {String} status The status of the request.
+     * @apiSuccess {Object[]} data The data of the request.
      */
-    public function userItems($id)
+    public function getUserItems($id)
     {
-        return view("items.userItems", [
-            "items" => Item::where("user_id", $id)->get()
-        ]);
+        $items = Item::where("user_id", $id)->get();
+
+        return response()->json(
+            [
+                'message' => 'Items found successfully',
+                'status' => "success",
+                'data' => $items
+            ]
+        );
     }
 }
