@@ -21,7 +21,7 @@ class UserController extends Controller
     /**
      * @api {post} /api/users Create a new user and his shopcart
      * @apiName store
-     * @apiGroup Usere
+     * @apiGroup User
      *
      * @apiParam {String} lastname The lastname of the user.
      * @apiParam {String} firstname The firstname of the user.
