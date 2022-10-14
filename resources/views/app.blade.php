@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 
 
-    @vite('./resources/css/app.css')
+    @vite('resources/css/app.css')
 </head>
 
 <body>
@@ -19,7 +19,7 @@
 
     </div>
 
-    @vite('./resources/js/app.js')
+    @vite('resources/js/app.js')
 </body>
 
 </html>
