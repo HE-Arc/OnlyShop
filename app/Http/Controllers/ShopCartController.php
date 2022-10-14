@@ -102,8 +102,6 @@ class ShopCartController extends Controller
         $shopcart = new ShopCart();
         $shopcart->user_id = $id;
         $shopcart->save();
-
-        return "ShopCart created";
     }
 
     /**
@@ -114,7 +112,9 @@ class ShopCartController extends Controller
     public function getShopCart($id)
     {
         $shopcart = ShopCart::where("user_id", $id)->first();
-        return $shopcart;
+        return view("todo", [
+            "shopcart" => $shopcart
+        ]);
     }
 
     /**
@@ -127,6 +127,5 @@ class ShopCartController extends Controller
     {
         $shopcart = ShopCart::where("user_id", $id)->first();
         $shopcart->items()->attach($item_id);
-        return "Item added to shopcart";
     }
 }

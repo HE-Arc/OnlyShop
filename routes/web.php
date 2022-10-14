@@ -2,6 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ImageController;
+use App\Http\Controllers\ItemController;
+use App\Http\Controllers\ShopCartController;
+
 /*
 OnlyShop made by Lucas Perrin, Rui Marco Loureiro and Miguel Moreira
 File's version : 1.2.0
@@ -22,15 +27,9 @@ updated by : Miguel Moreira
 |
 */
 
-Route::get('/', function ()
-{
-    return view('app');
-});
+Route::get('/', [ItemController::class, 'index'])->name('app');
 
-Route::resources(
-    [
-        'users' => 'App\Http\Controllers\UserController',
-        'shopcarts' => 'App\Http\Controllers\ShopCartController',
-        'images' => 'App\Http\Controllers\ImageController',
-        'items' => 'App\Http\Controllers\ItemController',
-    ]);
+Route::resource('users', UserController::class);
+Route::resource('shopcarts', ShopCartController::class);
+Route::resource('images', ImageController::class);
+Route::resource('items', itemController::class);
