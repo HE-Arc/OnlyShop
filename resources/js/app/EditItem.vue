@@ -8,4 +8,5 @@ updated by : Rui Marco Loureiro
 -->
 <template>
     <h1>Edit View</h1>
+    {{ $route.params.id }}
 </template>
