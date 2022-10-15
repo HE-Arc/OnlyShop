@@ -14,7 +14,6 @@ import MyItems from "../app/myItems.vue";
 import Items from "../app/Items.vue";
 import Panier from "../app/Panier.vue";
 import Contact from "../app/Contact.vue";
-import About from "../app/About.vue";
 import EditItem from "../app/EditItem.vue";
 
 
@@ -48,11 +47,6 @@ const routes = [
                 path: "contact",
                 name: "contact",
                 component: Contact,
-            },
-            {
-                path: "about",
-                name: "about",
-                component: About,
             },
 
         ]
