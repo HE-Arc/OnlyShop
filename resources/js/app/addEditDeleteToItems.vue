@@ -6,6 +6,9 @@ import { useStore as useItemsStore } from "./store/item.store";
 
 const itemsStore = useItemsStore();
 const { items, loading, error } = storeToRefs(itemsStore);
+const props = defineProps({
+    item_id: Number,
+});
 
 itemsStore.fetchItems();
 </script>
@@ -16,10 +19,19 @@ itemsStore.fetchItems();
         <div v-if="error">Error: {{ error }}</div>
 
         <div v-if="items">
-            <v-btn href="/item/1"><i class="material-icons"> edit </i></v-btn>
-            <v-btn @click="itemsStore.deleteItem(item.id)"
-                ><i class="material-icons"> delete </i></v-btn
-            >
+            <v-card-action class="justify-center">
+                <div class="text-center">
+                    <v-btn>
+                        <router-link
+                            :to="{ name: 'edititem', params: { id: item_id } }"
+                            ><i class="material-icons"> edit </i></router-link
+                        >
+                    </v-btn>
+                    <v-btn @click="itemsStore.deleteItem(item_id)"
+                        ><i class="material-icons"> delete </i></v-btn
+                    >
+                </div>
+            </v-card-action>
         </div>
     </div>
 </template>
