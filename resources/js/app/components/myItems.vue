@@ -7,15 +7,12 @@ Wrote by : Rui Marco Loureiro
 updated by : Rui Marco Loureiro
 -->
 <script setup>
-import { ref } from "vue";
 import { storeToRefs } from "pinia";
 import { useStore as useItemsStore } from "../store/item.store";
-import addEditDeleteToItems from "./addEditDeleteToItems.vue";
+import AddEditDeleteToItems from "./AddEditDeleteToItems.vue";
 
-//const show = ref(false);
 const itemsStore = useItemsStore();
 const { items, loading, error } = storeToRefs(itemsStore);
-const model = 0;
 const colors = ["primary", "secondary", "yellow", "red", "orange"];
 
 itemsStore.fetchItems();
@@ -74,7 +71,7 @@ itemsStore.fetchItems();
                                     </div>
                                 </v-card-subtitle>
 
-                                <addEditDeleteToItems :item_id="item.id" />
+                                <AddEditDeleteToItems :item_id="item.id" />
                             </v-card>
                         </v-sheet>
                     </v-col>
