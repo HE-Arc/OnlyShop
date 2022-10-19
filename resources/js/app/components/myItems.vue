@@ -9,7 +9,7 @@ updated by : Rui Marco Loureiro
 <script setup>
 import { ref } from "vue";
 import { storeToRefs } from "pinia";
-import { useStore as useItemsStore } from "./store/item.store";
+import { useStore as useItemsStore } from "../store/item.store";
 import addEditDeleteToItems from "./addEditDeleteToItems.vue";
 
 //const show = ref(false);

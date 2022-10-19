@@ -2,7 +2,7 @@
 <script setup>
 import { ref } from "vue";
 import { storeToRefs } from "pinia";
-import { useStore as useItemsStore } from "./store/item.store";
+import { useStore as useItemsStore } from "../store/item.store";
 
 const itemsStore = useItemsStore();
 const { items, loading, error } = storeToRefs(itemsStore);

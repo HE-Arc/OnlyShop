@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from "vue";
 import { storeToRefs } from "pinia";
-import { useStore as useItemsStore } from "./store/item.store";
+import { useStore as useItemsStore } from "../store/item.store";
 
 const show = ref(false);
 const itemsStore = useItemsStore();
