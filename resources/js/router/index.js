@@ -10,7 +10,7 @@ import { createRouter, createWebHistory } from "vue-router";
 
 import Home from "../app/components/Home.vue";
 import Login from "../app/components/Login.vue";
-import MyItems from "../app/components/myItems.vue";
+import MyItems from "../app/components/MyItems.vue";
 import Items from "../app/components/Items.vue";
 import Panier from "../app/components/Panier.vue";
 import Contact from "../app/components/Contact.vue";
