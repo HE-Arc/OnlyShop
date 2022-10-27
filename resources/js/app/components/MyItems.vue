@@ -1,22 +1,19 @@
 <!--
 OnlyShop made by Lucas Perrin, Rui Marco Loureiro and Miguel Moreira
 File's version : 1.1.0
-this file is used for : show all the items
+this file is used for : show the user items
 
 Wrote by : Rui Marco Loureiro
 updated by : Rui Marco Loureiro
 -->
 <script setup>
-import { ref } from "vue";
-import { storeToRefs } from "pinia";
-import { useStore as useItemsStore } from "./store/item.store";
-import addPaymentDescription from "./addPaymentDescription.vue";
-import addEditDeleteToItems from "./addEditDeleteToItems.vue";
 
-//const show = ref(false);
+import { storeToRefs } from "pinia";
+import { useStore as useItemsStore } from "../store/item.store";
+import AddEditDeleteToItems from "./AddEditDeleteToItems.vue";
+
 const itemsStore = useItemsStore();
 const { items, loading, error } = storeToRefs(itemsStore);
-const model = 0;
 const colors = ["primary", "secondary", "yellow", "red", "orange"];
 
 itemsStore.fetchItems();
@@ -32,29 +29,13 @@ itemsStore.fetchItems();
         <div v-if="items">
             <v-container>
                 <v-row no-gutters>
-                    <v-col
-                        v-for="item in items"
-                        :key="item.id"
-                        cols="12"
-                        sm="4"
-                    >
+                    <v-col v-for="item in items" :key="item.id" cols="12" sm="4">
                         <v-sheet class="ma-2 pa-2">
                             <v-card class="mx-auto" max-width="344">
                                 <v-carousel>
-                                    <v-carousel-item
-                                        v-for="color in colors"
-                                        :key="color"
-                                    >
-                                        <v-sheet
-                                            :color="color"
-                                            height="100%"
-                                            tile
-                                        >
-                                            <v-row
-                                                class="fill-height"
-                                                align="center"
-                                                justify="center"
-                                            >
+                                    <v-carousel-item v-for="color in colors" :key="color">
+                                        <v-sheet :color="color" height="100%" tile>
+                                            <v-row class="fill-height" align="center" justify="center">
                                                 <div class="text-h2">
                                                     {{ color }}
                                                 </div>
@@ -75,7 +56,7 @@ itemsStore.fetchItems();
                                     </div>
                                 </v-card-subtitle>
 
-                                <addPaymentDescription />
+                                <AddEditDeleteToItems :item_id="item.id" />
                             </v-card>
                         </v-sheet>
                     </v-col>

@@ -1,5 +1,6 @@
+import axios from "axios";
 import { defineStore } from "pinia";
-import { v4 as uuidv4 } from "uuid";
+import { API_LOCATION } from "../constants";
 
 const storeName = "itemStore";
 const defautSate = {
@@ -17,52 +18,9 @@ export const useStore = defineStore(storeName, {
             this.loading = true;
 
             try {
-                const response = {
-                    data: [
-                        {
-                            id: 1,
-                            name: "Item 1",
-                            price: 100,
-                        },
-                        {
-                            id: 2,
-                            name: "Item 2",
-                            price: 200,
-                        },
-                        {
-                            id: 3,
-                            name: "Item 3",
-                            price: 300,
-                        },
-                        {
-                            id: 4,
-                            name: "Item 4",
-                            price: 400,
-                        },
-                        {
-                            id: 5,
-                            name: "Item 5",
-                            price: 500,
-                        },
-                        {
-                            id: 6,
-                            name: "Item 6",
-                            price: 600,
-                        },
-                        {
-                            id: 7,
-                            name: "Item 7",
-                            price: 700,
-                        },
-                        {
-                            id: 8,
-                            name: "Item 8",
-                            price: 800,
-                        },
-                    ],
-                };
+                const response = await axios.get(`${API_LOCATION}/items`);
 
-                const { data } = response;
+                const { data } = response.data;
                 this.items = data;
             } catch (error) {
                 this.error = error;
@@ -74,15 +32,14 @@ export const useStore = defineStore(storeName, {
             this.loading = true;
 
             try {
-                const response = {
-                    data: {
-                        id,
-                        message: "Item deleted",
-                    },
-                };
+                const response = await axios.delete(
+                    `${API_LOCATION}/items/${id}`
+                );
 
-                const { data } = response;
-                this.items = this.items.filter((item) => item.id !== data.id);
+                const { message } = response.data;
+                console.log(message);
+
+                this.items = this.items.filter((item) => item.id !== id);
             } catch (error) {
                 this.error = error;
             } finally {
@@ -93,16 +50,17 @@ export const useStore = defineStore(storeName, {
             this.loading = true;
 
             try {
-                const response = {
-                    data: {
-                        id,
+                const response = await axios.put(
+                    `${API_LOCATION}/items/${id}`,
+                    {
                         name,
                         price,
-                        message: "Item updated",
-                    },
-                };
+                    }
+                );
 
-                const { data } = response;
+                const { message } = response.data;
+                console.log(message);
+
                 this.items = this.items.map((item) =>
                     item.id === data.id ? data : item
                 );
@@ -116,17 +74,14 @@ export const useStore = defineStore(storeName, {
             this.loading = true;
 
             try {
-                const response = {
-                    data: {
-                        id: uuidv4().toString(),
-                        name,
-                        price,
-                        message: "Item added",
-                    },
-                };
+                const response = await axios.post(`${API_LOCATION}/items`, {
+                    name,
+                    price,
+                });
+                const { message } = response.data;
+                console.log(message);
 
-                const { data } = response;
-                this.items = [...this.items, data];
+                this.items = [...this.items, { data }];
             } catch (error) {
                 this.error = error;
             } finally {
