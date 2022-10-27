@@ -39,7 +39,7 @@ export const useStore = defineStore(storeName, {
                 const { message } = response.data;
                 console.log(message);
 
-                this.items = this.items.filter((item) => item.id !== data.id);
+                this.items = this.items.filter((item) => item.id !== id);
             } catch (error) {
                 this.error = error;
             } finally {

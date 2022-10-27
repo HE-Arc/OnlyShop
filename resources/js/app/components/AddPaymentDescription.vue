@@ -5,7 +5,7 @@ const show = ref(false);
 </script>
 
 <template>
-    <v-card-action class="justify-center">
+    <v-card-actions class="justify-center">
         <div class="text-center">
             <v-btn><i class="material-icons"> payment </i></v-btn>
             <v-btn @click="show = !show">
@@ -13,7 +13,7 @@ const show = ref(false);
                 <i v-else class="material-icons"> arrow_drop_down </i>
             </v-btn>
         </div>
-    </v-card-action>
+    </v-card-actions>
     <v-expand-transition>
         <div v-show="show">
             <v-divider></v-divider>
