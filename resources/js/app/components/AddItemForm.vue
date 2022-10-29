@@ -1,13 +1,35 @@
+<script setup>
+import { ref } from "vue";
+
+// ref --> re-build or re-evaluate everything
+//  that depends on those variables every time they change
+const dialog = ref(false);
+const valid = ref(false);
+const item = ref({
+    name: "",
+    description: "",
+    price: "",
+})
+
+const nameRules = [
+    (v) => !!v || "Name is required",
+    (v) => v.length <= 15 || "Name must be less than 15 characters",
+]
+const descRules = [
+    (v) => !!v || "Description is required",
+    (v) =>
+        v.length <= 50 ||
+        "Description must be less than 50 characters",
+]
+const priceRules = [(v) => !!v || "Price is required"]
+
+</script>
+
 <template>
     <div class="text-center">
         <v-dialog v-model="dialog" width="500">
             <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                    dark
-                    v-bind="attrs"
-                    @click.stop="dialog = true"
-                    icon="mdi-plus"
-                >
+                <v-btn dark v-bind="attrs" @click.stop="dialog = true" icon="mdi-plus">
                 </v-btn>
             </template>
 
@@ -20,34 +42,19 @@
                     <v-form v-model="valid">
                         <v-row>
                             <v-col>
-                                <v-text-field
-                                    v-model="item.name"
-                                    :rules="nameRules"
-                                    :counter="15"
-                                    label="Item name"
-                                    required
-                                ></v-text-field>
+                                <v-text-field v-model="item.name" :rules="nameRules" :counter="15" label="Item name"
+                                    required></v-text-field>
                             </v-col>
 
                             <v-col>
-                                <v-text-field
-                                    v-model="item.price"
-                                    :rules="priceRules"
-                                    label="Item price"
-                                    type="number"
-                                    required
-                                ></v-text-field>
+                                <v-text-field v-model="item.price" :rules="priceRules" label="Item price" type="number"
+                                    required></v-text-field>
                             </v-col>
                         </v-row>
                         <v-row>
                             <v-col>
-                                <v-text-field
-                                    v-model="item.description"
-                                    :rules="descRules"
-                                    :counter="50"
-                                    label="Item description"
-                                    required
-                                ></v-text-field>
+                                <v-text-field v-model="item.description" :rules="descRules" :counter="50"
+                                    label="Item description" required></v-text-field>
                             </v-col>
                         </v-row>
                     </v-form>
@@ -60,13 +67,9 @@
                     <v-btn color="primary" text @click="dialog = false">
                         Close
                     </v-btn>
-                    <v-btn
-                        color="primary"
-                        text
-                        @click="dialog = false"
-                        v-on:click="$emit('item', this.item)"
-                    >
-                        Accept
+                    <v-btn color="primary" text @click="dialog = false"
+                        v-on:click="$emit('item', userId = 1, this.item)">
+                        Add item
                     </v-btn>
                 </v-card-actions>
             </v-card>
@@ -74,29 +77,4 @@
     </div>
 </template>
 
-<script>
-export default {
-    data() {
-        return {
-            dialog: false,
-            valid: false,
-            item: {
-                name: "",
-                description: "",
-                price: "",
-            },
-            nameRules: [
-                (v) => !!v || "Name is required",
-                (v) => v.length <= 15 || "Name must be less than 15 characters",
-            ],
-            descRules: [
-                (v) => !!v || "Description is required",
-                (v) =>
-                    v.length <= 50 ||
-                    "Description must be less than 50 characters",
-            ],
-            priceRules: [(v) => !!v || "Price is required"],
-        };
-    },
-};
-</script>
+
