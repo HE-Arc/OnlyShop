@@ -21,8 +21,7 @@ class UserSeeder extends Seeder
             ['firstname' => 'Miguel', 'lastname' => 'Moreira', 'email' => 'miguel.moreira@he-arc.ch', 'password' => '123456'],
         ];
 
-        foreach($users as $user)
-        {
+        foreach ($users as $user) {
             User::create([
                 'firstname' => $user['firstname'],
                 'lastname' => $user['lastname'],
