@@ -22,7 +22,7 @@ class ShopCartController extends Controller
      * @apiName storeShopCart
      * @apiGroup ShopCart
      *
-     * @apiParam {number} id The id of the user.
+     * @apiParam {number} user_id The id of the user.
      *
      * @apiSuccess {String} message The message of the request.
      * @apiSuccess {String} status The status of the request.
@@ -30,13 +30,13 @@ class ShopCartController extends Controller
     public function storeShopCart(Request $request)
     {
         $validated = $request->validate([
-            'id' => 'required|numeric',
+            'user_id' => 'required|numeric',
         ]);
 
         if($validated)
         {
             $shopcart = new ShopCart();
-            $shopcart->id = $request->id;
+            $shopcart->user_id = $request->user_id;
             $shopcart->save();
 
             return response()->json(

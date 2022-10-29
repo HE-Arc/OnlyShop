@@ -44,8 +44,9 @@ class ItemController extends Controller
      * @apiGroup Item
      *
      * @apiParam {String} name The name of the item.
-     * @apiParam {number} price The price of the item.
+     * @apiParam {Number} price The price of the item.
      * @apiParam {String} description The description of the item.
+     * @apiParam {Number} user_id The id of the user that is selling the item.
      *
      * @apiSuccess {String} message The message of the request.
      * @apiSuccess {String} status The status of the request.
@@ -56,6 +57,7 @@ class ItemController extends Controller
             'name' => 'required|string',
             'price' => 'required|numeric',
             'description' => 'required|string',
+            'user_id' => 'required|numeric',
         ]);
 
         if($validated)
@@ -64,6 +66,7 @@ class ItemController extends Controller
             $item->name = $request->name;
             $item->price = $request->price;
             $item->description = $request->description;
+            $item->user_id = $request->user_id;
             $item->save();
 
             return response()->json(
