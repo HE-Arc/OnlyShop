@@ -29,17 +29,34 @@ class ImageController extends Controller
      */
     public function store(Request $request)
     {
-        $image = new Image();
-        $image->item_id = $request->item_id;
-        $image->imagepath = $request->imagepath;
-        $image->save();
+        $validated = $request->validate([
+            'item_id' => 'required|numeric',
+            'imagepath' => 'required|string',
+        ]);
 
-        return response()->json(
-            [
-                'message' => 'Image added successfully',
-                'status' => "success"
-            ]
-        );
+        if($validated)
+        {
+            $image = new Image();
+            $image->item_id = $request->item_id;
+            $image->imagepath = $request->imagepath;
+            $image->save();
+
+            return response()->json(
+                [
+                    'message' => 'Image added successfully',
+                    'status' => "success"
+                ]
+            );
+        }
+        else
+        {
+            return response()->json(
+                [
+                    'message' => 'Image not added',
+                    'status' => "error"
+                ]
+            );
+        }
     }
 
     /**

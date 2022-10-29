@@ -27,18 +27,34 @@ class ShopCartController extends Controller
      * @apiSuccess {String} message The message of the request.
      * @apiSuccess {String} status The status of the request.
      */
-    public function storeShopCart($id)
+    public function storeShopCart(Request $request)
     {
-        $shopcart = new ShopCart();
-        $shopcart->user_id = $id;
-        $shopcart->save();
+        $validated = $request->validate([
+            'id' => 'required|numeric',
+        ]);
 
-        return response()->json(
-            [
-                'message' => 'ShopCart created successfully',
-                'status' => "success"
-            ]
-        );
+        if($validated)
+        {
+            $shopcart = new ShopCart();
+            $shopcart->id = $request->id;
+            $shopcart->save();
+
+            return response()->json(
+                [
+                    'message' => 'Shopcart added successfully',
+                    'status' => "success"
+                ]
+            );
+        }
+        else
+        {
+            return response()->json(
+                [
+                    'message' => 'Shopcart not added',
+                    'status' => "error"
+                ]
+            );
+        }
     }
 
     /**
@@ -78,14 +94,31 @@ class ShopCartController extends Controller
      */
     public function addItem(Request $request)
     {
-        $shopcart = ShopCart::where("user_id", $request->id)->first();
-        $shopcart->items()->attach($request->item_id);
+        $validated = $request->validate([
+            'id' => 'required|numeric',
+            'item_id' => 'required|numeric',
+        ]);
 
-        return response()->json(
-            [
-                'message' => 'Item added successfully',
-                'status' => "success"
-            ]
-        );
+        if($validated)
+        {
+            $shopcart = ShopCart::where("user_id", $request->id)->first();
+            $shopcart->items()->attach($request->item_id);
+
+            return response()->json(
+                [
+                    'message' => 'Item added successfully',
+                    'status' => "success"
+                ]
+            );
+        }
+        else
+        {
+            return response()->json(
+                [
+                    'message' => 'Item not added',
+                    'status' => "error"
+                ]
+            );
+        }
     }
 }

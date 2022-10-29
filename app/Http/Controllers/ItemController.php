@@ -52,18 +52,36 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-        $item = new Item();
-        $item->name = $request->name;
-        $item->price = $request->price;
-        $item->description = $request->description;
-        $item->save();
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'price' => 'required|numeric',
+            'description' => 'required|string',
+        ]);
 
-        return response()->json(
-            [
-                'message' => 'Item added successfully',
-                'status' => "success"
-            ]
-        );
+        if($validated)
+        {
+            $item = new Item();
+            $item->name = $request->name;
+            $item->price = $request->price;
+            $item->description = $request->description;
+            $item->save();
+
+            return response()->json(
+                [
+                    'message' => 'Item added successfully',
+                    'status' => "success"
+                ]
+            );
+        }
+        else
+        {
+            return response()->json(
+                [
+                    'message' => 'Item not added',
+                    'status' => "error"
+                ]
+            );
+        }
     }
 
     /**
@@ -105,18 +123,37 @@ class ItemController extends Controller
      */
     public function update(Request $request)
     {
-        $item = Item::find($request->id);
-        $item->name = $request->name;
-        $item->price = $request->price;
-        $item->description = $request->description;
-        $item->save();
+        $validated = $request->validate([
+            'id' => 'required|numeric',
+            'name' => 'required|string',
+            'price' => 'required|numeric',
+            'description' => 'required|string',
+        ]);
 
-        return response()->json(
-            [
-                'message' => 'Item updated successfully',
-                'status' => "success"
-            ]
-        );
+        if($validated)
+        {
+            $item = Item::find($request->id);
+            $item->name = $request->name;
+            $item->price = $request->price;
+            $item->description = $request->description;
+            $item->save();
+
+            return response()->json(
+                [
+                    'message' => 'Item updated successfully',
+                    'status' => "success"
+                ]
+            );
+        }
+        else
+        {
+            return response()->json(
+                [
+                    'message' => 'Item not updated',
+                    'status' => "error"
+                ]
+            );
+        }
     }
 
     /**

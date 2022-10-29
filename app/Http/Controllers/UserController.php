@@ -34,21 +34,53 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $user = new User();
-        $user->lastname = $request->lastname;
-        $user->firstname = $request->firstname;
-        $user->email = $request->email;
-        $user->password = $request->password;
-        $confirmPassword = $request->confirmPassword;
-        if ($user->password == $confirmPassword)
-        {
-            $user->save();
-            ShopCart::storeShopCart($user->id);
+        $validated = $request->validate([
+            'lastname' => 'required|string',
+            'firstname' => 'required|string',
+            'email' => 'required|email',
+            'password' => 'required|string',
+            'confirmPassword' => 'required|string',
+        ]);
 
+
+        if($validated)
+        {
+            if($request->password == $request->confirmPassword)
+            {
+                $user = new User();
+                $user->lastname = $request->lastname;
+                $user->firstname = $request->firstname;
+                $user->email = $request->email;
+                $user->password = $request->password;
+                $user->save();
+
+                $shopcart = new Shopcart();
+                $shopcart->id = $user->id;
+                $shopcart->save();
+
+                return response()->json(
+                    [
+                        'message' => 'User added successfully',
+                        'status' => "success"
+                    ]
+                );
+            }
+            else
+            {
+                return response()->json(
+                    [
+                        'message' => 'Passwords do not match',
+                        'status' => "error"
+                    ]
+                );
+            }
+        }
+        else
+        {
             return response()->json(
                 [
-                    'message' => 'User and his shopcart created successfully',
-                    'status' => "success"
+                    'message' => 'User not added',
+                    'status' => "error"
                 ]
             );
         }
@@ -68,23 +100,56 @@ class UserController extends Controller
      */
     public function login(Request $request)
     {
-        $email = $request->email;
-        $password = $request->password;
+        $validated = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string',
+        ]);
 
-        $user = User::where("email", $email)->first();
-        if ($user)
+
+        if($validated)
         {
-            if ($user->password == $password)
+            $user = User::where('email', $request->email)->first();
+
+            if($user)
+            {
+                if($user->password == $request->password)
+                {
+                    return response()->json(
+                        [
+                            'message' => 'User logged in successfully',
+                            'status' => "success",
+                            'data' => $user
+                        ]
+                    );
+                }
+                else
+                {
+                    return response()->json(
+                        [
+                            'message' => 'Wrong password',
+                            'status' => "error"
+                        ]
+                    );
+                }
+            }
+            else
             {
                 return response()->json(
                     [
-                        'message' => 'User logged in successfully',
-                        'status' => "success",
-                        'data' => $user
+                        'message' => 'User not found',
+                        'status' => "error"
                     ]
                 );
             }
         }
-
+        else
+        {
+            return response()->json(
+                [
+                    'message' => 'User not logged in',
+                    'status' => "error"
+                ]
+            );
+        }
     }
 }
