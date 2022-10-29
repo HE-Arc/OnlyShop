@@ -10,12 +10,22 @@ updated by : Rui Marco Loureiro
 import { storeToRefs } from "pinia";
 import { useStore as useItemsStore } from "../store/item.store";
 import AddEditDeleteToItems from "./AddEditDeleteToItems.vue";
+import AddItemForm from "./AddItemForm.vue";
 
 const itemsStore = useItemsStore();
 const { items, loading, error } = storeToRefs(itemsStore);
 const colors = ["primary", "secondary", "yellow", "red", "orange"];
 
 itemsStore.fetchItems();
+
+function addItem(value) {
+    if (value) {
+        ///this.items.push(value); ICI LUCAS ADD LES ITEMS
+        alert("Item has been added!");
+    } else {
+        alert("Please enter a valid item!");
+    }
+}
 </script>
 
 <template>
@@ -78,10 +88,8 @@ itemsStore.fetchItems();
                 </v-row>
             </v-container>
 
-            <div>
-                <v-btn id="fixedContainer">
-                    <i class="material-icons"> add </i>
-                </v-btn>
+            <div id="fixedContainer">
+                <AddItemForm @item="addItem" />
             </div>
         </div>
     </div>
@@ -89,7 +97,6 @@ itemsStore.fetchItems();
 
 <style>
 #fixedContainer {
-    background-color: red;
     position: fixed;
     left: 85%;
     bottom: 12%;
