@@ -15,7 +15,7 @@ updated by : Rui Marco Loureiro
             <i class="material-icons"> menu </i>
         </v-app-bar-nav-icon>
         <div>
-            <v-toolbar-title>
+            <v-toolbar-title justify-center>
                 <div class="m_title">
                     <router-link :to="{ name: 'items' }">OnlyShop</router-link>
                 </div></v-toolbar-title
@@ -80,8 +80,9 @@ export default {
 .m_title {
     font-family: "Pacifico", cursive;
     font-size: 2rem;
-    height: 50px;
+    height: 45px;
     padding: 2px;
+    margin-top: 6px;
 }
 
 a {
