@@ -12,7 +12,6 @@ import { ref } from "vue";
 
 // ref --> re-build or re-evaluate everything
 //  that depends on those variables every time they change
-const visible = ref(true);
 const dialog = ref(false);
 const valid = ref(false);
 const item = ref({
@@ -33,93 +32,56 @@ const priceRules = [
     (v) => !!v || "Price is required",
     (v) => v > 0 || "Price must be greater than 0",
 ];
-
-function close() {
-    dialog = false;
-    visible = false;
-}
 </script>
 
 <template>
-    <div v-if="visible">
-        <div class="text-center">
-            <v-dialog v-model="dialog" width="500">
-                <template v-slot:activator="{ on, attrs }">
-                    <v-btn
-                        color="indigo"
-                        :elevation="20"
-                        v-bind="attrs"
-                        @click.stop="dialog = true"
-                        icon="mdi-plus"
-                    >
+    <div class="text-center">
+        <v-dialog v-model="dialog" width="500">
+            <template v-slot:activator="{ on, attrs }">
+                <v-btn color="indigo" :elevation="20" v-bind="attrs" @click.stop="dialog = true" icon="mdi-plus">
+                </v-btn>
+            </template>
+
+            <v-card>
+                <v-card-title class="text-h5 grey lighten-2">
+                    Add your new item
+                </v-card-title>
+
+                <v-card-text>
+                    <v-form v-model="valid" lazy-validation>
+                        <v-row>
+                            <v-col>
+                                <v-text-field v-model="item.name" :rules="nameRules" :counter="15" label="Item name"
+                                    required></v-text-field>
+                            </v-col>
+
+                            <v-col>
+                                <v-text-field v-model="item.price" :rules="priceRules" label="Item price" type="number"
+                                    min="0" required></v-text-field>
+                            </v-col>
+                        </v-row>
+                        <v-row>
+                            <v-col>
+                                <v-text-field v-model="item.description" :rules="descRules" :counter="50"
+                                    label="Item description" required></v-text-field>
+                            </v-col>
+                        </v-row>
+                    </v-form>
+                </v-card-text>
+
+                <v-divider></v-divider>
+
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="primary" text @click="dialog = false">
+                        Close
                     </v-btn>
-                </template>
-
-                <v-card>
-                    <v-card-title class="text-h5 grey lighten-2">
-                        Add your new item
-                    </v-card-title>
-
-                    <v-card-text>
-                        <v-form v-model="valid" lazy-validation>
-                            <v-row>
-                                <v-col>
-                                    <v-text-field
-                                        v-model="item.name"
-                                        :rules="nameRules"
-                                        :counter="15"
-                                        label="Item name"
-                                        required
-                                    ></v-text-field>
-                                </v-col>
-
-                                <v-col>
-                                    <v-text-field
-                                        v-model="item.price"
-                                        :rules="priceRules"
-                                        label="Item price"
-                                        type="number"
-                                        min="0"
-                                        required
-                                    ></v-text-field>
-                                </v-col>
-                            </v-row>
-                            <v-row>
-                                <v-col>
-                                    <v-text-field
-                                        v-model="item.description"
-                                        :rules="descRules"
-                                        :counter="50"
-                                        label="Item description"
-                                        required
-                                    ></v-text-field>
-                                </v-col>
-                            </v-row>
-                        </v-form>
-                    </v-card-text>
-
-                    <v-divider></v-divider>
-
-                    <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn color="primary" text @click="dialog = false">
-                            Close
-                        </v-btn>
-                        <v-btn
-                            :disabled="!valid"
-                            color="primary"
-                            text
-                            @click="
-                                dialog = false;
-                                visible = false;
-                            "
-                            v-on:click="$emit('item', (userId = 1), this.item)"
-                        >
-                            Add item
-                        </v-btn>
-                    </v-card-actions>
-                </v-card>
-            </v-dialog>
-        </div>
+                    <v-btn :disabled="!valid" color="primary" text @click="dialog = false"
+                        v-on:click="$emit('item', (userId = 1), this.item)">
+                        Add item
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
     </div>
 </template>

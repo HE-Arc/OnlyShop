@@ -190,7 +190,7 @@ class ItemController extends Controller
      *
      * @apiSuccess {String} message The message of the request.
      * @apiSuccess {String} status The status of the request.
-     * @apiSuccess {Object[]} data The data of the request.
+     * @apiSuccess {Object[]} items The data of the request.
      */
     public function getUserItems($user_id)
     {
@@ -200,7 +200,7 @@ class ItemController extends Controller
             [
                 'message' => 'Items found successfully',
                 'status' => "success",
-                'data' => $items
+                'items' => $items
             ]
         );
     }

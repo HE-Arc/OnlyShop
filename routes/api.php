@@ -23,6 +23,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::apiResource('items', ItemController::class);
+Route::get('items/getUserItems/{user_id}', [ItemController::class, 'getUserItems'])->name('getUserItems');
 Route::apiResource('images', ImageController::class);
+Route::get('images/getItemImages/{item_id}', [ImageController::class, 'getItemImages'])->name('getItemImages');
 Route::apiResource('users', UserController::class);
-Route::apiResource('shopcarts', ShopCartController::class);
+Route::post('shopcarts', [ShopcartController::class, 'storeShopCart'])->name('storeShopCart');
+Route::get('shopcarts/{id}', [ShopcartController::class, 'getShopCart'])->name('getShopCart');
+Route::post('shopcarts/addItem', [ShopcartController::class, 'addItem'])->name('addItem');
+Route::post('users/login', [UserController::class, 'login'])->name('login');
+

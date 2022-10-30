@@ -36,7 +36,7 @@ class Item extends Model
     /**
      *  Relationship with User model
      */
-    public function user()
+    public function users()
     {
         return $this->belongsTo(User::class);
     }
