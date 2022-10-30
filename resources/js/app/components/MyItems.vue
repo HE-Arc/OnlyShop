@@ -23,11 +23,12 @@ function addItem(user_id, item) {
     if (item) {
         const { name, price, description } = item;
         itemsStore.addItem(user_id, name, price, description);
+
+        closeDialog();
     } else {
         alert("Please enter a valid item!");
     }
 }
-console.log("refresh");
 </script>
 
 <template>
@@ -91,7 +92,7 @@ console.log("refresh");
             </v-container>
 
             <div id="fixedContainer">
-                <AddItemForm @item="addItem" />
+                <AddItemForm @addItem="addItem" />
             </div>
         </div>
     </div>

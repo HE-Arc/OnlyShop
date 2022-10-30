@@ -39,8 +39,8 @@ export const useStore = defineStore(storeName, {
                     `${API_LOCATION}/items/getUserItems/${userId}`
                 );
 
-                const { data } = response.data;
-                this.userItems = data;
+                const { items } = response.data;
+                this.userItems = items;
             } catch (error) {
                 this.error = error;
             } finally {
@@ -68,11 +68,12 @@ export const useStore = defineStore(storeName, {
                 this.loading = false;
             }
         },
-        async updateItem(id, name, price, description) {
+        async updateItem(userId, id, name, price, description) {
             this.loading = true;
 
             try {
                 const itemUpdated = {
+                    id,
                     name,
                     price,
                     description,
@@ -80,7 +81,10 @@ export const useStore = defineStore(storeName, {
 
                 const response = await axios.put(
                     `${API_LOCATION}/items/${id}`,
-                    itemUpdated
+                    {
+                        user_id : userId,
+                        ...itemUpdated,
+                    }
                 );
 
                 const { message } = response.data;

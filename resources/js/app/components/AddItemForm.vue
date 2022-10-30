@@ -14,6 +14,7 @@ import { ref } from "vue";
 //  that depends on those variables every time they change
 const dialog = ref(false);
 const valid = ref(false);
+
 const item = ref({
     name: "",
     description: "",
@@ -37,8 +38,14 @@ const priceRules = [
 <template>
     <div class="text-center">
         <v-dialog v-model="dialog" width="500">
-            <template v-slot:activator="{ on, attrs }">
-                <v-btn color="indigo" :elevation="20" v-bind="attrs" @click.stop="dialog = true" icon="mdi-plus">
+            <template v-slot:activator="{ attrs }">
+                <v-btn
+                    color="indigo"
+                    :elevation="20"
+                    v-bind="attrs"
+                    @click.stop="dialog = true"
+                    icon="mdi-plus"
+                >
                 </v-btn>
             </template>
 
@@ -51,19 +58,35 @@ const priceRules = [
                     <v-form v-model="valid" lazy-validation>
                         <v-row>
                             <v-col>
-                                <v-text-field v-model="item.name" :rules="nameRules" :counter="15" label="Item name"
-                                    required></v-text-field>
+                                <v-text-field
+                                    v-model="item.name"
+                                    :rules="nameRules"
+                                    :counter="15"
+                                    label="Item name"
+                                    required
+                                ></v-text-field>
                             </v-col>
 
                             <v-col>
-                                <v-text-field v-model="item.price" :rules="priceRules" label="Item price" type="number"
-                                    min="0" required></v-text-field>
+                                <v-text-field
+                                    v-model="item.price"
+                                    :rules="priceRules"
+                                    label="Item price"
+                                    type="number"
+                                    min="0"
+                                    required
+                                ></v-text-field>
                             </v-col>
                         </v-row>
                         <v-row>
                             <v-col>
-                                <v-text-field v-model="item.description" :rules="descRules" :counter="50"
-                                    label="Item description" required></v-text-field>
+                                <v-text-field
+                                    v-model="item.description"
+                                    :rules="descRules"
+                                    :counter="50"
+                                    label="Item description"
+                                    required
+                                ></v-text-field>
                             </v-col>
                         </v-row>
                     </v-form>
@@ -76,8 +99,13 @@ const priceRules = [
                     <v-btn color="primary" text @click="dialog = false">
                         Close
                     </v-btn>
-                    <v-btn :disabled="!valid" color="primary" text @click="dialog = false"
-                        v-on:click="$emit('item', (userId = 1), this.item)">
+                    <v-btn
+                        :disabled="!valid"
+                        color="primary"
+                        text
+                        @click="dialog = false"
+                        v-on:click="$emit('addItem', 1, item)"
+                    >
                         Add item
                     </v-btn>
                 </v-card-actions>
