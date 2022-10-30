@@ -28,7 +28,10 @@ const descRules = [
     (v) => !!v || "Description is required",
     (v) => v.length <= 50 || "Description must be less than 50 characters",
 ];
-const priceRules = [(v) => !!v || "Price is required"];
+const priceRules = [
+    (v) => !!v || "Price is required",
+    (v) => v > 0 || "Price must be greater than 0",
+];
 </script>
 
 <template>
@@ -51,7 +54,7 @@ const priceRules = [(v) => !!v || "Price is required"];
                 </v-card-title>
 
                 <v-card-text>
-                    <v-form v-model="valid">
+                    <v-form v-model="valid" lazy-validation>
                         <v-row>
                             <v-col>
                                 <v-text-field
@@ -69,6 +72,7 @@ const priceRules = [(v) => !!v || "Price is required"];
                                     :rules="priceRules"
                                     label="Item price"
                                     type="number"
+                                    min="0"
                                     required
                                 ></v-text-field>
                             </v-col>
@@ -95,6 +99,7 @@ const priceRules = [(v) => !!v || "Price is required"];
                         Close
                     </v-btn>
                     <v-btn
+                        :disabled="!valid"
                         color="primary"
                         text
                         @click="dialog = false"
