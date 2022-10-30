@@ -31,6 +31,8 @@ const priceRules = [
     (v) => v > 0 || "Price must be greater than 0",
 ];
 
+const isFormValid = ref(false);
+
 const userId = 1;
 const itemsStore = useItemsStore();
 
@@ -52,7 +54,7 @@ const addItem = (addItem) => {
                     </v-card-title>
 
                     <v-card-text>
-                        <v-form>
+                        <v-form v-model="isFormValid">
                             <v-row>
                                 <v-col>
                                     <v-text-field
@@ -94,6 +96,7 @@ const addItem = (addItem) => {
                     <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn
+                            :disabled="!isFormValid"
                             color="primary"
                             text
                             @click="() => addItem(item)"
