@@ -39,8 +39,8 @@ const priceRules = [
         <v-dialog v-model="dialog" width="500">
             <template v-slot:activator="{ on, attrs }">
                 <v-btn
-                    color="primary"
-                    dark
+                    color="indigo"
+                    :elevation="20"
                     v-bind="attrs"
                     @click.stop="dialog = true"
                     icon="mdi-plus"
