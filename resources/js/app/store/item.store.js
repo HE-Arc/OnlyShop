@@ -1,7 +1,7 @@
 import axios from "axios";
 import { defineStore } from "pinia";
 import { API_LOCATION } from "../constants";
-import { v4 as uuidv4 } from "uuid";
+//import { v4 as uuidv4 } from "uuid";
 
 const storeName = "itemStore";
 const defautSate = {
@@ -112,11 +112,11 @@ export const useStore = defineStore(storeName, {
                     ...item,
                 });
 
-                const { message } = response.data;
+                const { message, item_id } = response.data;
                 console.log(message);
 
-                this.allItems = [...this.allItems, { id: uuidv4(), ...item }];
-                this.userItems = [...this.userItems, { id: uuidv4(), ...item }];
+                this.allItems = [...this.allItems, { id: item_id, ...item }];
+                this.userItems = [...this.userItems, { id: item_id, ...item }];
             } catch (error) {
                 this.error = error;
             } finally {

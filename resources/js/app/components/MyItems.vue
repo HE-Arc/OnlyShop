@@ -13,21 +13,21 @@ import AddEditDeleteToItems from "./AddEditDeleteToItems.vue";
 import AddItemForm from "./AddItemForm.vue";
 
 const itemsStore = useItemsStore();
-const { allItems, loading, error } = storeToRefs(itemsStore);
+const { userItems, loading, error } = storeToRefs(itemsStore);
 const colors = ["primary", "secondary", "yellow", "red", "orange"];
 
 const userId = 1;
-itemsStore.fetchAllItems(userId);
+itemsStore.fetchUserItems(userId);
 
 function addItem(user_id, item) {
     if (item) {
         const { name, price, description } = item;
         itemsStore.addItem(user_id, name, price, description);
-        alert("Item has been added!");
     } else {
         alert("Please enter a valid item!");
     }
 }
+console.log("refresh");
 </script>
 
 <template>
@@ -37,11 +37,11 @@ function addItem(user_id, item) {
     <div v-else>
         <div v-if="error">Error: {{ error }}</div>
 
-        <div v-if="allItems">
+        <div v-if="userItems">
             <v-container>
                 <v-row no-gutters>
                     <v-col
-                        v-for="item in allItems"
+                        v-for="item in userItems"
                         :key="item.id"
                         cols="12"
                         sm="4"

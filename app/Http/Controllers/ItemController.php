@@ -62,17 +62,14 @@ class ItemController extends Controller
             'user_id' => 'required|numeric|min:1',
         ]);
 
-        if($validator->fails())
-        {
+        if ($validator->fails()) {
             return response()->json(
                 [
                     'message' => $validator->errors(),
                     'status' => "error"
                 ]
             );
-        }
-        else
-        {
+        } else {
             $item = new Item();
             $item->name = $request->name;
             $item->price = $request->price;
@@ -138,17 +135,14 @@ class ItemController extends Controller
             'user_id' => 'required|numeric|min:1',
         ]);
 
-        if ($validator->fails())
-        {
+        if ($validator->fails()) {
             return response()->json(
                 [
                     'message' => $validator->errors(),
                     'status' => "error"
                 ]
             );
-        }
-        else
-        {
+        } else {
             $item = Item::find($request->id);
             $item->name = $request->name;
             $item->price = $request->price;
@@ -188,7 +182,7 @@ class ItemController extends Controller
     }
 
     /**
-     * @api {get} /api/items/getUserItems/:id Get all items of a user
+     * @api {get} /api/items/getUserItems/:user_id Get all items of a user
      * @apiName getUserItems
      * @apiGroup Item
      *
@@ -198,9 +192,9 @@ class ItemController extends Controller
      * @apiSuccess {String} status The status of the request.
      * @apiSuccess {Object[]} data The data of the request.
      */
-    public function getUserItems($id)
+    public function getUserItems($user_id)
     {
-        $items = Item::where("user_id", $id)->get();
+        $items = Item::where("user_id", $user_id)->get();
 
         return response()->json(
             [
