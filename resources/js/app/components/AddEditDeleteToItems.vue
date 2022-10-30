@@ -1,4 +1,11 @@
-<!-- CECI EST UNE CLASSE TEMPORAIRE UTILISE PAR RUI-->
+<!--
+OnlyShop made by Lucas Perrin, Rui Marco Loureiro and Miguel Moreira
+File's version : 1.1.0
+this file is used for : show the edit and delete buttons for the "myitems page"
+
+Wrote by : Rui Marco Loureiro
+updated by : Rui Marco Loureiro
+-->
 <script setup>
 import { useStore as useItemsStore } from "../store/item.store";
 

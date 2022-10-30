@@ -16,14 +16,14 @@ const itemsStore = useItemsStore();
 const { allItems, loading, error } = storeToRefs(itemsStore);
 const colors = ["primary", "secondary", "yellow", "red", "orange"];
 
-const userId = 1
+const userId = 1;
 itemsStore.fetchAllItems(userId);
 
 function addItem(user_id, item) {
     if (item) {
         const { name, price, description } = item;
         itemsStore.addItem(user_id, name, price, description);
-        // alert("Item has been added!");
+        alert("Item has been added!");
     } else {
         alert("Please enter a valid item!");
     }
@@ -40,13 +40,29 @@ function addItem(user_id, item) {
         <div v-if="allItems">
             <v-container>
                 <v-row no-gutters>
-                    <v-col v-for="item in allItems" :key="item.id" cols="12" sm="4">
+                    <v-col
+                        v-for="item in allItems"
+                        :key="item.id"
+                        cols="12"
+                        sm="4"
+                    >
                         <v-sheet class="ma-2 pa-2">
                             <v-card class="mx-auto" max-width="344">
                                 <v-carousel>
-                                    <v-carousel-item v-for="color in colors" :key="color">
-                                        <v-sheet :color="color" height="100%" tile>
-                                            <v-row class="fill-height" align="center" justify="center">
+                                    <v-carousel-item
+                                        v-for="color in colors"
+                                        :key="color"
+                                    >
+                                        <v-sheet
+                                            :color="color"
+                                            height="100%"
+                                            tile
+                                        >
+                                            <v-row
+                                                class="fill-height"
+                                                align="center"
+                                                justify="center"
+                                            >
                                                 <div class="text-h2">
                                                     {{ color }}
                                                 </div>

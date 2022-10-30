@@ -1,3 +1,12 @@
+<!--
+OnlyShop made by Lucas Perrin, Rui Marco Loureiro and Miguel Moreira
+File's version : 1.1.0
+this file is used for : show the add item form in the "myitems page"
+
+Wrote by : Rui Marco Loureiro
+updated by : Rui Marco Loureiro
+-->
+
 <script setup>
 import { ref } from "vue";
 
@@ -9,27 +18,30 @@ const item = ref({
     name: "",
     description: "",
     price: "",
-})
+});
 
 const nameRules = [
     (v) => !!v || "Name is required",
     (v) => v.length <= 15 || "Name must be less than 15 characters",
-]
+];
 const descRules = [
     (v) => !!v || "Description is required",
-    (v) =>
-        v.length <= 50 ||
-        "Description must be less than 50 characters",
-]
-const priceRules = [(v) => !!v || "Price is required"]
-
+    (v) => v.length <= 50 || "Description must be less than 50 characters",
+];
+const priceRules = [(v) => !!v || "Price is required"];
 </script>
 
 <template>
     <div class="text-center">
         <v-dialog v-model="dialog" width="500">
             <template v-slot:activator="{ on, attrs }">
-                <v-btn dark v-bind="attrs" @click.stop="dialog = true" icon="mdi-plus">
+                <v-btn
+                    color="primary"
+                    dark
+                    v-bind="attrs"
+                    @click.stop="dialog = true"
+                    icon="mdi-plus"
+                >
                 </v-btn>
             </template>
 
@@ -42,19 +54,34 @@ const priceRules = [(v) => !!v || "Price is required"]
                     <v-form v-model="valid">
                         <v-row>
                             <v-col>
-                                <v-text-field v-model="item.name" :rules="nameRules" :counter="15" label="Item name"
-                                    required></v-text-field>
+                                <v-text-field
+                                    v-model="item.name"
+                                    :rules="nameRules"
+                                    :counter="15"
+                                    label="Item name"
+                                    required
+                                ></v-text-field>
                             </v-col>
 
                             <v-col>
-                                <v-text-field v-model="item.price" :rules="priceRules" label="Item price" type="number"
-                                    required></v-text-field>
+                                <v-text-field
+                                    v-model="item.price"
+                                    :rules="priceRules"
+                                    label="Item price"
+                                    type="number"
+                                    required
+                                ></v-text-field>
                             </v-col>
                         </v-row>
                         <v-row>
                             <v-col>
-                                <v-text-field v-model="item.description" :rules="descRules" :counter="50"
-                                    label="Item description" required></v-text-field>
+                                <v-text-field
+                                    v-model="item.description"
+                                    :rules="descRules"
+                                    :counter="50"
+                                    label="Item description"
+                                    required
+                                ></v-text-field>
                             </v-col>
                         </v-row>
                     </v-form>
@@ -67,8 +94,12 @@ const priceRules = [(v) => !!v || "Price is required"]
                     <v-btn color="primary" text @click="dialog = false">
                         Close
                     </v-btn>
-                    <v-btn color="primary" text @click="dialog = false"
-                        v-on:click="$emit('item', userId = 1, this.item)">
+                    <v-btn
+                        color="primary"
+                        text
+                        @click="dialog = false"
+                        v-on:click="$emit('item', (userId = 1), this.item)"
+                    >
                         Add item
                     </v-btn>
                 </v-card-actions>
@@ -76,5 +107,3 @@ const priceRules = [(v) => !!v || "Price is required"]
         </v-dialog>
     </div>
 </template>
-
-
