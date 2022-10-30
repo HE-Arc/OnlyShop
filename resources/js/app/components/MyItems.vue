@@ -10,7 +10,6 @@ updated by : Rui Marco Loureiro
 import { storeToRefs } from "pinia";
 import { useStore as useItemsStore } from "../store/item.store";
 import AddEditDeleteToItems from "./AddEditDeleteToItems.vue";
-import AddItemForm from "./AddItemForm.vue";
 
 const itemsStore = useItemsStore();
 const { userItems, loading, error } = storeToRefs(itemsStore);
@@ -84,7 +83,7 @@ function addItem(user_id, item) {
                                     </div>
                                 </v-card-subtitle>
 
-                                <AddEditDeleteToItems :item_id="item.id" />
+                                <AddEditDeleteToItems :item="item" />
                             </v-card>
                         </v-sheet>
                     </v-col>
@@ -92,7 +91,15 @@ function addItem(user_id, item) {
             </v-container>
 
             <div id="fixedContainer">
-                <AddItemForm @addItem="addItem" />
+                <v-btn color="primary">
+                    <router-link
+                        :to="{
+                            name: 'additem',
+                        }"
+                    >
+                        <i class="material-icons"> add </i>
+                    </router-link>
+                </v-btn>
             </div>
         </div>
     </div>

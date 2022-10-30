@@ -15,6 +15,7 @@ import Items from "../app/components/Items.vue";
 import Panier from "../app/components/Panier.vue";
 import Contact from "../app/components/Contact.vue";
 import EditItem from "../app/components/EditItem.vue";
+import AddItem from "../app/components/AddItem.vue";
 
 
 const routes = [
@@ -37,6 +38,11 @@ const routes = [
                 path: "/myitems/:id",
                 name: "edititem",
                 component: EditItem,
+            },
+            {
+                path: "/additem",
+                name: "additem",
+                component: AddItem,
             },
             {
                 path: "mybacket",

@@ -7,6 +7,7 @@ const storeName = "itemStore";
 const defautSate = {
     allItems: [],
     userItems: [],
+    currentEditItem: null,
     loading: false,
     error: null,
 };
@@ -15,6 +16,21 @@ export const useStore = defineStore(storeName, {
     state: () => defautSate,
     getters: {},
     actions: {
+        async setCurrentEditItem(id) {
+            this.currentEditItem = null;
+            this.loading = true;
+
+            try {
+                const response = await axios.get(`${API_LOCATION}/items/${id}`);
+
+                const { data } = response.data;
+                this.currentEditItem = data;
+            } catch (error) {
+                this.error = error;
+            } finally {
+                this.loading = false;
+            }
+        },
         async fetchAllItems() {
             this.allItems = [];
             this.loading = true;
