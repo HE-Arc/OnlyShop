@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Item;
+use Illuminate\Support\Facades\Validator;
 
 /*
 OnlyShop made by Lucas Perrin, Rui Marco Loureiro and Miguel Moreira
@@ -53,14 +54,23 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255|min:1',
-            'price' => 'required|double|min:0',
-            'description' => 'required|string|max:1000|min:1',
-            'user_id' => 'required|numeric',
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric|min:0',
+            'description' => 'required|string|max:1000',
+            'user_id' => 'required|numeric|min:1',
         ]);
 
-        if($validated)
+        if($validator->fails())
+        {
+            return response()->json(
+                [
+                    'message' => $validator->errors(),
+                    'status' => "error"
+                ]
+            );
+        }
+        else
         {
             $item = new Item();
             $item->name = $request->name;
@@ -73,15 +83,6 @@ class ItemController extends Controller
                 [
                     'message' => 'Item added successfully',
                     'status' => "success"
-                ]
-            );
-        }
-        else
-        {
-            return response()->json(
-                [
-                    'message' => 'Item not added',
-                    'status' => "error"
                 ]
             );
         }
@@ -120,20 +121,31 @@ class ItemController extends Controller
      * @apiParam {String} name The name of the item.
      * @apiParam {number} price The price of the item.
      * @apiParam {String} description The description of the item.
+     * @apiParam {number} user_id The id of the user that is selling the item.
      *
      * @apiSuccess {String} message The message of the request.
      * @apiSuccess {String} status The status of the request.
      */
     public function update(Request $request)
     {
-        $validated = $request->validate([
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|numeric|min:1',
             'name' => 'required|string|max:255|min:1',
-            'price' => 'required|double|min:0',
+            'price' => 'required|numeric|min:0',
             'description' => 'required|string|max:1000|min:1',
-            'user_id' => 'required|numeric',
+            'user_id' => 'required|numeric|min:1',
         ]);
 
-        if($validated)
+        if ($validator->fails())
+        {
+            return response()->json(
+                [
+                    'message' => $validator->errors(),
+                    'status' => "error"
+                ]
+            );
+        }
+        else
         {
             $item = Item::find($request->id);
             $item->name = $request->name;
@@ -146,15 +158,6 @@ class ItemController extends Controller
                 [
                     'message' => 'Item updated successfully',
                     'status' => "success"
-                ]
-            );
-        }
-        else
-        {
-            return response()->json(
-                [
-                    'message' => 'Item not updated',
-                    'status' => "error"
                 ]
             );
         }

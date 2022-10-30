@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Image;
+use Illuminate\Support\Facades\Validator;
 
 /*
 OnlyShop made by Lucas Perrin, Rui Marco Loureiro and Miguel Moreira
@@ -29,12 +30,21 @@ class ImageController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $validator = Validator::make($request->all(), [
             'item_id' => 'required|numeric|min:1',
             'imagepath' => 'required|string|max:255',
         ]);
 
-        if($validated)
+        if($validator->fails())
+        {
+            return response()->json(
+                [
+                    'message' => $validator->errors(),
+                    'status' => "error"
+                ]
+            );
+        }
+        else
         {
             $image = new Image();
             $image->item_id = $request->item_id;
@@ -45,15 +55,6 @@ class ImageController extends Controller
                 [
                     'message' => 'Image added successfully',
                     'status' => "success"
-                ]
-            );
-        }
-        else
-        {
-            return response()->json(
-                [
-                    'message' => 'Image not added',
-                    'status' => "error"
                 ]
             );
         }

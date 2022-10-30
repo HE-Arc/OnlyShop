@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Shopcart;
+use Illuminate\Support\Facades\Validator;
 
 /*
 OnlyShop made by Lucas Perrin, Rui Marco Loureiro and Miguel Moreira
@@ -27,60 +28,47 @@ class UserController extends Controller
      * @apiParam {String} firstname The firstname of the user.
      * @apiParam {String} email The email of the user.
      * @apiParam {String} password The password of the user.
-     * @apiParam {String} confirmPassword The password confirmation of the user.
+     * @apiParam {String} password_confirmation The password confirmation of the user.
      *
      * @apiSuccess {String} message The message of the request.
      * @apiSuccess {String} status The status of the request.
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'lastname' => 'required|string|max:255|min:1',
-            'firstname' => 'required|string|max:255|min:1',
-            'email' => 'required|email|unique:users|max:255|min:1',
-            'password' => 'required|string|max:255|min:1',
-            'confirmPassword' => 'required|string|max:255|min:1',
+        $validator = Validator::make($request->all(), [
+            'lastname' => 'required|string|max:255',
+            'firstname' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+            'password_confirmation' => 'required|string|min:8',
         ]);
 
-
-        if($validated)
-        {
-            if($request->password == $request->confirmPassword)
-            {
-                $user = new User();
-                $user->lastname = $request->lastname;
-                $user->firstname = $request->firstname;
-                $user->email = $request->email;
-                $user->password = $request->password;
-                $user->save();
-
-                $shopcart = new Shopcart();
-                $shopcart->id = $user->id;
-                $shopcart->save();
-
-                return response()->json(
-                    [
-                        'message' => 'User added successfully',
-                        'status' => "success"
-                    ]
-                );
-            }
-            else
-            {
-                return response()->json(
-                    [
-                        'message' => 'Passwords do not match',
-                        'status' => "error"
-                    ]
-                );
-            }
-        }
-        else
+        if($validator->fails())
         {
             return response()->json(
                 [
-                    'message' => 'User not added',
+                    'message' => $validator->errors(),
                     'status' => "error"
+                ]
+            );
+        }
+        else
+        {
+            $user = new User();
+            $user->lastname = $request->lastname;
+            $user->firstname = $request->firstname;
+            $user->email = $request->email;
+            $user->password = bcrypt($request->password);
+            $user->save();
+
+            $shopcart = new Shopcart();
+            $shopcart->user_id = $user->id;
+            $shopcart->save();
+
+            return response()->json(
+                [
+                    'message' => 'User and his shopcart added successfully',
+                    'status' => "success"
                 ]
             );
         }
@@ -100,22 +88,27 @@ class UserController extends Controller
      */
     public function login(Request $request)
     {
-        $validated = $request->validate([
-            'lastname' => 'required|string|max:255|min:1',
-            'firstname' => 'required|string|max:255|min:1',
-            'email' => 'required|email|unique:users|max:255|min:1',
-            'password' => 'required|string|max:255|min:1',
-            'confirmPassword' => 'required|string|max:255|min:1',
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|string|email|max:255',
+            'password' => 'required|string|min:8',
         ]);
 
-
-        if($validated)
+        if($validator->fails())
+        {
+            return response()->json(
+                [
+                    'message' => $validator->errors(),
+                    'status' => "error"
+                ]
+            );
+        }
+        else
         {
             $user = User::where('email', $request->email)->first();
 
             if($user)
             {
-                if($user->password == $request->password)
+                if(password_verify($request->password, $user->password))
                 {
                     return response()->json(
                         [
@@ -144,15 +137,6 @@ class UserController extends Controller
                     ]
                 );
             }
-        }
-        else
-        {
-            return response()->json(
-                [
-                    'message' => 'User not logged in',
-                    'status' => "error"
-                ]
-            );
         }
     }
 }

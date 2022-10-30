@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ShopCart;
+use Illuminate\Support\Facades\Validator;
 
 /*
 OnlyShop made by Lucas Perrin, Rui Marco Loureiro and Miguel Moreira
@@ -29,12 +30,18 @@ class ShopCartController extends Controller
      */
     public function storeShopCart(Request $request)
     {
-        $validated = $request->validate([
-            'user_id' => 'required|numeric',
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|numeric|min:1',
         ]);
 
-        if($validated)
-        {
+        if ($validator->fails()) {
+            return response()->json(
+                [
+                    'message' => $validator->errors(),
+                    'status' => "error"
+                ]
+            );
+        } else {
             $shopcart = new ShopCart();
             $shopcart->user_id = $request->user_id;
             $shopcart->save();
@@ -43,15 +50,6 @@ class ShopCartController extends Controller
                 [
                     'message' => 'Shopcart added successfully',
                     'status' => "success"
-                ]
-            );
-        }
-        else
-        {
-            return response()->json(
-                [
-                    'message' => 'Shopcart not added',
-                    'status' => "error"
                 ]
             );
         }
@@ -94,13 +92,19 @@ class ShopCartController extends Controller
      */
     public function addItem(Request $request)
     {
-        $validated = $request->validate([
-            'id' => 'required|numeric',
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|numeric|min:1',
             'item_id' => 'required|numeric|min:1',
         ]);
 
-        if($validated)
-        {
+        if ($validator->fails()) {
+            return response()->json(
+                [
+                    'message' => $validator->errors(),
+                    'status' => "error"
+                ]
+            );
+        } else {
             $shopcart = ShopCart::where("user_id", $request->id)->first();
             $shopcart->items()->attach($request->item_id);
 
@@ -108,15 +112,6 @@ class ShopCartController extends Controller
                 [
                     'message' => 'Item added successfully',
                     'status' => "success"
-                ]
-            );
-        }
-        else
-        {
-            return response()->json(
-                [
-                    'message' => 'Item not added',
-                    'status' => "error"
                 ]
             );
         }
