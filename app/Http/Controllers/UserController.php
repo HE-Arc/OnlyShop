@@ -35,11 +35,11 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'lastname' => 'required|string',
-            'firstname' => 'required|string',
-            'email' => 'required|email',
-            'password' => 'required|string',
-            'confirmPassword' => 'required|string',
+            'lastname' => 'required|string|max:255|min:1',
+            'firstname' => 'required|string|max:255|min:1',
+            'email' => 'required|email|unique:users|max:255|min:1',
+            'password' => 'required|string|max:255|min:1',
+            'confirmPassword' => 'required|string|max:255|min:1',
         ]);
 
 
@@ -101,8 +101,11 @@ class UserController extends Controller
     public function login(Request $request)
     {
         $validated = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|string',
+            'lastname' => 'required|string|max:255|min:1',
+            'firstname' => 'required|string|max:255|min:1',
+            'email' => 'required|email|unique:users|max:255|min:1',
+            'password' => 'required|string|max:255|min:1',
+            'confirmPassword' => 'required|string|max:255|min:1',
         ]);
 
 

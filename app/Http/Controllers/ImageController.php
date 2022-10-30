@@ -30,8 +30,8 @@ class ImageController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'item_id' => 'required|numeric',
-            'imagepath' => 'required|string',
+            'item_id' => 'required|numeric|min:1',
+            'imagepath' => 'required|string|max:255',
         ]);
 
         if($validated)

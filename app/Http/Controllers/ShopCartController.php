@@ -96,7 +96,7 @@ class ShopCartController extends Controller
     {
         $validated = $request->validate([
             'id' => 'required|numeric',
-            'item_id' => 'required|numeric',
+            'item_id' => 'required|numeric|min:1',
         ]);
 
         if($validated)

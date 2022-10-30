@@ -54,9 +54,9 @@ class ItemController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string',
-            'price' => 'required|numeric',
-            'description' => 'required|string',
+            'name' => 'required|string|max:255|min:1',
+            'price' => 'required|double|min:0',
+            'description' => 'required|string|max:1000|min:1',
             'user_id' => 'required|numeric',
         ]);
 
@@ -127,10 +127,10 @@ class ItemController extends Controller
     public function update(Request $request)
     {
         $validated = $request->validate([
-            'id' => 'required|numeric',
-            'name' => 'required|string',
-            'price' => 'required|numeric',
-            'description' => 'required|string',
+            'name' => 'required|string|max:255|min:1',
+            'price' => 'required|double|min:0',
+            'description' => 'required|string|max:1000|min:1',
+            'user_id' => 'required|numeric',
         ]);
 
         if($validated)
@@ -139,6 +139,7 @@ class ItemController extends Controller
             $item->name = $request->name;
             $item->price = $request->price;
             $item->description = $request->description;
+            $item->user_id = $request->user_id;
             $item->save();
 
             return response()->json(
