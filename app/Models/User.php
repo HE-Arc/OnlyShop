@@ -46,4 +46,12 @@ class User extends Model
     {
         return $this->belongsTo(ShopCart::class);
     }
+
+    /**
+     *  Relationship with Item model
+     */
+    public function items()
+    {
+        return $this->hasMany(Item::class);
+    }
 }

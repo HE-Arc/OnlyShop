@@ -34,6 +34,14 @@ class Item extends Model
     }
 
     /**
+     *  Relationship with User model
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
      *  Relationship with Image model
      */
     public function images()

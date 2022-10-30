@@ -51,6 +51,7 @@ class ItemController extends Controller
      *
      * @apiSuccess {String} message The message of the request.
      * @apiSuccess {String} status The status of the request.
+     * @apiSuccess {Object} item_id The id of the item that was added.
      */
     public function store(Request $request)
     {
@@ -82,7 +83,8 @@ class ItemController extends Controller
             return response()->json(
                 [
                     'message' => 'Item added successfully',
-                    'status' => "success"
+                    'status' => "success",
+                    'item_id' => $item->id
                 ]
             );
         }
