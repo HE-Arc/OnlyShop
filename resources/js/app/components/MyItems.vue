@@ -91,7 +91,7 @@ function addItem(user_id, item) {
             </v-container>
 
             <div id="fixedContainer">
-                <v-btn id="addBtn" size="large" icon color="secondary">
+                <v-btn size="large" icon color="secondary">
                     <router-link
                         :to="{
                             name: 'additem',
@@ -110,12 +110,9 @@ function addItem(user_id, item) {
     position: fixed;
     left: 85%;
     bottom: 15%;
+    z-index: 1005;
 }
 #fixedContainer .material-icons {
     color: white;
-}
-
-#addBtn {
-    z-index: 1005;
 }
 </style>
