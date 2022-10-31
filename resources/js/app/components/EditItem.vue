@@ -51,7 +51,7 @@ const editItem = (id, updatedItem) => {
             <v-container>
                 <v-row justify="center">
                     <div class="text-center">
-                        <v-card width="500px" height="300px">
+                        <v-card>
                             <v-card-title>
                                 <h1>Update Item</h1>
                             </v-card-title>

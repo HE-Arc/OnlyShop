@@ -31,4 +31,3 @@ Route::post('shopcarts', [ShopcartController::class, 'storeShopCart'])->name('st
 Route::get('shopcarts/{id}', [ShopcartController::class, 'getShopCart'])->name('getShopCart');
 Route::post('shopcarts/addItem', [ShopcartController::class, 'addItem'])->name('addItem');
 Route::post('users/login', [UserController::class, 'login'])->name('login');
-
