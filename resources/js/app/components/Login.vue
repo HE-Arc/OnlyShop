@@ -1,113 +1,45 @@
-<!--
-OnlyShop made by Lucas Perrin, Rui Marco Loureiro and Miguel Moreira
-File's version : 1.1.0
-this file is used for : show the login page
 
-Wrote by : Rui Marco Loureiro
-updated by : Rui Marco Loureiro
--->
-<template>
-    <v-app>
-        <!--<v-row justify="center">
-            <img id="logo" src="/images/logo.png" alt="Logo" /> CHECK LATER WIP
-        </v-row>-->
-        <v-container>
-            <v-row justify="center">
-                <v-card width="500px" height="550px">
-                    <v-tabs v-model="tab" grow>
-                        <v-tab value="login">Login</v-tab>
-                        <v-tab value="register">Register</v-tab>
-                    </v-tabs>
+<script setup>
 
-                    <v-card-text>
-                        <v-window v-model="tab">
-                            <v-window-item value="login">
-                                <v-form lazy-validation>
-                                    <v-text-field
-                                        label="Email"
-                                        name="email"
-                                        type="email"
-                                    ></v-text-field>
 
-                                    <v-text-field
-                                        id="password"
-                                        label="Password"
-                                        name="password"
-                                        type="password"
-                                    ></v-text-field>
-                                </v-form>
-                                <v-card-actions>
-                                    <v-spacer></v-spacer>
-                                    <v-btn color="primary">Login</v-btn>
-                                </v-card-actions>
-                            </v-window-item>
-                            <v-window-item value="register">
-                                <v-form lazy-validation>
-                                    <v-text-field
-                                        label="First Name"
-                                        name="firstname"
-                                        type="text"
-                                    ></v-text-field>
+import { ref } from "vue";
 
-                                    <v-text-field
-                                        label="Last Name"
-                                        name="lastname"
-                                        type="text"
-                                    ></v-text-field>
+const user = ref({
+    email: "",
+    password: "",
+});
 
-                                    <v-text-field
-                                        label="Email"
-                                        name="email"
-                                        type="email"
-                                    ></v-text-field>
+let form = ref(false);
+let isLoading = ref(false);
 
-                                    <v-text-field
-                                        id="password"
-                                        label="Password"
-                                        name="password"
-                                        type="password"
-                                    ></v-text-field>
-
-                                    <v-text-field
-                                        id="confirmPassword"
-                                        label="Confirm Password"
-                                        name="confirmpassword"
-                                        type="password"
-                                    ></v-text-field>
-                                </v-form>
-                                <v-card-actions>
-                                    <v-spacer></v-spacer>
-                                    <v-btn color="primary">Register</v-btn>
-                                </v-card-actions>
-                            </v-window-item>
-                        </v-window>
-                    </v-card-text>
-                </v-card>
-            </v-row>
-        </v-container>
-    </v-app>
-</template>
-
-<script>
-export default {
-    name: "Login",
-    data() {
-        return {
-            tab: null,
-        };
-    },
+let rules = {
+    email: v => !!(v || '').match(/@/) || 'Please enter a valid email',
+    length: len => v => (v || '').length >= len || `Invalid character length, required ${len}`,
+    password: v => !!(v || '').match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/) ||
+        'Password must contain an upper case letter, a numeric character, and a special character',
+    required: v => !!v || 'This field is required',
 };
+
 </script>
 
-<style>
-/*.v-card {
-    margin-top: auto;
-    margin-bottom: auto;
-}*/
 
-/*#logo {
-    width: 500px;
-    height: 202px;
-    margin-top: 20px;
-}*/
-</style>
+<template>
+    <v-container>
+        <v-form v-model="form">
+            <v-text-field v-model="user.email" :rules="[rules.email]" variant="filled" color="deep-purple"
+                label="Email address" type="email"></v-text-field>
+
+            <v-text-field v-model="user.password" :rules="[rules.password, rules.length(6)]" variant="filled"
+                color="deep-purple" counter="6" label="Password" type="password"></v-text-field>
+        </v-form>
+
+        <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn :disabled="!form" :loading="isLoading" color="primary">
+                Login
+            </v-btn>
+        </v-card-actions>
+
+    </v-container>
+</template>
+

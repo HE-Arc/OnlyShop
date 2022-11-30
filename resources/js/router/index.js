@@ -9,14 +9,13 @@ updated by : Rui Marco Loureiro
 import { createRouter, createWebHistory } from "vue-router";
 
 import Home from "../app/components/Home.vue";
-import Login from "../app/components/Login.vue";
+import Auth from "../app/components/Auth.vue";
 import MyItems from "../app/components/MyItems.vue";
 import Items from "../app/components/Items.vue";
 import Panier from "../app/components/Panier.vue";
 import Contact from "../app/components/Contact.vue";
 import EditItem from "../app/components/EditItem.vue";
 import AddItem from "../app/components/AddItem.vue";
-
 
 const routes = [
     {
@@ -54,21 +53,19 @@ const routes = [
                 name: "contact",
                 component: Contact,
             },
-
-        ]
+        ],
     },
 
     {
-        path: '/login',
-        name:'login',
-        component: Login
-    }
-]
-
+        path: "/auth",
+        name: "auth",
+        component: Auth,
+    },
+];
 
 const router = createRouter({
     history: createWebHistory(),
-    routes
-})
+    routes,
+});
 
-export default router
+export default router;
