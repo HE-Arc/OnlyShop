@@ -20,22 +20,33 @@ let rules = {
     required: v => !!v || 'This field is required',
 };
 
+let changePasswordFieldType = (id) => {
+    let passwordField = document.getElementById(id);
+    if (passwordField.type === 'password') {
+        passwordField.type = 'text';
+    } else {
+        passwordField.type = 'password';
+    }
+}
+
 </script>
 
 
 <template>
     <v-container>
         <v-form v-model="form">
-            <v-text-field v-model="user.email" :rules="[rules.email]" variant="filled" color="deep-purple"
-                label="Email address" type="email"></v-text-field>
+            <v-text-field prepend-icon="mdi-at" v-model="user.email" :rules="[rules.email]" variant="filled"
+                color="deep-purple" label="Email address" type="email"></v-text-field>
 
-            <v-text-field v-model="user.password" :rules="[rules.password, rules.length(6)]" variant="filled"
-                color="deep-purple" counter="6" label="Password" type="password"></v-text-field>
+            <v-text-field prepend-icon="mdi-lock-outline" v-model="user.password" name="password" id="password_login"
+                :rules="[rules.password, rules.length(6)]" variant="filled" color="deep-purple" counter="6"
+                label="Password" :append-icon="user.password ? 'mdi-eye' : 'mdi-eye-off'"
+                @click:append="() => changePasswordFieldType('password_login')" type="password"></v-text-field>
         </v-form>
 
         <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn :disabled="!form" :loading="isLoading" color="primary">
+            <v-btn :disabled="!form" :loading="isLoading" @click="$emit('login', user)" color="primary">
                 Login
             </v-btn>
         </v-card-actions>

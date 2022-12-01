@@ -12,6 +12,14 @@ import Register from "./Register.vue";
 import { ref } from "vue";
 
 let tab = ref("login");
+
+let login = (user) => {
+    console.log("email: " + user.email + " password: " + user.password);
+}
+
+let register = (user) => {
+    console.log(user);
+}
 </script>
 
 <template>
@@ -30,10 +38,10 @@ let tab = ref("login");
                     <v-card-text>
                         <v-window v-model="tab">
                             <v-window-item value="login">
-                                <Login />
+                                <Login @login="(user) => login(user)" />
                             </v-window-item>
                             <v-window-item value="register">
-                                <Register />
+                                <Register @register="(user) => register(user)" />
                             </v-window-item>
                         </v-window>
                     </v-card-text>

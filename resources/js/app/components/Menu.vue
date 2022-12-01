@@ -8,18 +8,15 @@ updated by : Rui Marco Loureiro
 -->
 <template>
     <v-app-bar>
-        <v-app-bar-nav-icon
-            @click.stop="drawer = !drawer"
-            class="d-lg-none d-flex"
-        >
+        <v-app-bar-nav-icon @click.stop="drawer = !drawer" class="d-lg-none d-flex">
             <i class="material-icons"> menu </i>
         </v-app-bar-nav-icon>
         <div>
             <v-toolbar-title justify-center>
                 <div class="m_title">
                     <router-link :to="{ name: 'items' }">OnlyShop</router-link>
-                </div></v-toolbar-title
-            >
+                </div>
+            </v-toolbar-title>
         </div>
 
         <v-spacer></v-spacer>
@@ -69,7 +66,7 @@ export default {
                 { title: "Mes articles", router: "/myitems" },
                 { title: "Panier", router: "/mybacket" },
                 { title: "Contact", router: "/contact" },
-                { title: "Se déconnecter", router: "/login" },
+                { title: "Se déconnecter", router: "/auth" },
             ],
         };
     },

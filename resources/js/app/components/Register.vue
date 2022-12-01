@@ -22,6 +22,17 @@ let rules = {
     required: v => !!v || 'This field is required',
     password_confirmation: v => v === user.value.password || 'Passwords do not match',
 }
+
+let changePasswordFieldType = (id) => {
+    let passwordField = document.getElementById(id);
+    if (passwordField.type === 'password') {
+        passwordField.type = 'text';
+    } else {
+        passwordField.type = 'password';
+    }
+}
+
+
 </script>
 
 <template>
@@ -39,17 +50,21 @@ let rules = {
                 color="deep-purple" label="Email address" name="email" type="email"></v-text-field>
 
             <v-text-field prepend-icon="mdi-lock-outline" v-model="user.password" :rules="[rules.password]"
-                variant="filled" color="deep-purple" label="Password" name="password" type="password"></v-text-field>
+                variant="filled" color="deep-purple" label="Password" name="password" id="password_register"
+                :append-icon="user.password ? 'mdi-eye' : 'mdi-eye-off'"
+                @click:append="() => changePasswordFieldType('password_register')" type="password"></v-text-field>
 
             <v-text-field prepend-icon="mdi-lock-outline" v-model="user.password_confirmation"
                 :rules="[rules.password_confirmation]" variant="filled" color="deep-purple" label="Password validation"
-                name="password_confirmation" type="password"></v-text-field>
+                name="password_confirmation" id="password_confirmation"
+                :append-icon="user.password ? 'mdi-eye' : 'mdi-eye-off'"
+                @click:append="() => changePasswordFieldType('password_confirmation')" type="password"></v-text-field>
 
 
         </v-form>
         <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn :disabled="!form" :loading="isLoading" color="primary">
+            <v-btn :disabled="!form" :loading="isLoading" color="primary" @click="$emit('register', user)">
                 Register
             </v-btn>
         </v-card-actions>
