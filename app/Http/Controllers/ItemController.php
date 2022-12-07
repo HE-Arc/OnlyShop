@@ -55,36 +55,27 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $request->validate([
             'name' => 'required|string|max:255',
             'price' => 'required|numeric|min:0',
             'description' => 'required|string|max:1000',
             'user_id' => 'required|numeric|min:1',
         ]);
 
-        if ($validator->fails()) {
-            return response()->json(
-                [
-                    'message' => $validator->errors(),
-                    'status' => "error"
-                ]
-            );
-        } else {
-            $item = new Item();
-            $item->name = $request->name;
-            $item->price = $request->price;
-            $item->description = $request->description;
-            $item->user_id = $request->user_id;
-            $item->save();
+        $item = new Item();
+        $item->name = $request->name;
+        $item->price = $request->price;
+        $item->description = $request->description;
+        $item->user_id = $request->user_id;
+        $item->save();
 
-            return response()->json(
-                [
-                    'message' => 'Item added successfully',
-                    'status' => "success",
-                    'item_id' => $item->id
-                ]
-            );
-        }
+        return response()->json(
+            [
+                'message' => 'Item added successfully',
+                'status' => "success",
+                'item_id' => $item->id
+            ]
+        );
     }
 
     /**
@@ -125,38 +116,16 @@ class ItemController extends Controller
      * @apiSuccess {String} message The message of the request.
      * @apiSuccess {String} status The status of the request.
      */
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'id' => 'required|numeric|min:1',
-            'name' => 'required|string|max:255|min:1',
-            'price' => 'required|numeric|min:0',
-            'description' => 'required|string|max:1000|min:1',
-            'user_id' => 'required|numeric|min:1',
-        ]);
+        Item::findOrFail($id)->update($request->all());
 
-        if ($validator->fails()) {
-            return response()->json(
-                [
-                    'message' => $validator->errors(),
-                    'status' => "error"
-                ]
-            );
-        } else {
-            $item = Item::find($request->id);
-            $item->name = $request->name;
-            $item->price = $request->price;
-            $item->description = $request->description;
-            $item->user_id = $request->user_id;
-            $item->save();
-
-            return response()->json(
-                [
-                    'message' => 'Item updated successfully',
-                    'status' => "success"
-                ]
-            );
-        }
+        return response()->json(
+            [
+                'message' => 'Item updated successfully',
+                'status' => "success"
+            ]
+        );
     }
 
     /**
@@ -192,9 +161,9 @@ class ItemController extends Controller
      * @apiSuccess {String} status The status of the request.
      * @apiSuccess {Object[]} items The data of the request.
      */
-    public function getUserItems($user_id)
+    public function getUserItems(Request $request)
     {
-        $items = Item::where("user_id", $user_id)->get();
+        $items = Item::where("user_id", $request->user_id)->get();
 
         return response()->json(
             [

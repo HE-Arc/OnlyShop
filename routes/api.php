@@ -23,11 +23,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::apiResource('items', ItemController::class);
-Route::get('items/getUserItems/{user_id}', [ItemController::class, 'getUserItems'])->name('getUserItems');
+Route::get('items/getUserItems/{user_id}', [ItemController::class, 'getUserItems'])->name('items.get-user-items');
 Route::apiResource('images', ImageController::class);
-Route::get('images/getItemImages/{item_id}', [ImageController::class, 'getItemImages'])->name('getItemImages');
+Route::get('images/getItemImages/{item_id}', [ImageController::class, 'getItemImages'])->name('images.get-item-images');
 Route::apiResource('users', UserController::class);
-Route::post('shopcarts', [ShopcartController::class, 'storeShopCart'])->name('storeShopCart');
-Route::get('shopcarts/{id}', [ShopcartController::class, 'getShopCart'])->name('getShopCart');
-Route::post('shopcarts/addItem', [ShopcartController::class, 'addItem'])->name('addItem');
-Route::post('users/login', [UserController::class, 'login'])->name('login');
+Route::post('shopcarts', [ShopcartController::class, 'storeShopCart'])->name('shopcarts.store-shop-cart');
+Route::get('shopcarts/{id}', [ShopcartController::class, 'getShopCart'])->name('shopcrats.get-shop-sart');
+Route::post('shopcarts/addItem', [ShopcartController::class, 'addItem'])->name('shopcarts.add-item');
+Route::post('users/login', [UserController::class, 'login'])->name('users.login');

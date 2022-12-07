@@ -30,34 +30,22 @@ class ImageController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $request->validate([
             'item_id' => 'required|numeric|min:1',
             'imagepath' => 'required|string|max:255',
         ]);
 
-        if($validator->fails())
-        {
-            return response()->json(
-                [
-                    'message' => $validator->errors(),
-                    'status' => "error"
-                ]
-            );
-        }
-        else
-        {
-            $image = new Image();
-            $image->item_id = $request->item_id;
-            $image->imagepath = $request->imagepath;
-            $image->save();
+        $image = new Image();
+        $image->item_id = $request->item_id;
+        $image->imagepath = $request->imagepath;
+        $image->save();
 
-            return response()->json(
-                [
-                    'message' => 'Image added successfully',
-                    'status' => "success"
-                ]
-            );
-        }
+        return response()->json(
+            [
+                'message' => 'Image added successfully',
+                'status' => "success"
+            ]
+        );
     }
 
     /**
@@ -94,9 +82,9 @@ class ImageController extends Controller
      * @apiSuccess {String} status The status of the request.
      * @apiSuccess {Array} images The images of the item.
      */
-    public function getItemImages($id)
+    public function getItemImages(Request $request)
     {
-        $images = Image::where('item_id', $id)->get();
+        $images = Image::where('item_id', $request->id)->get();
         return response()->json(
             [
                 'message' => 'Images found successfully',

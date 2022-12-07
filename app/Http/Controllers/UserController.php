@@ -35,7 +35,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $request->validate([
             'lastname' => 'required|string|max:255',
             'firstname' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
@@ -43,35 +43,23 @@ class UserController extends Controller
             'password_confirmation' => 'required|string|min:8',
         ]);
 
-        if($validator->fails())
-        {
-            return response()->json(
-                [
-                    'message' => $validator->errors(),
-                    'status' => "error"
-                ]
-            );
-        }
-        else
-        {
-            $user = new User();
-            $user->lastname = $request->lastname;
-            $user->firstname = $request->firstname;
-            $user->email = $request->email;
-            $user->password = bcrypt($request->password);
-            $user->save();
+        $user = new User();
+        $user->lastname = $request->lastname;
+        $user->firstname = $request->firstname;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
+        $user->save();
 
-            $shopcart = new Shopcart();
-            $shopcart->user_id = $user->id;
-            $shopcart->save();
+        $shopcart = new Shopcart();
+        $shopcart->user_id = $user->id;
+        $shopcart->save();
 
-            return response()->json(
-                [
-                    'message' => 'User and his shopcart added successfully',
-                    'status' => "success"
-                ]
-            );
-        }
+        return response()->json(
+            [
+                'message' => 'User and his shopcart added successfully',
+                'status' => "success"
+            ]
+        );
     }
 
     /**
@@ -88,55 +76,44 @@ class UserController extends Controller
      */
     public function login(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $request->validate([
             'email' => 'required|string|email|max:255',
             'password' => 'required|string|min:8',
         ]);
 
-        if($validator->fails())
-        {
-            return response()->json(
-                [
-                    'message' => $validator->errors(),
-                    'status' => "error"
-                ]
-            );
-        }
-        else
-        {
-            $user = User::where('email', $request->email)->first();
+        $user = User::where('email', $request->email)->first();
 
-            if($user)
+        if($user)
+        {
+            if(password_verify($request->password, $user->password))
             {
-                if(password_verify($request->password, $user->password))
-                {
-                    return response()->json(
-                        [
-                            'message' => 'User logged in successfully',
-                            'status' => "success",
-                            'data' => $user
-                        ]
-                    );
-                }
-                else
-                {
-                    return response()->json(
-                        [
-                            'message' => 'Wrong password',
-                            'status' => "error"
-                        ]
-                    );
-                }
+                return response()->json(
+                    [
+                        'message' => 'User logged in successfully',
+                        'status' => "success",
+                        'data' => $user
+                    ]
+                );
             }
             else
             {
                 return response()->json(
                     [
-                        'message' => 'User not found',
+                        'message' => 'Wrong password',
                         'status' => "error"
                     ]
                 );
             }
         }
+        else
+        {
+            return response()->json(
+                [
+                    'message' => 'User not found',
+                    'status' => "error"
+                ]
+            );
+        }
+
     }
 }

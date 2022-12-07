@@ -30,29 +30,20 @@ class ShopCartController extends Controller
      */
     public function storeShopCart(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $request->validate([
             'user_id' => 'required|numeric|min:1',
         ]);
 
-        if ($validator->fails()) {
-            return response()->json(
-                [
-                    'message' => $validator->errors(),
-                    'status' => "error"
-                ]
-            );
-        } else {
-            $shopcart = new ShopCart();
-            $shopcart->user_id = $request->user_id;
-            $shopcart->save();
+        $shopcart = new ShopCart();
+        $shopcart->user_id = $request->user_id;
+        $shopcart->save();
 
-            return response()->json(
-                [
-                    'message' => 'Shopcart added successfully',
-                    'status' => "success"
-                ]
-            );
-        }
+        return response()->json(
+            [
+                'message' => 'Shopcart added successfully',
+                'status' => "success"
+            ]
+        );
     }
 
     /**
@@ -66,9 +57,9 @@ class ShopCartController extends Controller
      * @apiSuccess {String} status The status of the request.
      * @apiSuccess {Object[]} data The data of the request.
      */
-    public function getShopCart($id)
+    public function getShopCart(Request $request)
     {
-        $shopcart = ShopCart::where("user_id", $id)->first();
+        $shopcart = ShopCart::where("user_id", $request->id)->first();
 
         return response()->json(
             [
@@ -92,28 +83,20 @@ class ShopCartController extends Controller
      */
     public function addItem(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $request->validate([
             'id' => 'required|numeric|min:1',
             'item_id' => 'required|numeric|min:1',
         ]);
 
-        if ($validator->fails()) {
-            return response()->json(
-                [
-                    'message' => $validator->errors(),
-                    'status' => "error"
-                ]
-            );
-        } else {
-            $shopcart = ShopCart::where("user_id", $request->id)->first();
-            $shopcart->items()->attach($request->item_id);
+        $shopcart = ShopCart::where("user_id", $request->id)->first();
+        $shopcart->items()->attach($request->item_id);
 
-            return response()->json(
-                [
-                    'message' => 'Item added successfully',
-                    'status' => "success"
-                ]
-            );
-        }
+        return response()->json(
+            [
+                'message' => 'Item added successfully',
+                'status' => "success"
+            ]
+        );
+
     }
 }
