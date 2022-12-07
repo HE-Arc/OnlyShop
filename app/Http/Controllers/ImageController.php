@@ -23,7 +23,7 @@ class ImageController extends Controller
      * @apiGroup Image
      *
      * @apiParam {Number} item_id The id of the item that the image is linked to.
-     * @apiParam {String} imagepath The image's path.
+     * @apiParam {File} image The image to add.
      *
      * @apiSuccess {String} message The message of the request.
      * @apiSuccess {String} status The status of the request.
@@ -32,20 +32,25 @@ class ImageController extends Controller
     {
         $request->validate([
             'item_id' => 'required|numeric|min:1',
-            'imagepath' => 'required|string|max:255',
+            'image' => 'required|mimes:jpg, jpeg, png|max:2048',
         ]);
 
         $image = new Image();
         $image->item_id = $request->item_id;
-        $image->imagepath = $request->imagepath;
-        $image->save();
 
-        return response()->json(
-            [
-                'message' => 'Image added successfully',
-                'status' => "success"
-            ]
-        );
+        if ($request->hasFile('image')) {
+            $image_name = $request->item_id.'_'.$request->file->getClientOriginalName();
+            $image_path = $request->file('image')->storeAs('uploads', $image_name, 'public');
+
+            $image->imagepath = '/storage/' . $image_path;
+            $image->save();
+            return response()->json(
+                [
+                    'message' => 'Image added successfully',
+                    'status' => "success"
+                ]
+            );
+        }
     }
 
     /**
