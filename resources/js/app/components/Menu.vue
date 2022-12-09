@@ -69,7 +69,7 @@ export default {
                 { title: "Mes articles", router: "/myitems" },
                 { title: "Panier", router: "/mybacket" },
                 { title: "Contact", router: "/contact" },
-                { title: "Se déconnecter", router: "/login" },
+                { title: "Se déconnecter", router: "/auth" },
             ],
         };
     },

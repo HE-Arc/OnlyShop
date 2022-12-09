@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\API\BaseController;
 use Illuminate\Http\Request;
 use App\Models\Image;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\ImageResource;
+use Illuminate\Support\Facades\Auth;
+
 
 /*
 OnlyShop made by Lucas Perrin, Rui Marco Loureiro and Miguel Moreira
@@ -12,11 +16,12 @@ File's version : 1.1.0
 this file is used for : linking the image model with the item's informations vue.
 
 Wrote by : Miguel Moreira
-updated by : Miguel Moreira
+updated by : Miguel Moreira, Rui Marco Loureiro
 */
 
-class ImageController extends Controller
+class ImageController extends BaseController
 {
+
     /**
      * @api {post} /api/images Add new image to the database
      * @apiName store
@@ -30,34 +35,13 @@ class ImageController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $request->validate([
             'item_id' => 'required|numeric|min:1',
             'imagepath' => 'required|string|max:255',
         ]);
 
-        if($validator->fails())
-        {
-            return response()->json(
-                [
-                    'message' => $validator->errors(),
-                    'status' => "error"
-                ]
-            );
-        }
-        else
-        {
-            $image = new Image();
-            $image->item_id = $request->item_id;
-            $image->imagepath = $request->imagepath;
-            $image->save();
-
-            return response()->json(
-                [
-                    'message' => 'Image added successfully',
-                    'status' => "success"
-                ]
-            );
-        }
+        $image = Image::create($request->all());
+        return $this->sendResponse(new ImageResource($image), 'Image created successfully.');
     }
 
     /**
@@ -73,14 +57,9 @@ class ImageController extends Controller
     public function destroy($id)
     {
         $image = Image::findOrFail($id);
-        $image->delete();
 
-        return response()->json(
-            [
-                'message' => 'Image deleted successfully',
-                'status' => "success"
-            ]
-        );
+        $image->delete();
+        return $this->sendResponse([], 'Image deleted successfully.');
     }
 
     /**
@@ -97,12 +76,7 @@ class ImageController extends Controller
     public function getItemImages($id)
     {
         $images = Image::where('item_id', $id)->get();
-        return response()->json(
-            [
-                'message' => 'Images found successfully',
-                'status' => "success",
-                'images' => $images
-            ]
-        );
+
+        return $this->sendResponse(ImageResource::collection($images), 'Images retrieved successfully.');
     }
 }
