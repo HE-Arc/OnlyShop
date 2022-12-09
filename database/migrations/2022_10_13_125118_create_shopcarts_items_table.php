@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('shopcarts_items', function (Blueprint $table) {
+        Schema::create('item_shopcart', function (Blueprint $table) {
             $table->id();
 
             $table->foreignId('shopcart_id')->constrained()->onDelete('cascade');
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('shopcarts_items');
+        Schema::dropIfExists('item_shopcart');
     }
 };

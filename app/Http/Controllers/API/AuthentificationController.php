@@ -7,6 +7,7 @@ use App\Http\Controllers\API\BaseController as BaseController;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\ShopcartController;
 
 /*
 OnlyShop made by Lucas Perrin, Rui Marco Loureiro and Miguel Moreira
@@ -53,8 +54,16 @@ class AuthentificationController extends BaseController
 
         $user = User::create($input);
 
+        $inputUser = new Request([
+            'user_id' => $user->id
+        ]);
+        $shopcart = new ShopcartController();
+        $shopcart->storeShopCart($inputUser);
+
+
         $success['token'] =  $user->createToken('MyApp')->plainTextToken;
         $success['name'] =  $user->firstname;
+        $success['shopcart'] = "shopcart created";
 
         return $this->sendResponse($success, 'User register successfully.');
     }
