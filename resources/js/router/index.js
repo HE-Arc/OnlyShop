@@ -22,36 +22,57 @@ const routes = [
         path: "/",
         name: "home",
         component: Home,
+        meta: {
+            requiresAuth: true,
+        },
         children: [
             {
                 path: "/items",
                 name: "items",
                 component: Items,
+                meta: {
+                    requiresAuth: true,
+                },
             },
             {
                 path: "myitems",
                 name: "myitems",
                 component: MyItems,
+                meta: {
+                    requiresAuth: true,
+                },
             },
             {
                 path: "/myitems/:id",
                 name: "edititem",
                 component: EditItem,
+                meta: {
+                    requiresAuth: true,
+                },
             },
             {
                 path: "/additem",
                 name: "additem",
                 component: AddItem,
+                meta: {
+                    requiresAuth: true,
+                },
             },
             {
                 path: "mybacket",
                 name: "mybacket",
                 component: Panier,
+                meta: {
+                    requiresAuth: true,
+                },
             },
             {
                 path: "contact",
                 name: "contact",
                 component: Contact,
+                meta: {
+                    requiresAuth: true,
+                },
             },
         ],
     },
@@ -67,5 +88,16 @@ const router = createRouter({
     history: createWebHistory(),
     routes,
 });
+
+router.beforeEach((to, from, next) => {
+    const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
+    const isAuthenticated = localStorage.getItem('token')
+
+    if (requiresAuth && !isAuthenticated) {
+        next('/auth')
+    } else {
+        next()
+    }
+})
 
 export default router;

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\API\BaseController;
 use Illuminate\Http\Request;
 use App\Models\ShopCart;
 use Illuminate\Support\Facades\Validator;
@@ -12,10 +13,10 @@ File's version : 1.2.0
 this file is used for : linking the shopcart model with the shopcart vue. It alo links the shopcart model with the main page vue.
 
 Wrote by : Miguel Moreira
-updated by : Miguel Moreira
+updated by : Miguel Moreira, Rui Marco Loureiro
 */
 
-class ShopCartController extends Controller
+class ShopCartController extends BaseController
 {
 
     /**
@@ -70,13 +71,7 @@ class ShopCartController extends Controller
     {
         $shopcart = ShopCart::where("user_id", $id)->first();
 
-        return response()->json(
-            [
-                'message' => 'ShopCart found successfully',
-                'status' => "success",
-                'data' => $shopcart
-            ]
-        );
+        return $this->sendResponse($shopcart, 'Shopcart found successfully.');
     }
 
     /**
