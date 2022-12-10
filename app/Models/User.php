@@ -3,20 +3,21 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 /*
 OnlyShop made by Lucas Perrin, Rui Marco Loureiro and Miguel Moreira
 File's version : 1.0.0
 this file is used for : accessing db's table "users".
 
 Wrote by : Miguel Moreira
-updated by : -
+updated by : Rui Marco Loureiro
 */
 
-class User extends Model
+class User extends Authenticatable
 {
-    use HasFactory;
+    use HasApiTokens, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.

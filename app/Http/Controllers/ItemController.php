@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\API\BaseController;
+use App\Http\Resources\ItemResource;
 use Illuminate\Http\Request;
 use App\Models\Item;
 use Illuminate\Support\Facades\Validator;
@@ -12,10 +14,10 @@ File's version : 1.1.0
 this file is used for : linking the item model with the main page vue. It also links the item model with the shopcart, the "my articles" and the item's informations vues.
 
 Wrote by : Miguel Moreira
-updated by : Miguel Moreira
+updated by : Miguel Moreira, Rui Marco Loureiro
 */
 
-class ItemController extends Controller
+class ItemController extends BaseController
 {
     /**
      * @api {get} /api/items Get all items
@@ -30,13 +32,7 @@ class ItemController extends Controller
     {
         $items = Item::all();
 
-        return response()->json(
-            [
-                'message' => 'Items found successfully',
-                'status' => "success",
-                'data' => $items
-            ]
-        );
+        return $this->sendResponse(ItemResource::collection($items), 'Items found successfully.');
     }
 
     /**
@@ -62,20 +58,8 @@ class ItemController extends Controller
             'user_id' => 'required|numeric|min:1',
         ]);
 
-        $item = new Item();
-        $item->name = $request->name;
-        $item->price = $request->price;
-        $item->description = $request->description;
-        $item->user_id = $request->user_id;
-        $item->save();
-
-        return response()->json(
-            [
-                'message' => 'Item added successfully',
-                'status' => "success",
-                'item_id' => $item->id
-            ]
-        );
+        $item = Item::create($request->all());
+        return $this->sendResponse(new ItemResource($item), 'Item created successfully.');
     }
 
     /**
@@ -93,13 +77,7 @@ class ItemController extends Controller
     {
         $item = Item::find($id);
 
-        return response()->json(
-            [
-                'message' => 'Item found successfully',
-                'status' => "success",
-                'data' => $item
-            ]
-        );
+        return $this->sendResponse(new ItemResource($item), 'Item found successfully.');
     }
 
     /**
@@ -118,14 +96,18 @@ class ItemController extends Controller
      */
     public function update(Request $request, $id)
     {
-        Item::findOrFail($id)->update($request->all());
+        $item = Item::findOrfail($id);
 
-        return response()->json(
-            [
-                'message' => 'Item updated successfully',
-                'status' => "success"
-            ]
-        );
+        $request->validate([
+            'name' => 'required|string|max:255|min:1',
+            'price' => 'required|numeric|min:0',
+            'description' => 'required|string|max:1000|min:1',
+            'user_id' => 'required|numeric|min:1',
+        ]);
+
+        $item->update($request->all());
+
+        return $this->sendResponse(new ItemResource($item), 'Item updated successfully.');
     }
 
     /**
@@ -140,14 +122,10 @@ class ItemController extends Controller
      */
     public function destroy($id)
     {
-        Item::destroy($id);
+        $item = Item::findOrfail($id);
 
-        return response()->json(
-            [
-                'message' => 'Item deleted successfully',
-                'status' => "success"
-            ]
-        );
+        $item->delete();
+        return $this->sendResponse([], 'Item deleted successfully.');
     }
 
     /**
@@ -165,12 +143,6 @@ class ItemController extends Controller
     {
         $items = Item::where("user_id", $request->user_id)->get();
 
-        return response()->json(
-            [
-                'message' => 'Items found successfully',
-                'status' => "success",
-                'items' => $items
-            ]
-        );
+        return $this->sendResponse(ItemResource::collection($items), 'Items found successfully.');
     }
 }

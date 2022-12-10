@@ -4,8 +4,44 @@ File's version : 1.1.0
 this file is used for : show the menu page
 
 Wrote by : Rui Marco Loureiro
-updated by : Rui Marco Loureiro
+updated by : Lucas Perrin
 -->
+<script setup>
+import { useStore as useUserStore } from "../store/user.store";
+import { ref } from "vue";
+let drawer = ref(false);
+let items = ref([
+    {
+        title: "Tous les articles",
+        router: "items",
+        clickAction: () => console.log("items"),
+    },
+    {
+        title: "Mes articles",
+        router: "myitems",
+        clickAction: () => console.log("myitems"),
+    },
+    {
+        title: "Panier",
+        router: "mybacket",
+        clickAction: () => console.log("mybacket"),
+    },
+    {
+        title: "Contact",
+        router: "contact",
+        clickAction: () => console.log("contact"),
+    },
+    {
+        title: "Se déconnecter",
+        router: "auth",
+        clickAction: () => {
+            console.log("logout");
+            useUserStore().logout();
+        },
+    },
+]);
+</script>
+
 <template>
     <v-app-bar>
         <v-app-bar-nav-icon
@@ -32,7 +68,7 @@ updated by : Rui Marco Loureiro
             <v-list-item v-for="item in items">
                 <v-list-item-title>
                     <v-btn>
-                        <router-link :to="{ path: item.router }">
+                        <router-link :to="{ name: item.router }">
                             {{ item.title }}
                         </router-link>
                     </v-btn>
@@ -49,32 +85,16 @@ updated by : Rui Marco Loureiro
         <v-list>
             <v-list-item v-for="item in items">
                 <v-list-item-title>
-                    <router-link :to="{ path: item.router }">
-                        {{ item.title }}
+                    <router-link :to="{ name: item.router }">
+                        <span @click="() => item.clickAction()">
+                            {{ item.title }}
+                        </span>
                     </router-link>
                 </v-list-item-title>
             </v-list-item>
         </v-list>
     </v-navigation-drawer>
 </template>
-
-<script>
-export default {
-    name: "Menu",
-    data() {
-        return {
-            drawer: false,
-            items: [
-                { title: "Tous les articles", router: "/items" },
-                { title: "Mes articles", router: "/myitems" },
-                { title: "Panier", router: "/mybacket" },
-                { title: "Contact", router: "/contact" },
-                { title: "Se déconnecter", router: "/login" },
-            ],
-        };
-    },
-};
-</script>
 
 <style scoped>
 .m_title {

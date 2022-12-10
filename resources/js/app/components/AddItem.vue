@@ -37,7 +37,7 @@ const itemsStore = useItemsStore();
 const addItem = (addItem) => {
     const { name, description, price } = addItem;
     itemsStore.addItem(userId, name, price, description);
-    router.push("/myitems");
+    router.push({ name: "myitems" });
 };
 </script>
 
