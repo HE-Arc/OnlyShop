@@ -17,7 +17,7 @@ const itemsStore = useItemsStore();
 const { items, loading, error } = storeToRefs(itemsStore);
 const colors = ["primary", "secondary", "yellow", "red", "orange"];
 
-itemsStore.fetchItems();
+itemsStore.fetchAllItems();
 </script>
 
 <template>

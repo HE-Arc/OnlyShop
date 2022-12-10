@@ -98,7 +98,7 @@ export const useStore = defineStore(storeName, {
                 const response = await axios.put(
                     `${API_LOCATION}/items/${id}`,
                     {
-                        user_id : userId,
+                        user_id: userId,
                         ...itemUpdated,
                     }
                 );
