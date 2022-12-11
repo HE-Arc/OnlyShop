@@ -11,11 +11,11 @@ use App\Http\Controllers\ShopcartController;
 
 /*
 OnlyShop made by Lucas Perrin, Rui Marco Loureiro and Miguel Moreira
-File's version : 1.1.0
+File's version : 1.2.0
 this file is used for : linking the user model with the login and new account vues.
 
 Wrote by : Rui Marco Loureiro
-updated by : Rui Marco Loureiro
+updated by : Miguel Moreira
 */
 
 class AuthentificationController extends BaseController
@@ -32,22 +32,19 @@ class AuthentificationController extends BaseController
      * @apiParam {String} password The password of the user.
      * @apiParam {String} password_confirmation The password confirmation of the user.
      *
+     * @apiSuccess {boolean} success The success of the request.
+     * @apiSuccess {Object[]} data The data of the request.
      * @apiSuccess {String} message The message of the request.
-     * @apiSuccess {String} status The status of the request.
      */
     public function register(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $request->validate([
             'firstname' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6|max:255',
-            'c_password' => 'required|same:password',
+            'password_confirmation' => 'required|same:password',
         ]);
-
-        if ($validator->fails()) {
-            return $this->sendError('Validation Error.', $validator->errors());
-        }
 
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
@@ -76,11 +73,13 @@ class AuthentificationController extends BaseController
      * @apiParam {String} email The email of the user.
      * @apiParam {String} password The password of the user.
      *
-     * @apiSuccess {String} message The message of the request.
-     * @apiSuccess {String} status The status of the request.
+     * @apiSuccess {boolean} success The success of the request.
      * @apiSuccess {Object[]} data The data of the request.
+     * @apiSuccess {String} message The message of the request.
+     *
+     * @apiFailure {boolean} success The success of the request.
+     * @apiFailure {String} message The message of the request.
      */
-
     public function login(Request $request)
     {
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
@@ -95,7 +94,17 @@ class AuthentificationController extends BaseController
         }
     }
 
-
+    /**
+     * @api {post} /api/users/logout Logout a user
+     * @apiName logout
+     * @apiGroup User
+     *
+     * @apiParam {String} email The email of the user.
+     *
+     * @apiSuccess {boolean} success The success of the request.
+     * @apiSuccess {Object[]} data The data of the request.
+     * @apiSuccess {String} message The message of the request.
+     */
     public function logout(Request $request)
     {
 
@@ -103,11 +112,6 @@ class AuthentificationController extends BaseController
 
         $user->tokens()->delete();
 
-        return response()->json(
-            [
-                'message' => 'User logged out successfully',
-                'status' => 'success',
-            ]
-        );
+        return $this->sendResponse($user, 'User logout successfully.');
     }
 }

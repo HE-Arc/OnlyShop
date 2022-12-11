@@ -6,15 +6,14 @@ use App\Http\Controllers\API\BaseController;
 use App\Http\Resources\ItemResource;
 use Illuminate\Http\Request;
 use App\Models\Item;
-use Illuminate\Support\Facades\Validator;
 
 /*
 OnlyShop made by Lucas Perrin, Rui Marco Loureiro and Miguel Moreira
-File's version : 1.1.0
+File's version : 1.4.0
 this file is used for : linking the item model with the main page vue. It also links the item model with the shopcart, the "my articles" and the item's informations vues.
 
 Wrote by : Miguel Moreira
-updated by : Miguel Moreira, Rui Marco Loureiro
+updated by : Miguel Moreira
 */
 
 class ItemController extends BaseController
@@ -24,9 +23,9 @@ class ItemController extends BaseController
      * @apiName index
      * @apiGroup Item
      *
-     * @apiSuccess {String} message The message of the request.
-     * @apiSuccess {String} status The status of the request.
+     * @apiSuccess {boolean} success The success of the request.
      * @apiSuccess {Object[]} data The data of the request.
+     * @apiSuccess {String} message The message of the request.
      */
     public function index()
     {
@@ -45,9 +44,9 @@ class ItemController extends BaseController
      * @apiParam {String} description The description of the item.
      * @apiParam {Number} user_id The id of the user that is selling the item.
      *
+     * @apiSuccess {boolean} success The success of the request.
+     * @apiSuccess {Object[]} data The data of the request.
      * @apiSuccess {String} message The message of the request.
-     * @apiSuccess {String} status The status of the request.
-     * @apiSuccess {Object} item_id The id of the item that was added.
      */
     public function store(Request $request)
     {
@@ -69,9 +68,9 @@ class ItemController extends BaseController
      *
      * @apiParam {number} id The id of the item to get.
      *
+     * @apiSuccess {boolean} success The success of the request.
+     * @apiSuccess {Object[]} data The data of the request.
      * @apiSuccess {String} message The message of the request.
-     * @apiSuccess {String} status The status of the request.
-     * @apiSuccess {Object} data The data of the request.
      */
     public function show($id)
     {
@@ -91,8 +90,9 @@ class ItemController extends BaseController
      * @apiParam {String} description The description of the item.
      * @apiParam {number} user_id The id of the user that is selling the item.
      *
+     * @apiSuccess {boolean} success The success of the request.
+     * @apiSuccess {Object[]} data The data of the request.
      * @apiSuccess {String} message The message of the request.
-     * @apiSuccess {String} status The status of the request.
      */
     public function update(Request $request, $id)
     {
@@ -117,8 +117,9 @@ class ItemController extends BaseController
      *
      * @apiParam {number} id The id of the item to delete.
      *
+     * @apiSuccess {boolean} success The success of the request.
+     * @apiSuccess {Object[]} data The data of the request.
      * @apiSuccess {String} message The message of the request.
-     * @apiSuccess {String} status The status of the request.
      */
     public function destroy($id)
     {
@@ -135,9 +136,9 @@ class ItemController extends BaseController
      *
      * @apiParam {number} id The id of the user to get the items from.
      *
+     * @apiSuccess {boolean} success The success of the request.
+     * @apiSuccess {Object[]} data The data of the request.
      * @apiSuccess {String} message The message of the request.
-     * @apiSuccess {String} status The status of the request.
-     * @apiSuccess {Object[]} items The data of the request.
      */
     public function getUserItems(Request $request)
     {

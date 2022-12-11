@@ -5,8 +5,16 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller as Controller;
 
-class BaseController extends Controller
+/*
+OnlyShop made by Lucas Perrin, Rui Marco Loureiro and Miguel Moreira
+File's version : 1.1.0
+this file is used for : creating the base controller for the api.
 
+Wrote by : Rui Marco Loureiro
+updated by : Rui Marco Loureiro
+*/
+
+class BaseController extends Controller
 {
     /**
      * success response method.
