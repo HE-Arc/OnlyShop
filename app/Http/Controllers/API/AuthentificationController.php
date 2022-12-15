@@ -38,29 +38,25 @@ class AuthentificationController extends BaseController
      */
     public function register(Request $request)
     {
-        $request->validate([
-            'firstname' => 'required|string|max:255',
-            'lastname' => 'required|string|max:255',
+        $validator = Validator::make($request->all(), [
+            'firstname' => 'required|min:3|max:255',
+            'lastname' => 'required|min:3|max:255',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6|max:255',
-            'password_confirmation' => 'required|same:password',
+            'c_password' => 'required|same:password',
         ]);
+
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
 
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
 
         $user = User::create($input);
 
-        $inputUser = new Request([
-            'user_id' => $user->id
-        ]);
-        $shopcart = new ShopcartController();
-        $shopcart->storeShopCart($inputUser);
-
-
         $success['token'] =  $user->createToken('MyApp')->plainTextToken;
-        $success['name'] =  $user->firstname;
-        $success['shopcart'] = "shopcart created";
+        $success['name'] =  $user->name;
 
         return $this->sendResponse($success, 'User register successfully.');
     }
