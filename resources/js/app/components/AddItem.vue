@@ -16,6 +16,7 @@ const item = ref({
     name: "",
     description: "",
     price: "",
+    image: "",
 });
 
 let form = ref(false);
@@ -84,6 +85,17 @@ const addItem = async () => {
                                         label="New item description"
                                         required
                                     ></v-text-field>
+                                </v-col>
+                            </v-row>
+
+                            <v-row>
+                                <v-col>
+                                    <v-file-input
+                                        label="New item image"
+                                        prepend-icon="mdi-camera"
+                                        v-model="item.image"
+                                        accept="image/png, image/jpeg, image/bmp"
+                                    ></v-file-input>
                                 </v-col>
                             </v-row>
                         </v-form>
