@@ -9,6 +9,18 @@ updated by : Lucas Perrin
 <script setup>
 import { useStore as useUserStore } from "../store/user.store";
 import { ref } from "vue";
+import { useTheme } from "vuetify";
+
+let tab = null;
+
+const theme = useTheme();
+
+let toggleTheme = () => {
+    theme.global.name.value = theme.global.current.value.dark
+        ? "light"
+        : "dark";
+};
+
 let drawer = ref(false);
 let items = ref([
     {
@@ -77,7 +89,13 @@ let items = ref([
         </v-list>
 
         <v-app-bar-nav-icon>
-            <i class="material-icons"> nightlight_round </i>
+            <i
+                @click="toggleTheme"
+                v-if="theme.global.current.value.dark"
+                class="material-icons"
+            >
+                wb_sunny
+            </i>
         </v-app-bar-nav-icon>
     </v-app-bar>
 

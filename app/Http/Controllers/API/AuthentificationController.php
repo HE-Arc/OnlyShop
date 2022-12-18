@@ -81,8 +81,12 @@ class AuthentificationController extends BaseController
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = User::where('email', $request->email)->first();
 
-            $success['token'] =  $user->createToken('MyApp')->plainTextToken;
+            $token_split = $user->createToken('MyApp')->plainTextToken;
+            $token_split = explode('|', $token_split)[1];
+
+            $success['token'] =  $token_split;
             $success['name'] =  $user->firstname;
+            $success['id'] =  $user->id;
 
             return $this->sendResponse($success, 'User login successfully.');
         } else {
