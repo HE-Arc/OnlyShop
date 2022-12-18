@@ -15,19 +15,7 @@ const itemsStore = useItemsStore();
 const { userItems, loading, error } = storeToRefs(itemsStore);
 const colors = ["primary", "secondary", "yellow", "red", "orange"];
 
-const userId = 1;
-itemsStore.fetchUserItems(userId);
-
-function addItem(user_id, item) {
-    if (item) {
-        const { name, price, description } = item;
-        itemsStore.addItem(user_id, name, price, description);
-
-        closeDialog();
-    } else {
-        alert("Please enter a valid item!");
-    }
-}
+itemsStore.fetchUserItems();
 </script>
 
 <template>
@@ -73,13 +61,13 @@ function addItem(user_id, item) {
 
                                 <v-card-title class="justify-center">
                                     <div class="text-center">
-                                        {{ item.name }}
+                                        {{ item.attributes.name }}
                                     </div>
                                 </v-card-title>
 
                                 <v-card-subtitle class="justify-center">
                                     <div class="text-center">
-                                        {{ item.price }} CHF
+                                        {{ item.attributes.price }} CHF
                                     </div>
                                 </v-card-subtitle>
 
@@ -89,18 +77,17 @@ function addItem(user_id, item) {
                     </v-col>
                 </v-row>
             </v-container>
-
-            <div id="fixedContainer">
-                <v-btn size="large" icon color="secondary">
-                    <router-link
-                        :to="{
-                            name: 'additem',
-                        }"
-                    >
-                        <i class="material-icons"> add </i>
-                    </router-link>
-                </v-btn>
-            </div>
+        </div>
+        <div id="fixedContainer">
+            <v-btn size="large" icon color="secondary">
+                <router-link
+                    :to="{
+                        name: 'additem',
+                    }"
+                >
+                    <i class="material-icons"> add </i>
+                </router-link>
+            </v-btn>
         </div>
     </div>
 </template>
