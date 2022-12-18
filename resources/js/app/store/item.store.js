@@ -123,14 +123,28 @@ export const useStore = defineStore(storeName, {
             this.loading = true;
             const userStore = useUserStore();
 
+            console.log(item);
+
             try {
                 const response = await axios.post(`${API_LOCATION}/items`, {
                     user_id: userStore.user.id,
                     ...item,
                 });
 
-                const { message, data } = response.data;
+                const { message } = response.data;
                 console.log(message);
+
+                // Store the images
+                const { data } = response.data;
+                const formData = new FormData();
+
+                formData.append("item_id", data.id);
+                formData.append("imagepath", item.image[0]);
+
+                const responseImage = await axios.post(
+                    `${API_LOCATION}/images`,
+                    formData
+                );
 
                 this.allItems = [...this.allItems, { data }];
                 this.userItems = [...this.userItems, { data }];
