@@ -17,21 +17,6 @@ export const useStore = defineStore(storeName, {
     state: () => defautSate,
     getters: {},
     actions: {
-        async setCurrentEditItem(id) {
-            this.currentEditItem = null;
-            this.loading = true;
-
-            try {
-                const response = await axios.get(`${API_LOCATION}/items/${id}`);
-
-                const { data } = response.data;
-                this.currentEditItem = data;
-            } catch (error) {
-                this.error = error;
-            } finally {
-                this.loading = false;
-            }
-        },
         async fetchAllItems() {
             this.allItems = [];
             this.loading = true;
@@ -42,6 +27,21 @@ export const useStore = defineStore(storeName, {
                 const { data } = response.data;
 
                 this.allItems = data;
+            } catch (error) {
+                this.error = error;
+            } finally {
+                this.loading = false;
+            }
+        },
+        async fetchItem(id) {
+            this.currentEditItem = null;
+            this.loading = true;
+
+            try {
+                const response = await axios.get(`${API_LOCATION}/items/${id}`);
+
+                const { data } = response.data;
+                this.currentEditItem = data;
             } catch (error) {
                 this.error = error;
             } finally {
@@ -77,6 +77,7 @@ export const useStore = defineStore(storeName, {
                 const { message } = response.data;
                 console.log(message);
 
+                // Remove the item from the array of items
                 this.allItems = this.allItems.filter((item) => item.id !== id);
                 this.userItems = this.userItems.filter(
                     (item) => item.id !== id
@@ -87,27 +88,30 @@ export const useStore = defineStore(storeName, {
                 this.loading = false;
             }
         },
-        async updateItem(item) {
+        async updateItem(itemUpdated) {
             this.loading = true;
             const userStore = useUserStore();
 
             try {
                 const response = await axios.put(
-                    `${API_LOCATION}/items/${id}`,
+                    `${API_LOCATION}/items/${itemUpdated.id}`,
                     {
                         user_id: userStore.user.id,
-                        ...item,
+                        name: itemUpdated.attributes.name,
+                        description: itemUpdated.attributes.description,
+                        price: itemUpdated.attributes.price,
                     }
                 );
 
                 const { message } = response.data;
                 console.log(message);
 
+                // Replace the item in the array with the updated item
                 this.allItems = this.allItems.map((item) =>
-                    item.id === id ? itemUpdated : item
+                    item.id === itemUpdated.id ? itemUpdated : item
                 );
                 this.userItems = this.userItems.map((item) =>
-                    item.id === id ? itemUpdated : item
+                    item.id === itemUpdated.id ? itemUpdated : item
                 );
             } catch (error) {
                 this.error = error;
