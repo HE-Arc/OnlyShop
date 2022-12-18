@@ -84,4 +84,32 @@ class ShopCartController extends BaseController
 
         return $this->sendResponse($shopcart, 'Item added to shopcart successfully.');
     }
+
+    //get the id of the items of the user that are in the shopcart
+    public function getAllItemsInShopCart($id)
+    {
+
+        $shopcart = ShopCart::where("user_id", $id)->first();
+        $items = $shopcart->items()->get();
+
+        $items = $items->map(function ($item) {
+            return $item->pivot->item_id;
+        });
+
+        //from the id of the items, get the items
+        $items = $items->map(function ($item) {
+            return \App\Models\Item::where("id", $item)->first();
+        });
+
+        //from the items, get the id, name, price
+        $items = $items->map(function ($item) {
+            return [
+                "id" => $item->id,
+                "name" => $item->name,
+                "price" => $item->price,
+            ];
+        });
+
+        return $this->sendResponse($items, 'Items found successfully.');
+    }
 }

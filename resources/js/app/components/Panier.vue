@@ -8,21 +8,43 @@ updated by : Rui Marco Loureiro
 -->
 
 <script setup>
-import { ref } from "vue";
 import { storeToRefs } from "pinia";
+import { ref } from "vue";
 import { useStore as useItemsStore } from "../store/item.store";
-import addPaymentDescription from "./AddPaymentDescription.vue";
 
 const itemsStore = useItemsStore();
-const { items, loading, error } = storeToRefs(itemsStore);
-const colors = ["primary", "secondary", "yellow", "red", "orange"];
+const { basketItems, loading, error } = storeToRefs(itemsStore);
 
-itemsStore.fetchAllItems();
+itemsStore.fetchBasketItems();
 </script>
 
 <template>
     <h1>Mon panier</h1>
-    <v-card class="mx-auto" max-width="300">
-        <v-list :items="items"></v-list>
-    </v-card>
+
+    <div v-if="loading">Loading...</div>
+    <div v-else>
+        <div v-if="error">Error: {{ error }}</div>
+
+        <div v-if="basketItems">
+            <v-container>
+                <v-card class="mx-auto" max-width="500">
+                    <v-card-title>Mon panier</v-card-title>
+                    <v-list>
+                        <v-list-item
+                            v-for="item in basketItems"
+                            :key="item.id"
+                            :title="item.name"
+                            :subtitle="item.price"
+                        >
+                        </v-list-item>
+                    </v-list>
+
+                    <div>
+                        <h4>Price :</h4>
+                    </div>
+                </v-card>
+            </v-container>
+        </div>
+    </div>
 </template>
+<style></style>
