@@ -13,30 +13,30 @@ import { storeToRefs } from "pinia";
 import { useStore as useItemsStore } from "../store/item.store";
 import router from "./../../router";
 
-const nameRules = [
-    (v) => !!v || "Name is required",
-    (v) => v.length <= 255 || "Name must be less than 255 characters",
-];
-const descRules = [
-    (v) => !!v || "Description is required",
-    (v) => v.length <= 1000 || "Description must be less than 1000 characters",
-];
-const priceRules = [
-    (v) => !!v || "Price is required",
-    (v) => v > 0 || "Price must be greater than 0",
-];
+let form = ref(false);
+let isLoading = ref(false);
 
-const userId = 1;
+let rules = {
+    length: (v) => (v || "").length >= 3 || "Must be at least 3 characters",
+    name: (v) =>
+        !!(v || "").match(/^[a-zA-Z0-9 ]*$/) || "Please enter a valid name",
+    price: (v) => !!(v || "").match(/^[0-9]*$/) || "Please enter a valid price",
+    description: (v) =>
+        !!(v || "").match(/^[a-zA-Z0-9 ]*$/) ||
+        "Please enter a valid description",
+    required: (v) => !!v || "This field is required",
+};
+
 const itemsStore = useItemsStore();
+
+// Fetch the item to edit according to the id in the route ⚠️
+itemsStore.fetchItem(router.currentRoute.value.params.id);
 
 const { currentEditItem, loading, error } = storeToRefs(itemsStore);
 
-itemsStore.setCurrentEditItem(router.currentRoute.value.params.id);
-
-const editItem = (id, updatedItem) => {
-    const { name, description, price } = updatedItem;
-    itemsStore.updateItem(userId, id, name, price, description);
-    router.push("/myitems");
+const editItem = async () => {
+    await itemsStore.updateItem(currentEditItem.value);
+    router.push({ name: "myitems" });
 };
 </script>
 
@@ -57,13 +57,19 @@ const editItem = (id, updatedItem) => {
                             </v-card-title>
 
                             <v-card-text>
-                                <v-form>
+                                <v-form v-model="form">
                                     <v-row>
                                         <v-col>
                                             <v-text-field
-                                                v-model="currentEditItem.name"
-                                                :rules="nameRules"
-                                                :counter="255"
+                                                v-model="
+                                                    currentEditItem.attributes
+                                                        .name
+                                                "
+                                                :rules="[
+                                                    rules.length,
+                                                    rules.name,
+                                                    rules.required,
+                                                ]"
                                                 label="New item name"
                                                 required
                                             ></v-text-field>
@@ -71,8 +77,14 @@ const editItem = (id, updatedItem) => {
 
                                         <v-col>
                                             <v-text-field
-                                                v-model="currentEditItem.price"
-                                                :rules="priceRules"
+                                                v-model="
+                                                    currentEditItem.attributes
+                                                        .price
+                                                "
+                                                :rules="[
+                                                    rules.price,
+                                                    rules.required,
+                                                ]"
                                                 label="New item price"
                                                 type="number"
                                                 min="0"
@@ -84,10 +96,14 @@ const editItem = (id, updatedItem) => {
                                         <v-col>
                                             <v-text-field
                                                 v-model="
-                                                    currentEditItem.description
+                                                    currentEditItem.attributes
+                                                        .description
                                                 "
-                                                :rules="descRules"
-                                                :counter="1000"
+                                                :rules="[
+                                                    rules.length,
+                                                    rules.description,
+                                                    rules.required,
+                                                ]"
                                                 label="New item description"
                                                 required
                                             ></v-text-field>
@@ -101,15 +117,16 @@ const editItem = (id, updatedItem) => {
                             <v-card-actions>
                                 <v-spacer></v-spacer>
                                 <v-btn
-                                    color="primary"
-                                    text
-                                    @click="
-                                        () =>
-                                            editItem(
-                                                $route.params.id,
-                                                currentEditItem
-                                            )
+                                    :disabled="
+                                        currentEditItem.attributes.name == '' ||
+                                        currentEditItem.attributes.price ==
+                                            '' ||
+                                        currentEditItem.attributes
+                                            .description == ''
                                     "
+                                    :loading="isLoading"
+                                    color="primary"
+                                    @click="() => editItem()"
                                 >
                                     Edit item
                                 </v-btn>
