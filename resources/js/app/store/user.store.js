@@ -29,14 +29,14 @@ export const useStore = defineStore(storeName, {
                 // Retreive the data from the response
                 const {
                     message,
-                    data: { token },
+                    data: { id, token },
                 } = response.data;
 
                 // Display the message
                 alertStore.alert({ type: "success", message: message });
 
                 // Alter the current state of the store
-                this.user = { ...user, token: token.split("|")[1] };
+                this.user = { ...user, id, token };
                 this.error = null;
             } catch (error) {
                 alertStore.alert({ type: "error", message: error });

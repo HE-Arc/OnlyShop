@@ -18,25 +18,24 @@ const item = ref({
     price: "",
 });
 
-const nameRules = [
-    (v) => !!v || "Name is required",
-    (v) => v.length <= 255 || "Name must be less than 255 characters",
-];
-const descRules = [
-    (v) => !!v || "Description is required",
-    (v) => v.length <= 1000 || "Description must be less than 1000 characters",
-];
-const priceRules = [
-    (v) => !!v || "Price is required",
-    (v) => v > 0 || "Price must be greater than 0",
-];
+let form = ref(false);
+let isLoading = ref(false);
 
-const userId = 1;
+let rules = {
+    length: (v) => (v || "").length >= 3 || "Must be at least 3 characters",
+    name: (v) =>
+        !!(v || "").match(/^[a-zA-Z0-9 ]*$/) || "Please enter a valid name",
+    price: (v) => !!(v || "").match(/^[0-9]*$/) || "Please enter a valid price",
+    description: (v) =>
+        !!(v || "").match(/^[a-zA-Z0-9 ]*$/) ||
+        "Please enter a valid description",
+    required: (v) => !!v || "This field is required",
+};
+
 const itemsStore = useItemsStore();
 
-const addItem = (addItem) => {
-    const { name, description, price } = addItem;
-    itemsStore.addItem(userId, name, price, description);
+const addItem = async () => {
+    await itemsStore.addItem(item.value);
     router.push({ name: "myitems" });
 };
 </script>
@@ -52,13 +51,12 @@ const addItem = (addItem) => {
                     </v-card-title>
 
                     <v-card-text>
-                        <v-form>
+                        <v-form v-model="form">
                             <v-row>
                                 <v-col>
                                     <v-text-field
                                         v-model="item.name"
-                                        :rules="nameRules"
-                                        :counter="255"
+                                        :rules="[rules.length, rules.name]"
                                         label="New item name"
                                         required
                                     ></v-text-field>
@@ -67,7 +65,7 @@ const addItem = (addItem) => {
                                 <v-col>
                                     <v-text-field
                                         v-model="item.price"
-                                        :rules="priceRules"
+                                        :rules="[rules.price]"
                                         label="New item price"
                                         type="number"
                                         min="0"
@@ -79,8 +77,10 @@ const addItem = (addItem) => {
                                 <v-col>
                                     <v-text-field
                                         v-model="item.description"
-                                        :rules="descRules"
-                                        :counter="1000"
+                                        :rules="[
+                                            rules.length,
+                                            rules.description,
+                                        ]"
                                         label="New item description"
                                         required
                                     ></v-text-field>
@@ -94,9 +94,10 @@ const addItem = (addItem) => {
                     <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn
+                            :disabled="!form"
+                            :loading="isLoading"
                             color="primary"
-                            text
-                            @click="() => addItem(item)"
+                            @click="() => addItem()"
                         >
                             Add item
                         </v-btn>

@@ -61,18 +61,18 @@ itemsStore.fetchAllItems();
 
                                 <v-card-title class="justify-center">
                                     <div class="text-center">
-                                        {{ item.name }}
+                                        {{ item.attributes.name }}
                                     </div>
                                 </v-card-title>
 
                                 <v-card-subtitle class="justify-center">
                                     <div class="text-center">
-                                        {{ item.price }} CHF
+                                        {{ item.attributes.price }} CHF
                                     </div>
                                 </v-card-subtitle>
 
                                 <AddPaymentDescription
-                                    :description="item.description"
+                                    :description="item.attributes.description"
                                 />
                             </v-card>
                         </v-sheet>

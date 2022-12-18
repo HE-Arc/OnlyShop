@@ -2,6 +2,7 @@ import axios from "axios";
 import { defineStore } from "pinia";
 import { API_LOCATION } from "../constants";
 //import { v4 as uuidv4 } from "uuid";
+import { useStore as useUserStore } from "./user.store";
 
 const storeName = "itemStore";
 const defautSate = {
@@ -39,6 +40,7 @@ export const useStore = defineStore(storeName, {
                 const response = await axios.get(`${API_LOCATION}/items`);
 
                 const { data } = response.data;
+
                 this.allItems = data;
             } catch (error) {
                 this.error = error;
@@ -46,17 +48,18 @@ export const useStore = defineStore(storeName, {
                 this.loading = false;
             }
         },
-        async fetchUserItems(userId) {
+        async fetchUserItems() {
             this.userItems = [];
             this.loading = true;
+            const userStore = useUserStore();
 
             try {
                 const response = await axios.get(
-                    `${API_LOCATION}/items/getUserItems/${userId}`
+                    `${API_LOCATION}/items/getUserItems/${userStore.user.id}`
                 );
 
-                const { items } = response.data;
-                this.userItems = items;
+                const { data } = response.data;
+                this.userItems = data;
             } catch (error) {
                 this.error = error;
             } finally {
@@ -84,22 +87,16 @@ export const useStore = defineStore(storeName, {
                 this.loading = false;
             }
         },
-        async updateItem(userId, id, name, price, description) {
+        async updateItem(item) {
             this.loading = true;
+            const userStore = useUserStore();
 
             try {
-                const itemUpdated = {
-                    id,
-                    name,
-                    price,
-                    description,
-                };
-
                 const response = await axios.put(
                     `${API_LOCATION}/items/${id}`,
                     {
-                        user_id: userId,
-                        ...itemUpdated,
+                        user_id: userStore.user.id,
+                        ...item,
                     }
                 );
 
@@ -118,25 +115,21 @@ export const useStore = defineStore(storeName, {
                 this.loading = false;
             }
         },
-        async addItem(userId, name, price, description) {
+        async addItem(item) {
             this.loading = true;
+            const userStore = useUserStore();
 
             try {
-                const item = {
-                    name,
-                    price,
-                    description,
-                };
                 const response = await axios.post(`${API_LOCATION}/items`, {
-                    user_id: userId,
+                    user_id: userStore.user.id,
                     ...item,
                 });
 
-                const { message, item_id } = response.data;
+                const { message, data } = response.data;
                 console.log(message);
 
-                this.allItems = [...this.allItems, { id: item_id, ...item }];
-                this.userItems = [...this.userItems, { id: item_id, ...item }];
+                this.allItems = [...this.allItems, { data }];
+                this.userItems = [...this.userItems, { data }];
             } catch (error) {
                 this.error = error;
             } finally {
