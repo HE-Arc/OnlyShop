@@ -71,9 +71,7 @@ itemsStore.fetchAllItems();
                                     </div>
                                 </v-card-subtitle>
 
-                                <AddPaymentDescription
-                                    :description="item.attributes.description"
-                                />
+                                <AddPaymentDescription :item="item" />
                             </v-card>
                         </v-sheet>
                     </v-col>
