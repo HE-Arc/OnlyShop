@@ -42,6 +42,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     //Route::apiResource('users', UserController::class);
     Route::post('shopcarts', [ShopcartController::class, 'storeShopCart'])->name('storeShopCart');
+    Route::get('shopcarts/getAllItemsInShopCart/{user_id}', [ShopcartController::class, 'getAllItemsInShopCart'])->name('getAllItemsInShopCart');
 
     Route::get('shopcarts/{id}', [ShopcartController::class, 'getShopCart'])->name('getShopCart');
     Route::post('shopcarts/addItem', [ShopcartController::class, 'addItem'])->name('addItem');

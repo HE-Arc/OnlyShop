@@ -8,6 +8,7 @@ const storeName = "itemStore";
 const defautSate = {
     allItems: [],
     userItems: [],
+    basketItems:[],
     currentEditItem: null,
     loading: false,
     error: null,
@@ -66,6 +67,29 @@ export const useStore = defineStore(storeName, {
                 this.loading = false;
             }
         },
+        async fetchBasketItems() {
+            this.basketItems = [];
+            this.loading = true;
+            const userStore = useUserStore();
+
+            try {
+                const response = await axios.get(
+                    `${API_LOCATION}/shopcarts/getAllItemsInShopCart/${userStore.user.id}`
+                );
+
+                console.log(response);
+
+                const { data } = response.data;
+                this.basketItems = data;
+            }
+            catch (error) {
+                this.error = error;
+            }
+            finally {
+                this.loading = false;
+            }
+        },
+
         async deleteItem(id) {
             this.loading = true;
 
