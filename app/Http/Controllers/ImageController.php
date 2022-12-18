@@ -26,7 +26,7 @@ class ImageController extends BaseController
      * @apiGroup Image
      *
      * @apiParam {Number} item_id The id of the item that the image is linked to.
-     * @apiParam {File} image The image to add.
+     * @apiParam {File} imagepath The image to add.
      *
      * @apiSuccess {boolean} success The success of the request.
      * @apiSuccess {Object[]} data The data of the request.
@@ -36,10 +36,23 @@ class ImageController extends BaseController
     {
         $request->validate([
             'item_id' => 'required|numeric|min:1',
-            'image' => 'required|mimes:jpg, jpeg, png|max:2048',
+            'imagepath' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         $image = Image::create($request->all());
+
+        if ($request->hasFile('imagepath')) {
+            //Move Uploaded File to public folder
+            $destinationPath = 'images';
+
+            // Add the id of the image to the name of the file to avoid conflicts
+            $image->imagepath = $image->id . '_' . $request->imagepath->getClientOriginalName();
+
+            $request->imagepath->move(public_path($destinationPath), $image->imagepath);
+        }
+
+        $image->save();
+
         return $this->sendResponse(new ImageResource($image), 'Image created successfully.');
     }
 
@@ -58,7 +71,14 @@ class ImageController extends BaseController
     {
         $image = Image::findOrFail($id);
 
+        // Delete the image from the public folder
+        if (file_exists(public_path($image->imagepath))) {
+            unlink(public_path($image->imagepath));
+        }
+
+
         $image->delete();
+
         return $this->sendResponse([], 'Image deleted successfully.');
     }
 
@@ -73,10 +93,10 @@ class ImageController extends BaseController
      * @apiSuccess {Object[]} data The data of the request.
      * @apiSuccess {String} message The message of the request.
      */
-    public function getItemImages(Request $request)
+    public function getItemImages($id)
     {
-        $images = Image::where('item_id', $request->id)->get();
+        $images = Image::where('item_id', $id)->get();
 
-        return $this->sendResponse(ImageResource::collection($images), 'Images retrieved successfully.');
+        return $this->sendResponse(ImageResource::collection($images), 'Images found successfully.');
     }
 }
