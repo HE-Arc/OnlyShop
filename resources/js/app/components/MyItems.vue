@@ -7,6 +7,7 @@ Wrote by : Rui Marco Loureiro
 updated by : Rui Marco Loureiro
 -->
 <script setup>
+import ItemImages from "./ItemImages.vue";
 import { storeToRefs } from "pinia";
 import { useStore as useItemsStore } from "../store/item.store";
 import AddEditDeleteToItems from "./AddEditDeleteToItems.vue";
@@ -36,28 +37,7 @@ itemsStore.fetchUserItems();
                     >
                         <v-sheet class="ma-2 pa-2">
                             <v-card class="mx-auto" max-width="344">
-                                <v-carousel>
-                                    <v-carousel-item
-                                        v-for="color in colors"
-                                        :key="color"
-                                    >
-                                        <v-sheet
-                                            :color="color"
-                                            height="100%"
-                                            tile
-                                        >
-                                            <v-row
-                                                class="fill-height"
-                                                align="center"
-                                                justify="center"
-                                            >
-                                                <div class="text-h2">
-                                                    {{ color }}
-                                                </div>
-                                            </v-row>
-                                        </v-sheet>
-                                    </v-carousel-item>
-                                </v-carousel>
+                                <ItemImages :item="item" />
 
                                 <v-card-title class="justify-center">
                                     <div class="text-center">

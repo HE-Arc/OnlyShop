@@ -123,8 +123,6 @@ export const useStore = defineStore(storeName, {
             this.loading = true;
             const userStore = useUserStore();
 
-            console.log(item);
-
             try {
                 const response = await axios.post(`${API_LOCATION}/items`, {
                     user_id: userStore.user.id,
@@ -148,6 +146,22 @@ export const useStore = defineStore(storeName, {
 
                 this.allItems = [...this.allItems, { data }];
                 this.userItems = [...this.userItems, { data }];
+            } catch (error) {
+                this.error = error;
+            } finally {
+                this.loading = false;
+            }
+        },
+        async getAllImages(item_id) {
+            this.loading = true;
+
+            try {
+                const response = await axios.get(
+                    `${API_LOCATION}/images/getItemImages/${item_id}`
+                );
+
+                const { data } = response.data;
+                return data;
             } catch (error) {
                 this.error = error;
             } finally {
