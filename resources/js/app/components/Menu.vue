@@ -90,12 +90,13 @@ let items = ref([
 
         <v-app-bar-nav-icon>
             <i
-                @click="toggleTheme"
                 v-if="theme.global.current.value.dark"
+                @click="toggleTheme"
                 class="material-icons"
             >
-                wb_sunny
+                nightlight_round
             </i>
+            <i v-else @click="toggleTheme" class="material-icons"> wb_sunny </i>
         </v-app-bar-nav-icon>
     </v-app-bar>
 
@@ -125,6 +126,6 @@ let items = ref([
 
 a {
     text-decoration: none;
-    color: black;
+    color: inherit;
 }
 </style>
