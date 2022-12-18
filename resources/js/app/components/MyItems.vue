@@ -89,18 +89,17 @@ function addItem(user_id, item) {
                     </v-col>
                 </v-row>
             </v-container>
-
-            <div id="fixedContainer">
-                <v-btn size="large" icon color="secondary">
-                    <router-link
-                        :to="{
-                            name: 'additem',
-                        }"
-                    >
-                        <i class="material-icons"> add </i>
-                    </router-link>
-                </v-btn>
-            </div>
+        </div>
+        <div id="fixedContainer">
+            <v-btn size="large" icon color="secondary">
+                <router-link
+                    :to="{
+                        name: 'additem',
+                    }"
+                >
+                    <i class="material-icons"> add </i>
+                </router-link>
+            </v-btn>
         </div>
     </div>
 </template>
