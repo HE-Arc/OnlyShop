@@ -13,7 +13,8 @@ import { ref } from "vue";
 import { useStore as useItemsStore } from "../store/item.store";
 
 const itemsStore = useItemsStore();
-const { basketItems, loading, error } = storeToRefs(itemsStore);
+const { basketItems, totalBascketPrice, loading, error } =
+    storeToRefs(itemsStore);
 
 itemsStore.fetchBasketItems();
 </script>
@@ -39,9 +40,12 @@ itemsStore.fetchBasketItems();
                         </v-list-item>
                     </v-list>
 
-                    <div>
-                        <h4>Price :</h4>
-                    </div>
+                    <v-divider></v-divider>
+
+                    <v-card-actions>
+                        Total :
+                        {{ totalBascketPrice }}
+                    </v-card-actions>
                 </v-card>
             </v-container>
         </div>

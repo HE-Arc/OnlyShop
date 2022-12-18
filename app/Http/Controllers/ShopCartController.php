@@ -110,6 +110,12 @@ class ShopCartController extends BaseController
             ];
         });
 
-        return $this->sendResponse($items, 'Items found successfully.');
+        //get the total price of the items
+        $totalPrice = 0;
+        foreach ($items as $item) {
+            $totalPrice += $item["price"];
+        }
+
+        return $this->sendResponse($items, $totalPrice);
     }
 }

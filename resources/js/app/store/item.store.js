@@ -9,6 +9,7 @@ const defautSate = {
     allItems: [],
     userItems: [],
     basketItems:[],
+    totalBascketPrice: 0,
     currentEditItem: null,
     loading: false,
     error: null,
@@ -77,10 +78,12 @@ export const useStore = defineStore(storeName, {
                     `${API_LOCATION}/shopcarts/getAllItemsInShopCart/${userStore.user.id}`
                 );
 
-                console.log(response);
+                console.log(response.data);
 
                 const { data } = response.data;
                 this.basketItems = data;
+                this.totalBascketPrice = response.data.message;
+
             }
             catch (error) {
                 this.error = error;
