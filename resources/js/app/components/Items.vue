@@ -82,3 +82,9 @@ itemsStore.fetchAllItems();
         </div>
     </div>
 </template>
+
+<style>
+.v-carousel {
+    height: 300px !important;
+}
+</style>

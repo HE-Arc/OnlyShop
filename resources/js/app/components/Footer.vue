@@ -16,7 +16,3 @@ updated by : Rui Marco Loureiro
         </v-row>
     </v-footer>
 </template>
-
-<script></script>
-
-<style></style>
