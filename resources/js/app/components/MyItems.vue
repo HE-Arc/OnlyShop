@@ -7,7 +7,7 @@ Wrote by : Rui Marco Loureiro
 updated by : Rui Marco Loureiro
 -->
 <script setup>
-import ItemImagesVue from "./ItemImages.vue";
+import ItemImagesVue from "./ItemImagesCarousel.vue";
 import { storeToRefs } from "pinia";
 import { useStore as useItemsStore } from "../store/item.store";
 import AddEditDeleteToItems from "./AddEditDeleteToItems.vue";
