@@ -33,16 +33,9 @@ let items = ref([
         router: "myitems",
         clickAction: () => console.log("myitems"),
     },
-    {
-        title: "Panier",
-        router: "mybacket",
-        clickAction: () => console.log("mybacket"),
-    },
-    {
-        title: "Contact",
-        router: "contact",
-        clickAction: () => console.log("contact"),
-    },
+]);
+
+let userItems = ref([
     {
         title: "Se déconnecter",
         router: "auth",
@@ -72,10 +65,6 @@ let items = ref([
 
         <v-spacer></v-spacer>
 
-        <v-app-bar-nav-icon>
-            <i class="material-icons"> search </i>
-        </v-app-bar-nav-icon>
-
         <v-list class="d-none d-lg-flex">
             <v-list-item v-for="item in items">
                 <v-list-item-title>
@@ -89,6 +78,18 @@ let items = ref([
         </v-list>
 
         <v-app-bar-nav-icon>
+            <i class="material-icons"> search </i>
+        </v-app-bar-nav-icon>
+
+        <v-app-bar-nav-icon>
+            <router-link :to="{ name: 'mybacket' }"
+                ><i @click="" class="material-icons">
+                    shopping_cart
+                </i></router-link
+            >
+        </v-app-bar-nav-icon>
+
+        <v-app-bar-nav-icon>
             <i
                 v-if="theme.global.current.value.dark"
                 @click="toggleTheme"
@@ -97,6 +98,28 @@ let items = ref([
                 nightlight_round
             </i>
             <i v-else @click="toggleTheme" class="material-icons"> wb_sunny </i>
+        </v-app-bar-nav-icon>
+
+        <v-app-bar-nav-icon>
+            <v-menu>
+                <template v-slot:activator="{ props }">
+                    <i v-bind="props" class="material-icons">
+                        account_circle
+                    </i>
+                </template>
+
+                <v-list>
+                    <v-list-item v-for="item in userItems">
+                        <v-list-item-title>
+                            <router-link :to="{ name: item.router }">
+                                <span @click="() => item.clickAction()">
+                                    {{ item.title }}
+                                </span>
+                            </router-link>
+                        </v-list-item-title>
+                    </v-list-item>
+                </v-list>
+            </v-menu>
         </v-app-bar-nav-icon>
     </v-app-bar>
 
