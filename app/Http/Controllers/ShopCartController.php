@@ -74,26 +74,20 @@ class ShopCartController extends BaseController
      */
     public function addItem(Request $request)
     {
+        $request->validate([
+            'id' => 'required|numeric|min:1',
+            'item_id' => 'required|numeric|min:1',
+        ]);
         try {
-            $request->validate([
-                'id' => 'required|numeric|min:1',
-                'item_id' => 'required|numeric|min:1',
-            ]);
-
-            $shopcart = ShopCart::where("user_id", $request->id)->first();
-            //if shopcart is empty, create a new one
-            if ($shopcart == null) {
-                $shopcart = new ShopCart();
-                $shopcart->user_id = $request->id;
-                $shopcart->save();
-            }
-            $shopcart->items()->attach($request->item_id);
-
-
-            return $this->sendResponse($shopcart, 'Item added to shopcart successfully.');
+            $shopcart = ShopCart::where("user_id", $request->id)->firstOrFail();
         } catch (\Exception $e) {
-            return $this->sendError($e->getMessage());
+            //if shopcart is empty, create a new one
+            $shopcart = new ShopCart();
+            $shopcart->user_id = $request->id;
+            $shopcart->save();
         }
+        $shopcart->items()->attach($request->item_id);
+        return $this->sendResponse($shopcart, 'Item added to shopcart successfully.');
     }
 
     //get the id of the items of the user that are in the shopcart
