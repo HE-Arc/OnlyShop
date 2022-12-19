@@ -42,70 +42,15 @@ const addItem = async () => {
 </script>
 
 <template>
-    <h1>Add View</h1>
     <v-container>
-        <v-row justify="center">
-            <div class="text-center">
-                <v-card>
-                    <v-card-title>
-                        <h1>Ajouter votre item</h1>
-                    </v-card-title>
-
-                    <v-card-text>
-                        <v-form v-model="form">
-                            <v-row>
-                                <v-col>
-                                    <v-text-field
-                                        v-model="item.name"
-                                        :rules="[rules.length, rules.name]"
-                                        label="New item name"
-                                        required
-                                    ></v-text-field>
-                                </v-col>
-
-                                <v-col>
-                                    <v-text-field
-                                        v-model="item.price"
-                                        :rules="[rules.price]"
-                                        label="New item price"
-                                        type="number"
-                                        min="0"
-                                        required
-                                    ></v-text-field>
-                                </v-col>
-                            </v-row>
-                            <v-row>
-                                <v-col>
-                                    <v-text-field
-                                        v-model="item.description"
-                                        :rules="[
-                                            rules.length,
-                                            rules.description,
-                                        ]"
-                                        label="New item description"
-                                        required
-                                    ></v-text-field>
-                                </v-col>
-                            </v-row>
-
-                            <v-row>
-                                <v-col>
-                                    <v-file-input
-                                        label="New item image"
-                                        prepend-icon="mdi-camera"
-                                        v-model="item.images"
-                                        accept="image/png, image/jpeg, image/bmp"
-                                        multiple
-                                    ></v-file-input>
-                                </v-col>
-                            </v-row>
-                        </v-form>
-                    </v-card-text>
-
-                    <v-divider></v-divider>
-
-                    <v-card-actions>
-                        <v-spacer></v-spacer>
+        <v-form v-model="form">
+            <v-row>
+                <v-banner single-line class="ma-4" elevation="2" rounded>
+                    <v-icon slot="icon" color="info" size="36">
+                        mdi-information
+                    </v-icon>
+                    Add your item
+                    <template v-slot:actions>
                         <v-btn
                             :disabled="!form"
                             :loading="isLoading"
@@ -114,9 +59,50 @@ const addItem = async () => {
                         >
                             Add item
                         </v-btn>
-                    </v-card-actions>
-                </v-card>
-            </div>
-        </v-row>
+                    </template>
+                </v-banner>
+            </v-row>
+
+            <v-row>
+                <v-col cols="12" md="3">
+                    <v-text-field
+                        v-model="item.name"
+                        :rules="[rules.length, rules.name]"
+                        label="New item name"
+                        required
+                    ></v-text-field>
+                </v-col>
+
+                <v-col cols="12" md="3">
+                    <v-text-field
+                        v-model="item.price"
+                        :rules="[rules.price]"
+                        label="New item price"
+                        type="number"
+                        min="0"
+                        required
+                    ></v-text-field>
+                </v-col>
+
+                <v-col cols="12" md="3">
+                    <v-text-field
+                        v-model="item.description"
+                        :rules="[rules.length, rules.description]"
+                        label="New item description"
+                        required
+                    ></v-text-field>
+                </v-col>
+
+                <v-col cols="12" md="3">
+                    <v-file-input
+                        label="New item image"
+                        prepend-icon="mdi-camera"
+                        v-model="item.images"
+                        accept="image/png, image/jpeg, image/bmp"
+                        multiple
+                    ></v-file-input>
+                </v-col>
+            </v-row>
+        </v-form>
     </v-container>
 </template>
