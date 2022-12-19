@@ -1,7 +1,7 @@
 <!--
 OnlyShop made by Lucas Perrin, Rui Marco Loureiro and Miguel Moreira
 File's version : 1.1.0
-this file is used for : show the user items
+this file is used for : show item images
 
 Wrote by : Lucas Perrin
 updated by : Lucas Perrin
