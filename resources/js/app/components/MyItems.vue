@@ -59,7 +59,7 @@ itemsStore.fetchUserItems();
             </v-container>
         </div>
         <div id="fixedContainer">
-            <v-btn size="large" icon color="secondary">
+            <v-btn size="large" icon color="indigo">
                 <router-link
                     :to="{
                         name: 'additem',
@@ -75,8 +75,8 @@ itemsStore.fetchUserItems();
 <style>
 #fixedContainer {
     position: fixed;
-    left: 85%;
-    bottom: 15%;
+    left: 75%;
+    bottom: 75px;
     z-index: 1005;
 }
 #fixedContainer .material-icons {

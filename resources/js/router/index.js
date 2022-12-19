@@ -14,7 +14,6 @@ import Auth from "../app/components/Auth.vue";
 import MyItems from "../app/components/MyItems.vue";
 import Items from "../app/components/Items.vue";
 import Panier from "../app/components/Panier.vue";
-import Contact from "../app/components/Contact.vue";
 import EditItem from "../app/components/EditItem.vue";
 import AddItem from "../app/components/AddItem.vue";
 // Layouts
@@ -76,14 +75,6 @@ const routes = [
                         path: "mybacket",
                         name: "mybacket",
                         component: Panier,
-                        meta: {
-                            requiresAuth: true,
-                        },
-                    },
-                    {
-                        path: "contact",
-                        name: "contact",
-                        component: Contact,
                         meta: {
                             requiresAuth: true,
                         },
