@@ -80,6 +80,12 @@ class ShopCartController extends BaseController
         ]);
 
         $shopcart = ShopCart::where("user_id", $request->id)->first();
+        //if shopcart is empty, create a new one
+        if ($shopcart == null) {
+            $shopcart = new ShopCart();
+            $shopcart->user_id = $request->id;
+            $shopcart->save();
+        }
         $shopcart->items()->attach($request->item_id);
 
         return $this->sendResponse($shopcart, 'Item added to shopcart successfully.');
@@ -90,6 +96,10 @@ class ShopCartController extends BaseController
     {
 
         $shopcart = ShopCart::where("user_id", $id)->first();
+        //if shopcart is empty, return empty array
+        if ($shopcart == null) {
+            return $this->sendResponse([], 0);
+        }
         $items = $shopcart->items()->get();
 
         $items = $items->map(function ($item) {
