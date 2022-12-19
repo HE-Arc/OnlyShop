@@ -25,6 +25,7 @@ const routes = [
         path: "/",
         name: "app",
         component: AppLayout,
+
         children: [
             {
                 path: "auth",
