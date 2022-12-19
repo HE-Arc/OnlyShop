@@ -79,9 +79,7 @@ let userItems = ref([
 
         <v-app-bar-nav-icon>
             <router-link :to="{ name: 'mybacket' }"
-                ><i @click="" class="material-icons">
-                    shopping_cart
-                </i></router-link
+                ><i class="material-icons"> shopping_cart </i></router-link
             >
         </v-app-bar-nav-icon>
 

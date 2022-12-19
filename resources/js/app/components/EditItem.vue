@@ -41,81 +41,25 @@ const editItem = async () => {
 </script>
 
 <template>
-    <h1>Edit View</h1>
-
     <div v-if="loading">Loading...</div>
     <div v-else>
         <div v-if="error">Error: {{ error }}</div>
 
         <div v-if="currentEditItem">
             <v-container>
-                <v-row justify="center">
-                    <div class="text-center">
-                        <v-card>
-                            <v-card-title>
-                                <h1>Update Item</h1>
-                            </v-card-title>
-
-                            <v-card-text>
-                                <v-form v-model="form">
-                                    <v-row>
-                                        <v-col>
-                                            <v-text-field
-                                                v-model="
-                                                    currentEditItem.attributes
-                                                        .name
-                                                "
-                                                :rules="[
-                                                    rules.length,
-                                                    rules.name,
-                                                    rules.required,
-                                                ]"
-                                                label="New item name"
-                                                required
-                                            ></v-text-field>
-                                        </v-col>
-
-                                        <v-col>
-                                            <v-text-field
-                                                v-model="
-                                                    currentEditItem.attributes
-                                                        .price
-                                                "
-                                                :rules="[
-                                                    rules.price,
-                                                    rules.required,
-                                                ]"
-                                                label="New item price"
-                                                type="number"
-                                                min="0"
-                                                required
-                                            ></v-text-field>
-                                        </v-col>
-                                    </v-row>
-                                    <v-row>
-                                        <v-col>
-                                            <v-text-field
-                                                v-model="
-                                                    currentEditItem.attributes
-                                                        .description
-                                                "
-                                                :rules="[
-                                                    rules.length,
-                                                    rules.description,
-                                                    rules.required,
-                                                ]"
-                                                label="New item description"
-                                                required
-                                            ></v-text-field>
-                                        </v-col>
-                                    </v-row>
-                                </v-form>
-                            </v-card-text>
-
-                            <v-divider></v-divider>
-
-                            <v-card-actions>
-                                <v-spacer></v-spacer>
+                <v-form v-model="form">
+                    <v-row>
+                        <v-banner
+                            single-line
+                            class="ma-4"
+                            elevation="2"
+                            rounded
+                        >
+                            <v-icon slot="icon" color="info" size="36">
+                                mdi-information
+                            </v-icon>
+                            Update your item
+                            <template v-slot:actions>
                                 <v-btn
                                     :disabled="
                                         currentEditItem.attributes.name == '' ||
@@ -130,10 +74,48 @@ const editItem = async () => {
                                 >
                                     Edit item
                                 </v-btn>
-                            </v-card-actions>
-                        </v-card>
-                    </div>
-                </v-row>
+                            </template>
+                        </v-banner>
+                    </v-row>
+                    <v-row>
+                        <v-col cols="12" md="4">
+                            <v-text-field
+                                v-model="currentEditItem.attributes.name"
+                                :rules="[
+                                    rules.length,
+                                    rules.name,
+                                    rules.required,
+                                ]"
+                                label="New item name"
+                                required
+                            ></v-text-field>
+                        </v-col>
+
+                        <v-col cols="12" md="4">
+                            <v-text-field
+                                v-model="currentEditItem.attributes.price"
+                                :rules="[rules.price, rules.required]"
+                                label="New item price"
+                                type="number"
+                                min="0"
+                                required
+                            ></v-text-field>
+                        </v-col>
+
+                        <v-col cols="12" md="4">
+                            <v-text-field
+                                v-model="currentEditItem.attributes.description"
+                                :rules="[
+                                    rules.length,
+                                    rules.description,
+                                    rules.required,
+                                ]"
+                                label="New item description"
+                                required
+                            ></v-text-field>
+                        </v-col>
+                    </v-row>
+                </v-form>
             </v-container>
         </div>
     </div>
