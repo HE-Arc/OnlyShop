@@ -9,7 +9,7 @@ const storeName = "itemStore";
 const defautSate = {
     allItems: [],
     userItems: [],
-    basketItems:[],
+    basketItems: [],
     totalBascketPrice: 0,
     currentEditItem: null,
     loading: false,
@@ -84,26 +84,27 @@ export const useStore = defineStore(storeName, {
                 const { data } = response.data;
                 this.basketItems = data;
                 this.totalBascketPrice = response.data.message;
-
-            }
-            catch (error) {
+            } catch (error) {
                 this.error = error;
-            }
-            finally {
+            } finally {
                 this.loading = false;
             }
         },
-        async addItemInBasket($itemId) { //TODO
+        async addItemInBasket($itemId) {
+            //TODO
             this.loading = true;
             const alertStore = useAlertStore();
 
             const userStore = useUserStore();
 
             try {
-                const response = await axios.post(`${API_LOCATION}/shopcarts/addItem`, {
-                    id: userStore.user.id,
-                    item_id: $itemId,
-                });
+                const response = await axios.post(
+                    `${API_LOCATION}/shopcarts/addItem`,
+                    {
+                        id: userStore.user.id,
+                        item_id: $itemId,
+                    }
+                );
 
                 const { message } = response.data;
                 alertStore.alert({ type: "success", message: message });
@@ -181,17 +182,17 @@ export const useStore = defineStore(storeName, {
                 const { message } = response.data;
                 console.log(message);
 
-                // Store the images
                 const { data } = response.data;
-                const formData = new FormData();
 
-                formData.append("item_id", data.id);
-                formData.append("imagepath", item.image[0]);
+                // Store the images
+                for (const image of item.images) {
+                    const formData = new FormData();
 
-                const responseImage = await axios.post(
-                    `${API_LOCATION}/images`,
-                    formData
-                );
+                    formData.append("item_id", data.id);
+                    formData.append("imagepath", image);
+
+                    await axios.post(`${API_LOCATION}/images`, formData);
+                }
 
                 this.allItems = [...this.allItems, { data }];
                 this.userItems = [...this.userItems, { data }];
