@@ -7,7 +7,7 @@ Wrote by : Rui Marco Loureiro
 updated by : Rui Marco Loureiro
 -->
 <script setup>
-import ItemImages from "./ItemImages.vue";
+import ItemImagesVue from "./ItemImages.vue";
 import { storeToRefs } from "pinia";
 import { useStore as useItemsStore } from "../store/item.store";
 import AddEditDeleteToItems from "./AddEditDeleteToItems.vue";
@@ -37,7 +37,7 @@ itemsStore.fetchUserItems();
                     >
                         <v-sheet class="ma-2 pa-2">
                             <v-card class="mx-auto" max-width="344">
-                                <ItemImages :item="item" />
+                                <ItemImagesVue :item="item" />
 
                                 <v-card-title class="justify-center">
                                     <div class="text-center">

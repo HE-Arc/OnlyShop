@@ -201,21 +201,5 @@ export const useStore = defineStore(storeName, {
                 this.loading = false;
             }
         },
-        async getAllImages(item_id) {
-            this.loading = true;
-
-            try {
-                const response = await axios.get(
-                    `${API_LOCATION}/images/getItemImages/${item_id}`
-                );
-
-                const { data } = response.data;
-                return data;
-            } catch (error) {
-                this.error = error;
-            } finally {
-                this.loading = false;
-            }
-        },
     },
 });

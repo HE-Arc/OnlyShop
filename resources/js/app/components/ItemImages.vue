@@ -10,33 +10,32 @@ updated by : Lucas Perrin
 <script setup>
 // item props
 import { ref } from "vue";
-import { useStore as useItemsStore } from "../store/item.store";
-import { storeToRefs } from "pinia";
+import { useStore as useImageStore } from "../store/image.store";
 
 const { item } = defineProps(["item"]);
 
-const itemsStore = useItemsStore();
+const imageStore = useImageStore();
 
-const { loading, error } = storeToRefs(itemsStore);
+const path = (imagepath) => {
+    console.log("http://localhost:8000/images/" + imagepath);
+    return "http://localhost:8000/images/" + imagepath;
+};
 
-// const images = await itemsStore.getAllImages(item.id);
 const images = ref([]);
 
-const imgPath = (imagepath) => {
-    return "/images/" + imagepath;
-};
+// enclose in an async function to use await
+(async () => {
+    images.value = await imageStore.getAllImages(item.id);
+})();
 </script>
 
 <template>
-    <div v-if="loading">Loading...</div>
-    <div v-else>
-        <div v-if="error">Error: {{ error }}</div>
-
+    <div v-if="images.length">
         <v-carousel>
             <v-carousel-item
                 v-for="image in images"
                 :key="image.id"
-                :src="imgPath(image.attributes.imagepath)"
+                :src="path(image.attributes.imagepath)"
                 reverse-transition="fade-transition"
                 transition="fade-transition"
             >
