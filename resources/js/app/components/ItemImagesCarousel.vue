@@ -17,8 +17,7 @@ const { item } = defineProps(["item"]);
 const imageStore = useImageStore();
 
 const path = (imagepath) => {
-    console.log("http://localhost:8000/images/" + imagepath);
-    return "http://localhost:8000/images/" + imagepath;
+    return "/images/" + imagepath;
 };
 
 const images = ref([]);
