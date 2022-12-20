@@ -45,7 +45,7 @@ class User extends Authenticatable
      */
     public function shopcarts()
     {
-        return $this->belongsTo(ShopCart::class);
+        return $this->belongsTo(Shopcart::class);
     }
 
     /**

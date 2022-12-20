@@ -15,13 +15,13 @@ Wrote by : Miguel Moreira
 updated by : Miguel Moreira
 */
 
-class ShopCartController extends BaseController
+class ShopcartController extends BaseController
 {
 
     /**
      * @api {post} /api/shopcarts Add new user's shopcart to the database. This function is called when a new user is created.
      * @apiName storeShopCart
-     * @apiGroup ShopCart
+     * @apiGroup Shopcart
      *
      * @apiParam {number} user_id The id of the user.
      *
@@ -35,7 +35,7 @@ class ShopCartController extends BaseController
             'user_id' => 'required|numeric|min:1',
         ]);
 
-        $shopcart = new ShopCart();
+        $shopcart = new Shopcart();
         $shopcart->user_id = $request->user_id;
         $shopcart->save();
 
@@ -45,7 +45,7 @@ class ShopCartController extends BaseController
     /**
      * @api {get} /api/shopcarts/:id Get the shopcart of a user
      * @apiName getShopCart
-     * @apiGroup ShopCart
+     * @apiGroup Shopcart
      *
      * @apiParam {number} id The id of the user.
      *
@@ -55,7 +55,7 @@ class ShopCartController extends BaseController
      */
     public function getShopCart(Request $request)
     {
-        $shopcart = ShopCart::where("user_id", $request->id)->first();
+        $shopcart = Shopcart::where("user_id", $request->id)->first();
 
         return $this->sendResponse($shopcart, 'Shopcart found successfully.');
     }
@@ -63,7 +63,7 @@ class ShopCartController extends BaseController
     /**
      * @api {post} /api/shopcarts/addItem Add an item to the shopcart of a user
      * @apiName addItem
-     * @apiGroup ShopCart
+     * @apiGroup Shopcart
      *
      * @apiParam {number} id The id of the user.
      * @apiParam {number} item_id The id of the item.
@@ -79,10 +79,10 @@ class ShopCartController extends BaseController
             'item_id' => 'required|numeric|min:1',
         ]);
         try {
-            $shopcart = ShopCart::where("user_id", $request->id)->firstOrFail();
+            $shopcart = Shopcart::where("user_id", $request->id)->firstOrFail();
         } catch (\Exception $e) {
             //if shopcart is empty, create a new one
-            $shopcart = new ShopCart();
+            $shopcart = new Shopcart();
             $shopcart->user_id = $request->id;
             $shopcart->save();
         }
@@ -94,7 +94,7 @@ class ShopCartController extends BaseController
     public function getAllItemsInShopCart($id)
     {
 
-        $shopcart = ShopCart::where("user_id", $id)->first();
+        $shopcart = Shopcart::where("user_id", $id)->first();
         //if shopcart is empty, return empty array
         if ($shopcart == null) {
             return $this->sendResponse([], 0);
