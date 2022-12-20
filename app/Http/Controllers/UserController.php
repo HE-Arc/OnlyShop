@@ -4,9 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\API\BaseController;
 use Illuminate\Http\Request;
-use App\Models\User;
-use App\Models\Shopcart;
-use Illuminate\Support\Facades\Validator;
 
 /*
 OnlyShop made by Lucas Perrin, Rui Marco Loureiro and Miguel Moreira
