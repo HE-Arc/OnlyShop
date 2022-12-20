@@ -13,7 +13,7 @@ Wrote by : Rui Marco Loureiro
 updated by : Rui Marco Loureiro
 */
 
-class ShopCartResource extends JsonResource
+class ShopcartResource extends JsonResource
 {
 
     public function toArray($request)
