@@ -31,7 +31,7 @@ let register = async (user) => {
     console.log(user);
     await userStore.register(user);
     // change tab to login
-    tab.value = "login";
+    tab.value = "Connexion";
 };
 </script>
 
@@ -49,16 +49,16 @@ let register = async (user) => {
                     <v-row justify="center">
                         <v-card width="500px" height="550px">
                             <v-tabs v-model="tab" grow>
-                                <v-tab value="login">Login</v-tab>
-                                <v-tab value="register">Register</v-tab>
+                                <v-tab value="Connexion">Connexion</v-tab>
+                                <v-tab value="S'inscrire">S'inscrire</v-tab>
                             </v-tabs>
 
                             <v-card-text>
                                 <v-window v-model="tab">
-                                    <v-window-item value="login">
+                                    <v-window-item value="Connexion">
                                         <Login @login="(user) => login(user)" />
                                     </v-window-item>
-                                    <v-window-item value="register">
+                                    <v-window-item value="S'inscrire">
                                         <Register
                                             @register="(user) => register(user)"
                                         />

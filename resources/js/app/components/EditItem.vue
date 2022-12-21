@@ -17,14 +17,15 @@ let form = ref(false);
 let isLoading = ref(false);
 
 let rules = {
-    length: (v) => (v || "").length >= 3 || "Must be at least 3 characters",
+    length: (v) => (v || "").length >= 3 || "Doit avoir au moins 3 caractères",
     name: (v) =>
-        !!(v || "").match(/^[a-zA-Z0-9 ]*$/) || "Please enter a valid name",
-    price: (v) => !!(v || "").match(/^[0-9]*$/) || "Please enter a valid price",
+        !!(v || "").match(/^[a-zA-Z0-9 ]*$/) || "Merci d'entrer un nom valide",
+    price: (v) =>
+        !!(v || "").match(/^[0-9]*$/) || "Merci d'entrer un prix valide",
     description: (v) =>
         !!(v || "").match(/^[a-zA-Z0-9 ]*$/) ||
-        "Please enter a valid description",
-    required: (v) => !!v || "This field is required",
+        "Merci d'entrer une description valide",
+    required: (v) => !!v || "Ce champ est requis",
 };
 
 const itemsStore = useItemsStore();
@@ -58,7 +59,7 @@ const editItem = async () => {
                             <v-icon slot="icon" color="info" size="36">
                                 mdi-information
                             </v-icon>
-                            Update your item
+                            Mettre a jour un article
                             <template v-slot:actions>
                                 <v-btn
                                     :disabled="
@@ -72,7 +73,7 @@ const editItem = async () => {
                                     color="primary"
                                     @click="() => editItem()"
                                 >
-                                    Edit item
+                                    Mettre a jour
                                 </v-btn>
                             </template>
                         </v-banner>
@@ -86,7 +87,7 @@ const editItem = async () => {
                                     rules.name,
                                     rules.required,
                                 ]"
-                                label="New item name"
+                                label="Nouveaux nom"
                                 required
                             ></v-text-field>
                         </v-col>
@@ -95,7 +96,7 @@ const editItem = async () => {
                             <v-text-field
                                 v-model="currentEditItem.attributes.price"
                                 :rules="[rules.price, rules.required]"
-                                label="New item price"
+                                label="Nouveau prix"
                                 type="number"
                                 min="0"
                                 required
@@ -110,7 +111,7 @@ const editItem = async () => {
                                     rules.description,
                                     rules.required,
                                 ]"
-                                label="New item description"
+                                label="Nouvelle description"
                                 required
                             ></v-text-field>
                         </v-col>
