@@ -13,8 +13,10 @@ import ItemImagesShopcartVue from "./ItemImagesShopcart.vue";
 import { storeToRefs } from "pinia";
 import { ref } from "vue";
 import { useStore as useItemsStore } from "../store/item.store";
+import { useStore as useShopcartStore } from "../store/shopcart.store";
 
 const itemsStore = useItemsStore();
+const shopcartStore = useShopcartStore();
 const { basketItems, totalBascketPrice, loading, error } =
     storeToRefs(itemsStore);
 
@@ -23,6 +25,17 @@ itemsStore.fetchBasketItems();
 const showAlert = (msg) => {
     alert(msg);
 };
+
+const removeItemFromBasket = (id) => {
+    shopcartStore.removeItemFromBasket(id);
+    window.location.reload();
+};
+
+const emptyBasket = () => {
+    shopcartStore.emptyBasket();
+    window.location.reload();
+};
+
 </script>
 
 <template>
@@ -75,12 +88,7 @@ const showAlert = (msg) => {
                                                 <v-btn
                                                     color="red"
                                                     icon
-                                                    disabled
-                                                    @click="
-                                                        itemsStore.removeFromBasket(
-                                                            item.id
-                                                        )
-                                                    "
+                                                    @click="removeItemFromBasket(item.id)"
                                                 >
                                                     <v-icon>mdi-delete</v-icon>
                                                 </v-btn>
@@ -110,8 +118,7 @@ const showAlert = (msg) => {
                         <v-btn
                             color="warning"
                             text
-                            disabled
-                            @click="itemsStore.clearBasket()"
+                            @click="emptyBasket()"
                         >
                             Vider le panier
                         </v-btn>

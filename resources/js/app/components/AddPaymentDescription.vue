@@ -9,20 +9,20 @@ updated by : Rui Marco Loureiro
 <script setup>
 import { ref } from "vue";
 import { storeToRefs } from "pinia";
-import { useStore as useItemsStore } from "../store/item.store";
+import { useStore as useShopcartStore } from "../store/shopcart.store";
 
 const show = ref(false);
 
 //const { description } = defineProps(["description"]);
 
-const itemsStore = useItemsStore();
+const shopcartStore = useShopcartStore();
 const { item } = defineProps(["item"]);
 </script>
 
 <template>
     <v-card-actions class="justify-center">
         <div class="text-center">
-            <v-btn @click="itemsStore.addItemInBasket(item.id)"
+            <v-btn @click="shopcartStore.addItemInBasket(item.id)"
                 ><i class="material-icons"> payment </i></v-btn
             >
             <v-btn @click="show = !show">
