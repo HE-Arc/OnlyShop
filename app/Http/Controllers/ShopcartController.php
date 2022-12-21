@@ -78,19 +78,22 @@ class ShopcartController extends BaseController
             'id' => 'required|numeric|min:1',
             'item_id' => 'required|numeric|min:1',
         ]);
-        try {
-            $shopcart = Shopcart::where("user_id", $request->id)->firstOrFail();
-        } catch (\Exception $e) {
-            //if shopcart is empty, create a new one
-            $shopcart = new Shopcart();
-            $shopcart->user_id = $request->id;
-            $shopcart->save();
-        }
+        $shopcart = Shopcart::where("user_id", $request->id)->firstOrFail();
         $shopcart->items()->attach($request->item_id);
         return $this->sendResponse($shopcart, 'Item added to shopcart successfully.');
     }
 
-    //get the id of the items of the user that are in the shopcart
+    /**
+     * @api {get} /api/shopcarts/getAllItemsInShopCart Get all the items in the shopcart of a user
+     * @apiName getAllItemsInShopCart
+     * @apiGroup Shopcart
+     *
+     * @apiParam {number} id The id of the user.
+     *
+     * @apiSuccess {boolean} success The success of the request.
+     * @apiSuccess {Object[]} data The data of the request.
+     * @apiSuccess {String} message The message of the request.
+     */
     public function getAllItemsInShopCart($id)
     {
 
@@ -126,5 +129,59 @@ class ShopcartController extends BaseController
         }
 
         return $this->sendResponse($items, $totalPrice);
+    }
+
+    /**
+     * @api {post} /api/shopcarts/removeItem Remove an item from the shopcart of a user
+     * @apiName removeItem
+     * @apiGroup Shopcart
+     *
+     * @apiParam {number} id The id of the user.
+     * @apiParam {number} item_id The id of the item.
+     *
+     * @apiSuccess {boolean} success The success of the request.
+     * @apiSuccess {Object[]} data The data of the request.
+     * @apiSuccess {String} message The message of the request.
+     */
+    public function removeItem(Request $request)
+    {
+        $request->validate([
+            'id' => 'required|numeric|min:1',
+            'item_id' => 'required|numeric|min:1',
+        ]);
+
+        $shopcart = Shopcart::where("user_id", $request->id)->firstOrFail();
+        if ($shopcart == null) {
+            return $this->sendError("Shopcart is empty", 0);
+        }
+
+        $shopcart->items()->detach($request->item_id);
+        return $this->sendResponse($shopcart, 'Item removed from shopcart successfully.');
+    }
+
+    /**
+     * @api {post} /api/shopcarts/emptyShopCart Empty the shopcart of a user
+     * @apiName emptyShopCart
+     * @apiGroup Shopcart
+     *
+     * @apiParam {number} id The id of the user.
+     *
+     * @apiSuccess {boolean} success The success of the request.
+     * @apiSuccess {Object[]} data The data of the request.
+     * @apiSuccess {String} message The message of the request.
+     */
+    public function emptyShopCart(Request $request)
+    {
+        $request->validate([
+            'id' => 'required|numeric|min:1',
+        ]);
+
+        $shopcart = Shopcart::where("user_id", $request->id)->firstOrFail();
+        if ($shopcart == null) {
+            return $this->sendError("Shopcart is empty", 0);
+        }
+
+        $shopcart->items()->detach();
+        return $this->sendResponse($shopcart, 'Shopcart emptied successfully.');
     }
 }

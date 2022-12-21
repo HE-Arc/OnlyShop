@@ -6,8 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\API\BaseController as BaseController;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
-use App\Http\Controllers\ShopcartController;
+use App\Models\Shopcart;
 
 /*
 OnlyShop made by Lucas Perrin, Rui Marco Loureiro and Miguel Moreira
@@ -38,7 +37,7 @@ class AuthentificationController extends BaseController
      */
     public function register(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $request->validate([
             'firstname' => 'required|min:3|max:255',
             'lastname' => 'required|min:3|max:255',
             'email' => 'required|email|unique:users',
@@ -46,14 +45,14 @@ class AuthentificationController extends BaseController
             'c_password' => 'required|same:password',
         ]);
 
-        if ($validator->fails()) {
-            return $this->sendError('Validation Error.', $validator->errors());
-        }
-
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
 
         $user = User::create($input);
+
+        $shopcart = new Shopcart();
+        $shopcart->user_id = $user->id;
+        $shopcart->save();
 
         $success['token'] =  $user->createToken('MyApp')->plainTextToken;
         $success['name'] =  $user->name;

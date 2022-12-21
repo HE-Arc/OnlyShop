@@ -3,7 +3,6 @@ import { defineStore } from "pinia";
 import { API_LOCATION } from "../constants";
 //import { v4 as uuidv4 } from "uuid";
 import { useStore as useUserStore } from "./user.store";
-import { useStore as useAlertStore } from "./alert.store";
 
 const storeName = "itemStore";
 const defautSate = {
@@ -90,32 +89,6 @@ export const useStore = defineStore(storeName, {
                 this.loading = false;
             }
         },
-        async addItemInBasket($itemId) {
-            //TODO
-            this.loading = true;
-            const alertStore = useAlertStore();
-
-            const userStore = useUserStore();
-
-            try {
-                const response = await axios.post(
-                    `${API_LOCATION}/shopcarts/addItem`,
-                    {
-                        id: userStore.user.id,
-                        item_id: $itemId,
-                    }
-                );
-
-                const { message } = response.data;
-                alertStore.alert({ type: "success", message: message });
-            } catch (error) {
-                this.error = error;
-                alertStore.alert({ type: "error", message: error });
-            } finally {
-                this.loading = false;
-            }
-        },
-
         async deleteItem(id) {
             this.loading = true;
 

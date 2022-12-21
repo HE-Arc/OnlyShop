@@ -45,4 +45,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::get('shopcarts/{id}', [ShopcartController::class, 'getShopCart'])->name('getShopCart');
     Route::post('shopcarts/addItem', [ShopcartController::class, 'addItem'])->name('addItem');
+    Route::post('shopcarts/removeItem', [ShopcartController::class, 'removeItem'])->name('removeItem');
+    Route::post('shopcarts/emptyShopCart', [ShopcartController::class, 'emptyShopCart'])->name('emptyShopCart');
 });
