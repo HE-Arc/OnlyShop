@@ -18,13 +18,8 @@ let isLoading = ref(false);
 
 let rules = {
     length: (v) => (v || "").length >= 3 || "Doit avoir au moins 3 caractères",
-    name: (v) =>
-        !!(v || "").match(/^[a-zA-Z0-9 ]*$/) || "Merci d'entrer un nom valide",
     price: (v) =>
         !!(v || "").match(/^[0-9]*$/) || "Merci d'entrer un prix valide",
-    description: (v) =>
-        !!(v || "").match(/^[a-zA-Z0-9 ]*$/) ||
-        "Merci d'entrer une description valide",
     required: (v) => !!v || "Ce champ est requis",
 };
 
@@ -82,11 +77,7 @@ const editItem = async () => {
                         <v-col cols="12" md="4">
                             <v-text-field
                                 v-model="currentEditItem.attributes.name"
-                                :rules="[
-                                    rules.length,
-                                    rules.name,
-                                    rules.required,
-                                ]"
+                                :rules="[rules.length, rules.required]"
                                 label="Nouveaux nom"
                                 required
                             ></v-text-field>
@@ -106,11 +97,7 @@ const editItem = async () => {
                         <v-col cols="12" md="4">
                             <v-text-field
                                 v-model="currentEditItem.attributes.description"
-                                :rules="[
-                                    rules.length,
-                                    rules.description,
-                                    rules.required,
-                                ]"
+                                :rules="[rules.length, rules.required]"
                                 label="Nouvelle description"
                                 required
                             ></v-text-field>

@@ -16,6 +16,7 @@ import Items from "../app/components/Items.vue";
 import Shopcart from "../app/components/Shopcart.vue";
 import EditItem from "../app/components/EditItem.vue";
 import AddItem from "../app/components/AddItem.vue";
+import NotFound from "../app/components/NotFound.vue";
 // Layouts
 import AppLayout from "../app/layouts/AppLayout.vue";
 import HomeLayout from "../app/layouts/HomeLayout.vue";
@@ -84,6 +85,12 @@ const routes = [
             },
         ],
     },
+    // and finally the default route, when none of the above matches:
+    {
+        path: "/:pathMatch(.*)*",
+        name: "notFound",
+        component: NotFound,
+    },
 ];
 
 const router = createRouter({
@@ -94,6 +101,15 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
     const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
     const isAuthenticated = userStore().user;
+
+    // redirige / vers /auth
+    if (to.path === "/") {
+        if (isAuthenticated) {
+            next({ name: "items" });
+        } else {
+            next({ name: "auth" });
+        }
+    }
 
     if (requiresAuth && !isAuthenticated) {
         next({ name: "auth" });
