@@ -24,13 +24,8 @@ let isLoading = ref(false);
 
 let rules = {
     length: (v) => (v || "").length >= 3 || "Doit avoir au moins 3 caractères",
-    name: (v) =>
-        !!(v || "").match(/^[a-zA-Z0-9 ]*$/) || "Merci d'entrer un nom valide",
     price: (v) =>
         !!(v || "").match(/^[0-9]*$/) || "Merci d'entrer un prix valide",
-    description: (v) =>
-        !!(v || "").match(/^[a-zA-Z0-9 ]*$/) ||
-        "Merci d'entrer une description valide",
     required: (v) => !!v || "Ce champ est requis",
 };
 
@@ -68,7 +63,7 @@ const addItem = async () => {
                 <v-col cols="12" md="3">
                     <v-text-field
                         v-model="item.name"
-                        :rules="[rules.length, rules.name]"
+                        :rules="[rules.length, rules.required]"
                         label="Nom"
                         required
                     ></v-text-field>
@@ -77,7 +72,7 @@ const addItem = async () => {
                 <v-col cols="12" md="3">
                     <v-text-field
                         v-model="item.price"
-                        :rules="[rules.price]"
+                        :rules="[rules.price, rules.required]"
                         label="Prix"
                         type="number"
                         min="0"
@@ -88,7 +83,7 @@ const addItem = async () => {
                 <v-col cols="12" md="3">
                     <v-text-field
                         v-model="item.description"
-                        :rules="[rules.length, rules.description]"
+                        :rules="[rules.length, rules.required]"
                         label="Description"
                         required
                     ></v-text-field>
@@ -99,7 +94,7 @@ const addItem = async () => {
                         label="Image de l'article"
                         prepend-icon="mdi-camera"
                         v-model="item.images"
-                        accept="image/png, image/jpeg, image/bmp"
+                        accept="image/png, image/jpeg, image/jpg"
                         multiple
                     ></v-file-input>
                 </v-col>
