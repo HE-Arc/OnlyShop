@@ -22,15 +22,17 @@ let form = ref(false);
 let isLoading = ref(false);
 
 let rules = {
-    length: (v) => (v || "").length >= 3 || "Must be at least 3 characters",
-    email: (v) => !!(v || "").match(/@/) || "Please enter a valid email",
+    length: (v) => (v || "").length >= 3 || "Doit avoir au moins 3 caractères",
+    email: (v) =>
+        !!(v || "").match(/@/) || "Merci d'entrer une adresse email valide",
     password: (v) =>
         !!(v || "").match(
             /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/
         ) ||
-        "Password must contain an upper case letter, a numeric character, and a special character",
-    required: (v) => !!v || "This field is required",
-    c_password: (v) => v === user.value.password || "Passwords do not match",
+        "Le mot de passe doit contenir au moins une lettre minuscule, une lettre majuscule, un chiffre et un caractère spécial",
+    required: (v) => !!v || "Ce champ est requis",
+    c_password: (v) =>
+        v === user.value.password || "Les mots de passe ne correspondent pas",
 };
 
 let changePasswordFieldType = (id) => {
@@ -51,7 +53,7 @@ let changePasswordFieldType = (id) => {
                 :rules="[rules.length]"
                 variant="filled"
                 color="deep-purple"
-                label="First Name"
+                label="Prénom"
                 name="firstname"
                 type="text"
             ></v-text-field>
@@ -61,7 +63,7 @@ let changePasswordFieldType = (id) => {
                 :rules="[rules.length]"
                 variant="filled"
                 color="deep-purple"
-                label="Last Name"
+                label="Nom"
                 name="lastname"
                 type="text"
             ></v-text-field>
@@ -72,7 +74,7 @@ let changePasswordFieldType = (id) => {
                 :rules="[rules.email]"
                 variant="filled"
                 color="deep-purple"
-                label="Email address"
+                label="Adresse email"
                 name="email"
                 type="email"
             ></v-text-field>
@@ -83,7 +85,7 @@ let changePasswordFieldType = (id) => {
                 :rules="[rules.password]"
                 variant="filled"
                 color="deep-purple"
-                label="Password"
+                label="Mot de passe"
                 name="password"
                 id="password_register"
                 :append-icon="user.password ? 'mdi-eye' : 'mdi-eye-off'"
@@ -99,7 +101,7 @@ let changePasswordFieldType = (id) => {
                 :rules="[rules.c_password]"
                 variant="filled"
                 color="deep-purple"
-                label="Password validation"
+                label="Confirmer le mot de passe"
                 name="c_password"
                 id="c_password"
                 :append-icon="user.password ? 'mdi-eye' : 'mdi-eye-off'"
@@ -115,7 +117,7 @@ let changePasswordFieldType = (id) => {
                 color="primary"
                 @click="$emit('register', user)"
             >
-                Register
+                S'inscrire
             </v-btn>
         </v-card-actions>
     </v-container>
