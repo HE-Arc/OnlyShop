@@ -15,12 +15,9 @@ import { ref } from "vue";
 import { useStore as useItemsStore } from "../store/item.store";
 import { useStore as useShopcartStore } from "../store/shopcart.store";
 
-const itemsStore = useItemsStore();
 const shopcartStore = useShopcartStore();
-const { basketItems, totalBascketPrice, loading, error } =
-    storeToRefs(itemsStore);
 
-itemsStore.fetchBasketItems();
+const { loading, error, items, totalBascketPrice } = storeToRefs(shopcartStore);
 
 const showAlert = (msg) => {
     alert(msg);
@@ -28,14 +25,13 @@ const showAlert = (msg) => {
 
 const removeItemFromBasket = (id) => {
     shopcartStore.removeItemFromBasket(id);
-    window.location.reload();
 };
 
 const emptyBasket = () => {
     shopcartStore.emptyBasket();
-    window.location.reload();
 };
 
+shopcartStore.fetchBasketItems();
 </script>
 
 <template>
@@ -45,16 +41,20 @@ const emptyBasket = () => {
     <div v-else>
         <div v-if="error">Error: {{ error }}</div>
 
-        <div v-if="basketItems">
+        <div v-if="items">
             <v-container>
                 <v-card class="mx-auto">
                     <v-card-title>Mon panier</v-card-title>
+
+                    <div v-if="items.length == 0">
+                        <v-card-text> Votre panier est vide </v-card-text>
+                    </div>
 
                     <v-card-text>
                         <v-container>
                             <v-row no-gutters>
                                 <v-col
-                                    v-for="item in basketItems"
+                                    v-for="item in items"
                                     :key="item.id"
                                     cols="12"
                                     sm="4"
@@ -69,7 +69,7 @@ const emptyBasket = () => {
                                                 class="justify-center"
                                             >
                                                 <div class="text-center">
-                                                    {{ item.name }}
+                                                    {{ item.attributes.name }}
                                                 </div>
                                             </v-card-title>
 
@@ -77,7 +77,7 @@ const emptyBasket = () => {
                                                 class="justify-center"
                                             >
                                                 <div class="text-center">
-                                                    {{ item.price }}
+                                                    {{ item.attributes.price }}
                                                     CHF
                                                 </div>
                                             </v-card-subtitle>
@@ -88,7 +88,11 @@ const emptyBasket = () => {
                                                 <v-btn
                                                     color="red"
                                                     icon
-                                                    @click="removeItemFromBasket(item.id)"
+                                                    @click="
+                                                        removeItemFromBasket(
+                                                            item.id
+                                                        )
+                                                    "
                                                 >
                                                     <v-icon>mdi-delete</v-icon>
                                                 </v-btn>
@@ -115,11 +119,7 @@ const emptyBasket = () => {
                             Commander
                         </v-btn>
 
-                        <v-btn
-                            color="warning"
-                            text
-                            @click="emptyBasket()"
-                        >
+                        <v-btn color="warning" text @click="emptyBasket()">
                             Vider le panier
                         </v-btn>
 
