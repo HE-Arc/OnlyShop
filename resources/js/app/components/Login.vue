@@ -76,7 +76,7 @@ let changePasswordFieldType = (id) => {
                 @click="$emit('login', user)"
                 color="primary"
             >
-                Login
+                Se connecter
             </v-btn>
         </v-card-actions>
     </v-container>
